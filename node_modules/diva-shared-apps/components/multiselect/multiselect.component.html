@@ -1,0 +1,18 @@
+<div class="spacing" *ngFor="let item of selectedItems; index as i">
+    <div *ngIf="i<3">
+        <span class="box-styling">{{item}}</span>
+    </div>
+    <div *ngIf="i==3">
+        <span class="box-styling" (click)='displayModel()'> . . . </span>
+    </div>
+</div>
+<p-multiSelect [(ngModel)]='selectedItems' [options]="dataSource" [defaultLabel]="defaultlabel" (onChange)="change($event)"
+    [style]="{'min-width':'100%'}" autoWidth='false' maxSelectedLabels=0 (ngModelChange)='change($event)'></p-multiSelect>
+
+<p-dialog header="Category" [(visible)]="display" width=600>
+    <div class="ui-g-12 ui-md-12 ui-lg-12">
+        <div class="spacing" *ngFor="let item of selectedItems">
+            <span class="box-styling">{{item}}</span>
+        </div>
+    </div>
+</p-dialog>

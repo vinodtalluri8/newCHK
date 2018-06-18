@@ -1,0 +1,75 @@
+/* You can add global styles to this file, and also import other style files */
+/*#calender .ui-calendar.ui-calendar-w-btn input, #calender .ui-datepicker{
+     margin-left: -18px;
+}*/
+
+body{
+    font-family: "DINOT",Helvetica,Arial,sans-serif;
+    color : #414141;
+}
+#calender .ui-inputtext, #calender .ui-datepicker{
+    width:100%;
+}
+
+#calender span.ui-calendar{
+    width:84%;
+}
+
+.ui-inputtext{
+padding-top: 6px!important;
+padding-bottom: 8px!important;
+padding-left: 5px!important; 
+}
+.ui-dropdown{
+    display: none;
+    width: 100% !important;
+}
+.ui-multiselect .ui-multiselect-panel {
+    max-width: 100%;
+}
+
+.ui-widget-header {
+    border : none !important;
+    background: none !important;
+}
+
+ .ui-multiselect-header .ui-multiselect-filter-container .fa{
+    left:10em !important;
+    padding: 0.5em; 
+}
+
+.ui-multiselect-header .ui-multiselect-close{
+    display: none !important;
+}
+
+.ui-multiselect-panel .ui-multiselect-item label{
+    vertical-align : auto !important;
+}
+
+.ui-button.ui-button-danger.ui-state-default, .ui-splitbutton.ui-button-danger .ui-button.ui-state-default {
+    background-color : maroon !important;
+    border-color: maroon !important
+}
+
+.ui-button {
+    height: 40px;
+    min-width: 100px;
+}
+
+.button-action {
+    background-color:maroon !important;
+    border-color: maroon !important
+}
+
+.button-outline {
+    background-color:white !important;
+    color: maroon !important;
+    border-color: maroon !important;
+}
+
+.button-cancel {
+    background-color:white !important;
+    color:#414141 !important;
+    border-color:#414141 !important;
+    font-weight: 400;
+}

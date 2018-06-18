@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -10px;">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-5 col-md-5 col-lg-8 panel panel-default">
+      <div class="panel-heading section-padding">
+        <h3 class="panel-title " style="font-size: 24px">Search Checklist</h3>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4" id= "nameConatins">
+      <label for="title" class="control-label">Name Contains</label>
+      <app-input (inputTextSelected)='this.nameContains=$event' [value]='nameContains' maxlength="60"></app-input>
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4" id="department">
+      <label for="title" class="control-label">Department</label>
+      <app-dropdown [datasource]='departments' (selectedItemChange)='this.selectedDepartments = $event' [selectedItem]='selectedDepartments'></app-dropdown>
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4" id="online">
+      <label for="title" class="control-label">Online</label>
+      <app-dropdown [datasource]='online' (selectedItemChange)='this.selectedOnline = $event' [selectedItem]='selectedOnline'></app-dropdown>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4" id="group">
+      <label for="title" class="control-label">Group</label>
+      <app-dropdown [datasource]='group' (selectedItemChange)='onChangeGroup($event)' [selectedItem]='selectedGroup'></app-dropdown>
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4" id="frequency"> 
+      <label for="title" class="control-label">Frequency</label>
+      <app-dropdown [datasource]='frequency' (selectedItemChange)='this.selectedFrequency = $event' [selectedItem]='selectedFrequency'></app-dropdown>
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4" id="status">
+      <label for="title" class="control-label">Status</label>
+      <app-dropdown [datasource]='status' (selectedItemChange)='this.selectedStatus = $event' [selectedItem]='selectedStatus'></app-dropdown>
+    </div>
+  </div>
+</div>
+<div class="row searchChecklistButtons">
+  <app-button label='Search' (click)="searchChecklist()" styleClass='button-action'></app-button>
+  <app-button label='Clear All' (click)="resetAll()" styleClass='button-cancel'></app-button>
+</div>

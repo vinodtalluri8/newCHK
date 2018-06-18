@@ -1,0 +1,91 @@
+<!--   add check list screen display  -->
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12 padding-left-10">
+      <app-breadcrumbs [items]='itemsPath'></app-breadcrumbs>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading section-padding">
+    <h3 class="panel-title" style="font-size: 24px">Add Checklist</h3>
+  </div>
+  <div class="panel-body section-padding">
+    <div class="row">
+        <div class="col.sm-12 col-md-12 col-lg-12 padding-zero">
+            <p-growl [(value)]="msg" [life]="3000"></p-growl>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-4" id="title">
+        <div class="row paddingTopClass">
+          <div class="col-sm-9 col-md-9 col-lg-9 no-padding-left">
+            <label for="title" class="required control-label">Checklist Name</label>
+          </div>
+        </div>
+        <div class="row paddingDataClass">
+          <app-input (inputTextSelected)='this.name=$event' [value]='name' maxlength="60"></app-input>
+
+        </div>
+      </div>
+      <div class="col-sm-4 col-md-4 col-lg-4" id="group">
+        <div class="row paddingTopClass">
+          <div class="col-sm-9 col-md-9 col-lg-9">
+            <label class="required control-label">Group</label>
+          </div>
+        </div>
+        <div class="row paddingDataClass">
+          <div class="col-sm-12 col-md-12 col-lg-12 ">
+            <app-dropdown [datasource]='groups' (selectedItemChange)='onChangeGroup($event)' [selectedItem]='selectedGroup'></app-dropdown>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-4" id="description">
+        <div class="row paddingTopClass">
+          <div class="col-sm-9 col-md-9 col-lg-9 no-padding-left">
+            <label class="required control-label">Description</label>
+          </div>
+        </div>
+        <div class="row paddingDataClass">
+          <app-input-text-area rowSize='8' (inputTextAreaSelected)='this.description= $event' [value]='description' name='control'></app-input-text-area>
+        </div>
+      </div>
+      <div class="col-sm-4 col-md-4 col-lg-4" id="depFreq">
+        <div class="row paddingTopClass" id="department">
+          <div class="col-sm-9 col-md-9 col-lg-9">
+            <label class="required control-label">Department</label>
+          </div>
+        </div>
+        <div class="row paddingDataClass">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <app-dropdown [datasource]='departments' (selectedItemChange)='this.selectedDepartments = $event' [selectedItem]='selectedDepartments'></app-dropdown>
+          </div>
+        </div>
+        <div class="row paddingTopClass" id="frequency">
+          <div class="col-sm-9 col-md-9 col-lg-9">
+            <label class="required control-label">Frequency</label>
+          </div>
+
+        </div>
+        <div class="row paddingDataClass">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <app-dropdown [datasource]='frequency' (selectedItemChange)='this.selectedFrequency = $event' [selectedItem]='selectedFrequency'
+              filter='true'></app-dropdown>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="row addCheckListButtons">
+      <div class="col-sm-8 col-md-8 col-lg-8">
+          <app-button label='Save' (click)='saveChecklist()' [disabled]='disable()' styleClass='button-action'></app-button>
+          <app-button label='Cancel' (click)='resetAll()' styleClass='button-cancel'></app-button>
+      </div>
+      <div class="col-sm-4 col-md-4 col-lg-4 align-right">
+          <app-button (click)='saveAddControl()' label='Save & Add Control' styleClass='button-outline'></app-button>
+        </div>
+    </div>
+  </div>
+
+</div>

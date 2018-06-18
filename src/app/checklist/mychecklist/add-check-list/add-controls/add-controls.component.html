@@ -1,0 +1,98 @@
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <app-breadcrumbs [items]='itemsPath'></app-breadcrumbs>
+  </div>
+</div>
+<h3 class="panel-title" style="font-size: 24px; padding-left:5px">
+  <fa class="arrow-color" style="font-size: 17px; padding-right: 6px" name="chevron-left" size='0.5x' (click)='back()'> </fa>Add Controls</h3>
+<div class="container">
+  <div class="row">
+    <p-table #scd [columns]="colHeaders" [value]="addControls">
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix">
+          <!--<button type="button" pButton icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>
+          <button type="button" pButton icon="fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>-->
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field" style="color: white;">
+            {{col.header}}
+            <p-sortIcon [field]="col.field" style="float: right;"></p-sortIcon>
+          </th>
+        </tr>
+        <tr *ngIf="filterable">
+          <th *ngFor="let col of columns">
+  
+            <input pInputText type="text" (input)="scd.filter($event.target.value, col.field, col.filterMatchMode)">
+  
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+          <td *ngFor="let col of columns">
+            <ng-container *ngIf="col.field == 'action'; else elseTemplate">
+              <a class="hyperlink" style="text-decoration: underline;" (click)="navigateListSystem(rowData['code'])">Modify</a>
+              <a class="hyperlink" style="text-decoration: underline;" (click)="navigateListSystem(rowData['code'])">Delete</a>
+            </ng-container>
+            <ng-template #elseTemplate>
+              {{rowData[col.field]}}
+            </ng-template>
+  
+  
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-2 padZero" style="font-size: 15px;">
+      <b>Add Existing Control</b>
+    </div>
+    <div class="col-2">
+        <p-inputSwitch onLabel="Yes" offLabel="No" [(ngModel)]="inputSwitch"></p-inputSwitch>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4 padZero">
+      <label for="title" class="required control-label">Control</label>
+      <app-dropdown [datasource]='control' (selectedItemChange)='this.selectedControl = $event' [selectedItem]='selectedControl'></app-dropdown>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4 padZero">
+      <label for="title" class="required control-label">Primary</label>
+
+      <app-dropdown [datasource]='primary' (selectedItemChange)='this.selectedPrimary = $event' [selectedItem]='selectedPrimary'></app-dropdown>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4 padZero">
+      <label for="title" class="required control-label">Backup</label>
+
+      <app-dropdown [datasource]='Backup' (selectedItemChange)='this.selectedBackup = $event' [selectedItem]='selectedBackup'></app-dropdown>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4 padZero">
+      <label for="title" class="required control-label">Reviewer</label>
+
+      <app-dropdown [datasource]='reviewer' (selectedItemChange)='this.selectedReviewer = $event' [selectedItem]='selectedReviewer'></app-dropdown>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <a class="saveControl">
+      Save & Add Controls
+    </a>
+  </div>
+
+</div>
+<br>
+<div class="row addCheckListButtons">
+  <app-button label='Save' (click)="saveControl()" [disabled]='disable()' styleClass='button-action'></app-button>
+  <app-button label='Cancel' (click)="resetAll()"  styleClass='button-cancel'></app-button>
+</div>

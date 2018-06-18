@@ -1,0 +1,15 @@
+textarea {
+    padding-top: 10px;
+    width: 90%
+}
+
+.help-block {
+    float: right;
+    margin-right: 33px;
+    font-size: 11px;
+    position: relative;
+}
+
+.ui-inputtext {
+    border-bottom-color: #c0c0c0!important;
+}

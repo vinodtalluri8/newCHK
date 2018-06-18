@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <app-breadcrumbs [items]='itemsPath'[home]='home'></app-breadcrumbs>
+        <!-- change in shared components -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-5 col-md-5 col-lg-8 panel panel-default">
+        <div class="panel-heading section-padding">
+            <h3 class="panel-title " style="font-size: 24px">My Added Checklist</h3>
+        </div>
+        <div class="col-sm-7 col-md-7 col-lg-4 push-right">
+            <app-button (click)='addChecklist()' label='Add Checklist' styleClass='button-outline'></app-button>
+        </div>
+        <div class="col-sm-7 col-md-7 col-lg-4 push-right">
+            <app-button (click)='searchControls()' label='Search Controls' styleClass='button-outline'></app-button>
+        </div>
+		<div class="col-sm-7 col-md-7 col-lg-4 push-right">
+            <app-button (click)='searchChecklist()' label='search checklist' styleClass='button-outline'></app-button>
+        </div>
+    </div>
+</div>

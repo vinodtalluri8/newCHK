@@ -1,0 +1,319 @@
+/* You can add global styles to this file, and also import other style files */
+
+/*#calender .ui-calendar.ui-calendar-w-btn input, #calender .ui-datepicker{
+     margin-left: -18px;
+}*/
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+body {
+    font-family: "DINOT", Helvetica, Arial, sans-serif;
+    color: #414141;
+    font-weight: normal;
+}
+
+#calender .ui-inputtext, #calender .ui-datepicker {
+    width: calc(100% - 2em);
+}
+
+#calender span.ui-calendar {
+    width: calc(100% - 2em);
+}
+
+.ui-inputtext {
+    padding-top: 6px!important;
+    padding-bottom: 8px!important;
+    padding-left: 5px!important;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+.ui-dropdown {
+    display: none;
+    width: 90.5% !important;
+}
+
+.ui-multiselect .ui-multiselect-panel {
+    max-width: 100%;
+}
+
+.ui-widget-header {
+    border: none !important;
+    background: none !important;
+}
+
+.ui-multiselect-header .ui-multiselect-filter-container .fa {
+    left: 12em !important;
+    padding: 0.5em;
+}
+
+.ui-multiselect-header .ui-multiselect-close {
+    display: none !important;
+}
+
+.ui-multiselect-panel .ui-multiselect-item label {
+    vertical-align: auto !important;
+}
+
+.ui-multiselect .ui-multiselect-label {
+    color: grey !important;
+}
+
+.ui-button {
+    height: 40px;
+    min-width: 100px;
+}
+
+.ui-calendar .ui-calendar-button {
+    min-width: 10px !important;
+    border: 1px solid lightgray!important;
+    background-color: white!important;
+}
+
+.ui-button-icon-only .fa {
+    color: gray!important;
+}
+
+.button-action {
+    background-color: #205492 !important;
+    border: solid 1px #205492 !important;
+    color: #ffffff;
+    font-weight: bold;
+    min-width: 120px;
+    height: 40px;
+}
+
+.button-outline {
+    background-color: #205492 !important;
+    border: solid 1px #205492 !important;
+    color: #ffffff;
+    font-weight: bold;
+    min-width: 160px;
+    height: 40px;
+}
+
+.button-cancel {
+    background-color: white !important;
+    color: #606d78 !important;
+    border: solid 1px #979797 !important;
+    font-weight: bold;
+    min-width: 120px;
+    height: 40px;
+}
+
+.ui-dropdown .ui-dropdown-trigger {
+    margin-right: 2px;
+}
+
+.ui-dropdown {
+    padding: 2px;
+}
+
+app-systemmaintenance .push-right .ui-button {
+    margin-top: -23%!important;
+    /* padding-left:6px!important; */
+    margin-left: 183%!important;
+    width: 84%!important;
+    height: auto!important;
+    position: absolute!important;
+    display: inline-block!important;
+}
+
+/* #calender .ui-calendar.ui-calendar-w-btn input{
+    color: grey;
+} */
+
+#calender .ui-datepicker.ui-widget .ui-datepicker-calendar td a {
+    padding: 0px;
+}
+
+#calender .ui-datepicker td span, .ui-datepicker td a {
+    padding: 0px;
+}
+
+.row-padding-5 {
+    padding-left: 5px;
+}
+
+.hyperlink {
+    text-decoration: underline !important;
+    cursor: pointer;
+}
+
+.ui-widget input {
+    width: 100%;
+}
+
+.imgAlign {
+    width: 30px;
+    padding-bottom: 5px;
+    cursor: pointer;
+    padding-right: 10px;
+}
+
+.ui-table .ui-paginator-bottom {
+    border-top: 0 none;
+    /* margin-left: -8px!important; */
+}
+
+.toolbar {
+    width: 100%;
+    background: #ebedf0;
+    padding: 0px !important;
+}
+
+.ui-table-caption, .ui-table-caption {
+    padding: 0px !important;
+}
+
+.gridPadding {
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+.padding-toolbar {
+    padding-left: 2em;
+}
+
+.ui-breadcrumb ul li .ui-menuitem-link {
+    background: none;
+}
+
+.pageAlign {
+    width: 100%;
+    float: right;
+}
+
+.panel-title h3 {
+    font-size: 24px;
+}
+
+.panel-title {
+    font-size: 22px !important;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.control-label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px !important;
+}
+
+label {
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.ui-table .ui-table-thead .ui-table .ui-table-tfoot {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 14px !important;
+}
+ .ui-table .ui-sortable-column.ui-state-highlight {
+    background-color: #b3b7bb!important;
+    color: #ffffff;
+} 
+.ui-table .ui-sortable-column .ui-sortable-column-icon {
+    color: #1b1d1f !important;
+}
+
+.align-right {
+    text-align: right;
+    padding-right: 0px;
+}
+
+.ui-table .ui-table-tbody>tr>td {
+    background: #ffffff;
+    color: #444444;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: normal !important;
+ 	word-wrap: break-word;
+}
+
+.ui-table .ui-table-thead>tr>th, .ui-table .ui-table-tfoot>tr>td {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    color: #444444!important;
+}
+
+.ui-paginator .ui-dropdown {
+    min-width: 4em;
+    margin-left: 0.15em!important;
+}
+
+.ui-dropdown .ui-dropdown-trigger .fa {
+    margin-top: 0.65em!important;
+    margin-left: -0.12em;
+}
+
+.modalForm {
+    margin-bottom: 0px !important;
+    padding: 0px !important
+}
+
+.ui-dialog.ui-widget .ui-dialog-titlebar {
+    color: white;
+    background: #205492 !important;
+    padding: 1em 1em !important;
+}
+
+.ui-dialog .ui-dialog-titlebar-close span.fa.fa-fw.fa-close {
+    color: white;
+}
+
+.ui-dialog .ui-dialog-titlebar-icon:hover {
+    border-color: #205492 !important;
+    background: none !important;
+    color: #212121;
+}
+
+.ui-dialog.ui-widget .ui-dialog-content {
+    padding: 1em 1em !important;
+    padding-bottom: 0px !important;
+}
+.ui-confirmdialog .ui-dialog.ui-widget .ui-dialog-content {
+    padding: 1em 1em !important;
+}
+
+.ui-messages {
+    padding: 5px !important;
+}
+
+.padding-zero {
+    padding: 0px !important;
+}
+
+.ui-dropdown-panel {
+    width : 100% !important;
+}
+
+input.ng-star-inserted {
+    padding: 2px !important;
+    padding-bottom : 4px !important;
+}
+.ui-growl {
+    width: 100% !important;
+    position: static !important;
+}
+.grid-page-dropdown {
+    float: right;
+}
+div .grid-page-dropdown>app-dropdown {
+    zoom: 0.8;
+}
+.padding-left-zero {
+    padding-left :0px;
+}
+
+.padding-left-10 {
+    padding-left: 10px;
+}
+
+.mat-menu-content {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+.ui-resizable-column {
+    position : static !important;
+}
+.panel-title {
+    color: #205492 !important;
+}

@@ -1,0 +1,1 @@
+<app-button (click)='addChecklist()' label='AddChecklist'></app-button>
