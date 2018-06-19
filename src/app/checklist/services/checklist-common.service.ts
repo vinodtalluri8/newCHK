@@ -24,14 +24,30 @@ export class ChecklistCommonService {
   private groupserverURL = environment.serverUrl + 'divacommonservice/checklist/groupList';
   private departmentserverURL = environment.serverUrl + 'divacommonservice/checklist/departmentList';
   private onlineserverURL = environment.serverUrl + 'divacommonservice/checklist/getOnlineList';
+  private userDefaultserverURL = environment.serverUrl + 'divacommonservice/checklist/userDefaultGroup';
   constructor(private httpClient: HttpClient) { }
+
+  /** This method will get deafult user group selected
+   * @returns user group
+  **/
+  getDefaultGroup() {
+    appConstants.getHeaderOptions.params = new HttpParams().set('loginId', 'Chuprin_a');
+    return this.httpClient
+      .get(this.userDefaultserverURL, appConstants.getHeaderOptions).map((defaultgroup: SelectItem[]) => {
+        const defaultgroupList: any = [];
+        for (const item of defaultgroup) {
+          defaultgroupList.push({ 'label': item['departmentName'], 'value': item['departmentName'] });
+        }
+        return defaultgroup;
+      });
+  }
 
   /** This method will get the list of assignee
    * @returns list of assignee
   **/
- getAssignee() {
-  appConstants.getHeaderOptions.params = new HttpParams().set('inType', 'CHECKLIST_PEOPLE').set('inSubType', 'GIST');
-  return this.httpClient
+  getAssignee() {
+    appConstants.getHeaderOptions.params = new HttpParams().set('inType', 'CHECKLIST_PEOPLE').set('inSubType', 'GIST');
+    return this.httpClient
       .get(this.getAssigneeURL, appConstants.getHeaderOptions).map((assignee: SelectItem[]) => {
         const assigneeList: any = [];
         assigneeList.push(allOption);
@@ -41,61 +57,61 @@ export class ChecklistCommonService {
         return assigneeList;
       });
 
-}
+  }
 
 
-/** This method will get the list of backup
- * @returns list of backup
-**/
-getBackup() {
-appConstants.getHeaderOptions.params = new HttpParams().set('inType', 'CHECKLIST_PEOPLE').set('inSubType', 'GIST');
-return this.httpClient
-    .get(this.getBackupURL, appConstants.getHeaderOptions).map((backup: SelectItem[]) => {
-      const backupList: any = [];
-      backupList.push(allOption);
-      for (const item of backup) {
-        backupList.push({ 'label': item['id'], 'value': item['value'] });
-      }
-      return backupList;
-    });
+  /** This method will get the list of backup
+   * @returns list of backup
+  **/
+  getBackup() {
+    appConstants.getHeaderOptions.params = new HttpParams().set('inType', 'CHECKLIST_PEOPLE').set('inSubType', 'GIST');
+    return this.httpClient
+      .get(this.getBackupURL, appConstants.getHeaderOptions).map((backup: SelectItem[]) => {
+        const backupList: any = [];
+        backupList.push(allOption);
+        for (const item of backup) {
+          backupList.push({ 'label': item['id'], 'value': item['value'] });
+        }
+        return backupList;
+      });
 
-}
-
-
-/** This method will get the list of evaluation
- * @param subtype
- * @returns list of evaluation
-**/
-getEvaluation() {
-return this.httpClient
-    .get(this.getEvaluationURL, appConstants.getHeaderOptions).map((evaluation: SelectItem[]) => {
-      const evaluationList: any = [];
-      evaluationList.push(allOption);
-      for (const item of evaluation) {
-        evaluationList.push({ 'label': item['id'], 'value': item['value'] });
-      }
-      return evaluationList;
-    });
-
-}
+  }
 
 
-/** This method will get the list of reviewer
- * @returns list of reviewer
-**/
-getReviewer() {
-appConstants.getHeaderOptions.params = new HttpParams().set('inType', 'CHECKLIST_PEOPLE').set('inSubType', 'GIST');
-return this.httpClient
-    .get(this.getReviewerURL, appConstants.getHeaderOptions).map((reviewer: SelectItem[]) => {
-      const reviewerList: any = [];
-      reviewerList.push(allOption);
-      for (const item of reviewer) {
-        reviewerList.push({ 'label': item['id'], 'value': item['value'] });
-      }
-      return reviewerList;
-    });
+  /** This method will get the list of evaluation
+   * @param subtype
+   * @returns list of evaluation
+  **/
+  getEvaluation() {
+    return this.httpClient
+      .get(this.getEvaluationURL, appConstants.getHeaderOptions).map((evaluation: SelectItem[]) => {
+        const evaluationList: any = [];
+        evaluationList.push(allOption);
+        for (const item of evaluation) {
+          evaluationList.push({ 'label': item['id'], 'value': item['value'] });
+        }
+        return evaluationList;
+      });
 
-}
+  }
+
+
+  /** This method will get the list of reviewer
+   * @returns list of reviewer
+  **/
+  getReviewer() {
+    appConstants.getHeaderOptions.params = new HttpParams().set('inType', 'CHECKLIST_PEOPLE').set('inSubType', 'GIST');
+    return this.httpClient
+      .get(this.getReviewerURL, appConstants.getHeaderOptions).map((reviewer: SelectItem[]) => {
+        const reviewerList: any = [];
+        reviewerList.push(allOption);
+        for (const item of reviewer) {
+          reviewerList.push({ 'label': item['id'], 'value': item['value'] });
+        }
+        return reviewerList;
+      });
+
+  }
 
   /** This method will get the data of frequency dropdown
      * @returns frequencyList
@@ -163,7 +179,7 @@ return this.httpClient
    * @returns groupsList
    * **/
   getGroup() {
-    appConstants.getHeaderOptions.params = new HttpParams().set('loginId', 'divatest_sa1');
+    appConstants.getHeaderOptions.params = new HttpParams().set('loginId', 'Chuprin_a');
     return this.httpClient
       .get(this.groupserverURL, appConstants.getHeaderOptions).map((groups: SelectItem[]) => {
         const groupsList: any = [];
@@ -200,7 +216,7 @@ return this.httpClient
       .get(this.onlineserverURL, appConstants.getHeaderOptions).map((online: SelectItem[]) => {
         const onlineList: any = [];
         onlineList.push(allOption);
-        console.log(onlineList , 'onlineList');
+        console.log(onlineList, 'onlineList');
         for (const item of online) {
           onlineList.push({ 'label': item['value'], 'value': item['id'] });
         }

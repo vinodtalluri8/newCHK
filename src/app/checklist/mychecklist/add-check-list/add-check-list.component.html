@@ -1,19 +1,15 @@
 <!--   add check list screen display  -->
 <div class="row">
-  <div class="col-sm-12 col-md-12 col-lg-12 padding-left-10">
-      <app-breadcrumbs [items]='itemsPath'></app-breadcrumbs>
+  <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -8px;">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
   </div>
 </div>
 <div class="panel panel-default">
   <div class="panel-heading section-padding">
     <h3 class="panel-title" style="font-size: 24px">Add Checklist</h3>
   </div>
+  <p-growl [(value)]="msgs"></p-growl>
   <div class="panel-body section-padding">
-    <div class="row">
-        <div class="col.sm-12 col-md-12 col-lg-12 padding-zero">
-            <p-growl [(value)]="msg" [life]="3000"></p-growl>
-    </div>
-    </div>
     <div class="row">
       <div class="col-sm-4 col-md-4 col-lg-4" id="title">
         <div class="row paddingTopClass">

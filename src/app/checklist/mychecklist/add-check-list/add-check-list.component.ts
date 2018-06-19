@@ -27,15 +27,17 @@ export class AddCheckListComponent implements OnInit {
   dataJson: any;
   name: string;
   savedRecord;
-  msg: Message[] = [];
+  msgs: Message[] = [];
   itemsPath: MenuItem[];
+  home: MenuItem;
   saved: boolean;
   constructor(private checklistCommonService: ChecklistCommonService,
     private addchecklistService: AddchecklistService, private router: Router, private location: Location) {
 
+      this.home = {icon: 'fa fa-home'};
+
       this.itemsPath = [
-        { label: 'Checklists' },
-        { label: 'Add & Search' },
+        { label: 'Checklists', routerLink: ['/mychecklist'] },
         { label: 'Add Checklist' }];
 
     this.selectedGroup = 'GIST';
@@ -97,6 +99,7 @@ export class AddCheckListComponent implements OnInit {
 
   /** This method will save all the data in add checklist screen  **/
   saveChecklist() {
+    this.msgs = [];
     if (!this.disable()) {
       this.dataJson = {
         'checklistName': this.name,
@@ -109,7 +112,7 @@ export class AddCheckListComponent implements OnInit {
       this.addchecklistService.addChecklist(this.dataJson)
         .subscribe(data => {
           this.savedRecord = data;
-            this.msg.push({
+            this.msgs.push({
             severity: 'success',
             detail: ' Record Saved Successfully. Checklist id = ' + this.savedRecord['checklistId']
           });

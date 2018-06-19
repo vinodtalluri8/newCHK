@@ -17,7 +17,7 @@ export class MychecklistComponent implements OnInit {
     this.home = {icon: 'fa fa-home'};
 
     this.itemsPath = [
-      { label: 'Checklist' }];
+      { label: 'Checklists' }];
 
 
 

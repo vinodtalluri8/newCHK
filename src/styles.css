@@ -317,3 +317,8 @@ div .grid-page-dropdown>app-dropdown {
 .panel-title {
     color: #205492 !important;
 }
+app-input input {
+    padding-top: 10px;
+    width: 90%;
+    height : 40px;
+}

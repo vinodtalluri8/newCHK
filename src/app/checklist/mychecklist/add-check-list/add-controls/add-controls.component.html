@@ -9,10 +9,7 @@
   <div class="row">
     <p-table #scd [columns]="colHeaders" [value]="addControls">
       <ng-template pTemplate="caption">
-        <div class="ui-helper-clearfix">
-          <!--<button type="button" pButton icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>
-          <button type="button" pButton icon="fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>-->
-        </div>
+        <div class="ui-helper-clearfix"></div>
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
@@ -49,7 +46,7 @@
   <br>
   <div class="row">
     <div class="col-2 padZero" style="font-size: 15px;">
-      <b>Add Existing Control</b>
+      <strong>Add Existing Control</strong>
     </div>
     <div class="col-2">
         <p-inputSwitch onLabel="Yes" offLabel="No" [(ngModel)]="inputSwitch"></p-inputSwitch>

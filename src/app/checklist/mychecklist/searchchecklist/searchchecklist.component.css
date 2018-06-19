@@ -1,12 +1,13 @@
 .searchChecklistButtons{
-    background-color:#f5f5f5;  
-    width:calc(100% - 14.1em);
+    background-color:#f5f5f5;
+    /*width:calc(100% - 14.1em);*/
+    width: 102%;
     margin-left : -50px;
     padding-left: 30px;
     /*top : calc(100% - 70px);*/
-    height : 49px;
+    height : 70px;
     padding-top :10px;
-    position: fixed;
+    position: absolute !important;
     bottom: 0;
 
 }
@@ -45,6 +46,7 @@ label.required:after {
     color: black;
     margin-left: -1.7em;
     font-weight: initial;
+    cursor: pointer;
 }
 
 label {
@@ -53,7 +55,7 @@ label {
     color: #444444;
     font-style: normal;
     text-align: left;
-    padding-top: 18px !important;
+    padding-top: 10px !important;
     padding-bottom: 0px !important;
 }
 
@@ -80,6 +82,9 @@ app-button {
     padding-top: 0px !important;
     
 }
-
-
-
+.paddingright{
+    padding-left: 45px;
+}
+.mleft{
+    margin-left: -8px;
+}

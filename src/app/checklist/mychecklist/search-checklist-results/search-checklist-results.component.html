@@ -1,6 +1,7 @@
+<div class="panel panel-default" style="margin-left:-3px">
 <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12">
-        <app-breadcrumbs [items]='itemsPath'></app-breadcrumbs>
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-4px">
+        <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
     </div>
 </div>
 <div class="col.sm-12 col-md-12 col-lg-12 padding-zero">
@@ -10,7 +11,8 @@
     <img class="imgAlign pull-right" (click)="scr.exportCSV()" src="./assets/icon-excel-export.png" alt="Export to Excel.png">
 </div>
 <h3 class="panel-title" style="font-size: 24px; padding-left:5px">
-    <fa class="arrow-color" style="font-size: 17px;" name="chevron-left" size='0.5x' (click)='back()'> </fa>Search Results</h3>
+    <fa class="arrow-color arrow-display" style="font-size: 17px;" name="chevron-left" size='0.5x' (click)='back()'> </fa>Search Results</h3>
+</div>
 
 <p-table #scr [columns]="colHeaders" [value]="searchChecklistResults" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
     [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName">
@@ -20,13 +22,13 @@
     </ng-template>
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th *ngFor="let col of columns"  [pSortableColumn]="col.field" pResizableColumn >
+            <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn >
                 {{col.header}}
                 <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
             </th>
         </tr>
         <tr *ngIf="filterable && searchChecklistResults && searchChecklistResults.length > 0">
-            <th *ngFor="let col of columns">
+            <th *ngFor="let col of columns" [style.width]="col.width">
 
                 <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="scr.filter($event.target.value, col.field, col.filterMatchMode)">
 
@@ -37,7 +39,7 @@
 
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
-            <td *ngFor="let col of columns">
+            <td *ngFor="let col of columns" [style.width]="col.width">
 
                 <ng-container *ngIf="col.field == 'action'|| col.field == 'checkListName'; else elseTemplate">
                     <div class="row" *ngIf="col.field == 'action'">

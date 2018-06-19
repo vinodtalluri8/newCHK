@@ -42,14 +42,13 @@ import { GrowlModule } from 'primeng/growl';
     MessageModule,
     RadioButtonModule,
     RouterModule,
+    GrowlModule,
     TableModule,
     FormsModule,
     InputSwitchModule,
     AccordionModule,
     ReactiveFormsModule,
-    ConfirmDialogModule,
-        GrowlModule
-
+    ConfirmDialogModule
   ],
   declarations: [MychecklistComponent, AddCheckListComponent, SearchchecklistComponent,
        AddSearchTabsComponent, AddControlsComponent,

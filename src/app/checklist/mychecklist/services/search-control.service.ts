@@ -3,39 +3,36 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders, HttpParams, } from '@angular/common/http';
 import { appConstants } from '../../../core/constants/appConstants';
 import { environment } from '../../../../environments/environment';
+import { BaseServiceService } from './base-service.service';
 
 
 @Injectable()
-export class SearchControlService {
+export class SearchControlService extends BaseServiceService {
 
   public controlResultSearch;
-  url = environment.serverUrl + 'divachecklistservice/getdisplayControlchecklist';
+  private url = environment.serverUrl + 'divachecklistservice/getDisplayControlChecklist';
 
   getControlResultSearch() {
-  return this.controlResultSearch;
+    return  this.controlResultSearch;
   }
 
   setControlResultSearch(controlsResults) {
-  this.controlResultSearch = controlsResults;
+    this.controlResultSearch = controlsResults;
   }
 
 
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+    super();
+  }
 
 
   /** This method will POST the data of search controls screen to backend **/
   fetchSearchControlList(data: JSON) {
     return this.httpClient.post(this.url, data, appConstants.postHeaderOptions).
-    map((controlsResults) => {
-      return  controlsResults;
-    });
-    // .catch(this.handleError);
+      map((controlsResults) => {
+        return controlsResults;
+      }).catch(this.handleError);
 
   }
-     /** This method will handle the error for add system code screen**/
-  // private handleError(error: any) {
-  //   const errMsg = (error.message) ? error.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-  //   return Observable.throw(errMsg);
-  // }
 }

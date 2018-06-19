@@ -4,10 +4,7 @@
   <p-accordionTab header="Scheduled">
     <p-table #scd [columns]="colHeaders" [value]="assignedChecklist">
       <ng-template pTemplate="caption">
-        <div class="ui-helper-clearfix">
-          <!--<button type="button" pButton icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>
-          <button type="button" pButton icon="fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>-->
-        </div>
+        <div class="ui-helper-clearfix"></div>
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
@@ -44,10 +41,7 @@
   <p-accordionTab header="In Progress">
     <p-table #scd [columns]="colHeaders" [value]="assignedChecklist">
       <ng-template pTemplate="caption">
-        <div class="ui-helper-clearfix">
-          <!--<button type="button" pButton icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>
-          <button type="button" pButton icon="fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>-->
-        </div>
+        <div class="ui-helper-clearfix"></div>
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
@@ -84,10 +78,7 @@
   <p-accordionTab header="Follow-Up">
     <p-table #scd [columns]="colHeaders" [value]="assignedChecklist">
       <ng-template pTemplate="caption">
-        <div class="ui-helper-clearfix">
-          <!--<button type="button" pButton icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>
-          <button type="button" pButton icon="fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>-->
-        </div>
+        <div class="ui-helper-clearfix"></div>
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
@@ -114,7 +105,6 @@
               {{rowData[col.field]}}
             </ng-template>
   
-  
           </td>
         </tr>
       </ng-template>
@@ -124,10 +114,7 @@
   <p-accordionTab header="Awaiting Manager Review">
     <p-table #scd [columns]="colHeaders" [value]="assignedChecklist">
       <ng-template pTemplate="caption">
-        <div class="ui-helper-clearfix">
-          <!--<button type="button" pButton icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>
-          <button type="button" pButton icon="fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>-->
-        </div>
+        <div class="ui-helper-clearfix"></div>
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
@@ -165,8 +152,7 @@
     <p-table #scd [columns]="colHeaders" [value]="assignedChecklist">
       <ng-template pTemplate="caption">
         <div class="ui-helper-clearfix">
-          <!--<button type="button" pButton icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>
-          <button type="button" pButton icon="fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>-->
+
         </div>
       </ng-template>
       <ng-template pTemplate="header" let-columns>
@@ -192,8 +178,7 @@
             </ng-container>
             <ng-template #elseTemplate>
               {{rowData[col.field]}}
-            </ng-template>
-  
+            </ng-template> 
   
           </td>
         </tr>

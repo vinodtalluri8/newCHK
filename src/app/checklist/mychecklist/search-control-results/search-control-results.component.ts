@@ -12,7 +12,9 @@ import { Message } from 'primeng/components/common/api';
 })
 export class SearchControlResultsComponent implements OnInit {
 
-  itemsPath: { label: string; }[];
+  itemsPath: MenuItem[];
+  home: MenuItem;
+
   value: string;
   isPaginator: boolean;
   filterable: boolean;
@@ -21,26 +23,29 @@ export class SearchControlResultsComponent implements OnInit {
   selectedRows: number;
   displayRows: SelectItem[];
   msgs: Message[] = [];
-  colHeaders: { field: string; header: string; }[];
+  colHeaders: any[];
   constructor(private route: ActivatedRoute, private router: Router,
   private searchControlService: SearchControlService , private location: Location) {
     /** Initilase the breadcrumbs navigation data **/
-    this.itemsPath = [{ label: 'Add & Manage' },
+
+    this.home = {icon: 'fa fa-home'};
+    this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
+    { label: 'Search Controls', routerLink: ['/control/searchcontrol'] },
     { label: 'Search Control Results' }
   ];
     this.colHeaders = [
-      { field: 'title', header: 'Title' },
-      { field: 'description', header: 'Description' },
-      { field: 'primary', header: 'Primary' },
-      { field: 'backup', header: 'Backup' },
-      { field: 'controllength', header: 'Control Length' },
-      { field: 'reviewer', header: 'Reviewer' },
-      { field: 'reviewlength', header: 'Review Length' },
-      { field: 'risk', header: 'Risk' },
-      { field: 'status', header: 'Status' },
-      { field: 'evaluation', header: 'Evalution' },
-      { field: 'checklistname', header: 'Checklist' },
-      { field: 'evidence', header: 'Evidence' }
+      { field: 'title', header: 'Title', width: '8%'},
+      { field: 'description', header: 'Description' , width: '20%' },
+      { field: 'primary', header: 'Primary', width: '8%'  },
+      { field: 'backup', header: 'Backup', width: '8%'   },
+      { field: 'controlLength', header: 'Control Length', width: '7%' },
+      { field: 'reviewer', header: 'Reviewer', width: '8%'   },
+      { field: 'reviewLength', header: 'Review Length', width: '7%'},
+      { field: 'risk', header: 'Risk' , width: '8%'  },
+      { field: 'status', header: 'Status' , width: '6%'  },
+      { field: 'evaluation', header: 'Evalution' , width: '8%'  },
+      { field: 'checklistName', header: 'Checklist' , width: '9%'  },
+      { field: 'evidenceRequired', header: 'Evidence' , width: '8%'  }
     ];
     this.value = 'SYSTEM_VALUE';
     this.isPaginator = true;

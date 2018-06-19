@@ -1,3 +1,14 @@
 .panel-title {
     color: #7e2d40
 }
+
+.arrow-color {
+    color: black;
+    font-weight: initial;
+    cursor: pointer;
+} 
+
+.arrow-display{
+    font-size: 17px;
+    padding-right: 6px
+ }

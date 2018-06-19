@@ -13,7 +13,9 @@ import { Message } from 'primeng/components/common/api';
 })
 export class SearchChecklistResultsComponent implements OnInit {
 
-  itemsPath: { label: string; }[];
+  itemsPath: MenuItem[];
+  home: MenuItem;
+
   value: string;
   isPaginator: boolean;
   filterable: boolean;
@@ -28,20 +30,23 @@ export class SearchChecklistResultsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private searchChecklistService: SearchChecklistService,
      private location: Location , private confirmationService: ConfirmationService) {
     /** Initilase the breadcrumbs navigation data **/
-    this.itemsPath = [{ label: 'Add & Manage' },
+    this.home = {icon: 'fa fa-home'};
+
+    this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
+    { label: 'Search Checklist', routerLink: ['/checklist/searchchecklist'] },
     { label: 'Search Checklist Results' }
     ];
     this.colHeaders = [
-      { field: 'checkListName', header: 'Checklist' },
-      {  field: 'description', header: 'Description'  },
-      {  field: 'checkListDepartment', header: 'Department'  },
-      {  field: 'checkListFrequency', header: 'Frequency'  },
-      {  field: 'checkListOnline', header: 'Online'  },
-      { field: 'action', header: 'Action(s)' }
+      { field: 'checkListName', header: 'Checklist' , width: '20%'},
+      {  field: 'description', header: 'Description' , width: '30%'},
+      {  field: 'checkListDepartment', header: 'Department' , width: '20%' },
+      {  field: 'checkListFrequency', header: 'Frequency', width: '10%' },
+      {  field: 'checkListOnline', header: 'Online' , width: '8%'  },
+      { field: 'action', header: 'Action(s)', width: '12%' }
     ];
     this.isPaginator = true;
     this.filterable = true;
-    this.exportFileName = 'Checlists';
+    this.exportFileName = 'Checklists';
     this.selectedRows = 15;
     this.displayRows = [{ label: '15', value: 15 },
     { label: '20', value: 20 }, { label: '30', value: 30 },

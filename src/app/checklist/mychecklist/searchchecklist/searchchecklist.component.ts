@@ -1,6 +1,6 @@
 import { SearchChecklistService } from './../services/search-checklist.service';
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, SelectItem, Message } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ChecklistCommonService } from '../../services/checklist-common.service';
 
@@ -14,6 +14,7 @@ export class SearchchecklistComponent implements OnInit {
   dataJson: any;
   searchChecklistResults;
   title: string;
+  defaultgroup;
   itemsPath: MenuItem[];
   nameContains;
   selectedGroup;
@@ -28,39 +29,45 @@ export class SearchchecklistComponent implements OnInit {
   selectedStatus;
   name;
   home: MenuItem;
+  msgs: Message[] = [];
   constructor(private router: Router, private searchChecklistService: SearchChecklistService,
     private checklistCommonService: ChecklistCommonService) {
     this.home = { icon: 'fa fa-home' };
-    this.itemsPath = [{ label: 'Checklist', routerLink: ['/mychecklist'] },
+    this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
     { label: 'Search Checklist' }];
     this.selectedOnline = 'A';
-    this.selectedGroup = 'GIST';
     this.selectedFrequency = 'A';
     this.selectedDepartments = 'A';
     this.selectedStatus = 'Active';
   }
 
+  /** This method will call the onit data load
+   **/
   ngOnInit() {
     this.preloadData();
   }
 
+  /** This method will load the data on page load
+   **/
   preloadData() {
-        this.checklistCommonService.getGroup().subscribe(
+
+    this.checklistCommonService.getDefaultGroup().subscribe(
       (data) => {
-        this.group = data;
+        this.defaultgroup = data[0]['departmentName'];
+        this.onChangeGroup(this.defaultgroup);
       }
     );
 
-    this.checklistCommonService.getDepartment(this.selectedGroup).subscribe(
+    this.checklistCommonService.getGroup().subscribe(
       (data) => {
-        this.departments = data;
+        this.group = data;
       }
     );
 
     this.checklistCommonService.getFrequency().subscribe(
       (data) => {
         this.frequency = data;
-              }
+      }
     );
     this.checklistCommonService.getStatus().subscribe(
       (data) => {
@@ -68,17 +75,11 @@ export class SearchchecklistComponent implements OnInit {
       }
     );
 
-    // this.online = [
-    //   { label: 'All', value: 'A'  },
-    //   { label: 'No', value: 'N'  },
-    //   { label: 'Yes', value: 'Y'  },
-    // ];
-
-     this.checklistCommonService.getOnline().subscribe(
+    this.checklistCommonService.getOnline().subscribe(
       (data) => {
         this.online = data;
       }
-     );
+    );
   }
 
 
@@ -95,7 +96,7 @@ export class SearchchecklistComponent implements OnInit {
   resetAll() {
     this.nameContains = '';
     this.selectedOnline = 'A';
-    this.selectedGroup = 'GIST';
+    this.selectedGroup = this.defaultgroup;
     this.selectedFrequency = 'A';
     this.selectedDepartments = 'A';
     this.selectedStatus = 'Active';
@@ -113,11 +114,12 @@ export class SearchchecklistComponent implements OnInit {
       'taskStatus': this.selectedStatus
     };
 
-    console.log(this.dataJson);
     this.searchChecklistService.getSearchChecklistData(this.dataJson).subscribe(data => {
-      // this.searchChecklistResults = data;
       this.searchChecklistService.setResultsSearch(data);
       this.router.navigate(['/checklist/checklistResults']);
-    });
+    },
+      error => {
+        this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
+      });
   }
 }

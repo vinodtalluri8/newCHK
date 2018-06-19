@@ -9,6 +9,7 @@ export class AssignedChecklistsComponent implements OnInit {
 
   colHeaders: { field: string; header: string; }[];
   filterable: boolean;
+  assignedChecklist: any[];
   addControls: any[] = [{
     'Checklist': 'GIT PM Operations Monthly Checklist',
     'Schedule': 'EPMO Project On-Boarding Monthly Checklist',

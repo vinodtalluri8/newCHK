@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem, SelectItem } from 'primeng/api';
+import { MenuItem, SelectItem , Message } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChecklistCommonService } from '../../services/checklist-common.service';
 import { SearchControlService } from '../services/search-control.service';
@@ -47,9 +47,11 @@ export class ControlsComponent implements OnInit {
   status;
   controlLength;
   savedRecord;
+  defaultgroup;
 
   itemsPath: MenuItem[];
   home: MenuItem;
+  msgs: Message[] = [];
 
   constructor(private router: Router,
     private checklistCommonService: ChecklistCommonService ,
@@ -57,7 +59,7 @@ export class ControlsComponent implements OnInit {
       this.home = {icon: 'fa fa-home'};
 
       this.itemsPath = [
-      { label: 'Checklist', routerLink: ['/mychecklist'] },
+      { label: 'Checklists', routerLink: ['/mychecklist'] },
     { label: 'Search Controls' }];
 
 // Filling the dropdown of review length and control length
@@ -70,7 +72,6 @@ export class ControlsComponent implements OnInit {
   ];
 
     this.controlLength = this.reviewLength;
-    this.selectedGroup = 'GIST';
     this.selectedStatus = 'Active';
     this.selectedRisk = 'A';
     this.selectedEvaluation = 'A' ;
@@ -90,6 +91,13 @@ export class ControlsComponent implements OnInit {
   }
 
   preloadData() {
+    this.checklistCommonService.getDefaultGroup().subscribe(
+      (data) => {
+        this.defaultgroup = data[0]['departmentName'];
+        this.onChangeGroup(this.defaultgroup);
+      }
+    );
+
     this.checklistCommonService.getGroup().subscribe(
       (data) => {
         this.group = data;
@@ -98,7 +106,6 @@ export class ControlsComponent implements OnInit {
     this.checklistCommonService.getFrequency().subscribe(
       (data) => {
         this.frequency = data;
-        console.log(data);
       }
     );
     this.checklistCommonService.getPrimary().subscribe(
@@ -155,6 +162,16 @@ export class ControlsComponent implements OnInit {
       return false;
     }
   }
+
+    /** This method will assign the changed group value
+    * @param event
+    * **/
+  onChangeGroup(event) {
+    this.selectedGroup = event;
+    this.checklistCommonService.getDepartment(event).subscribe(data => {
+    this.department = data;
+    });
+  }
   /** This method will reset all values to default **/
   resetAll() {
     this.titleContains = '';
@@ -162,7 +179,7 @@ export class ControlsComponent implements OnInit {
     this.selectedRisk = 'A';
     this.selectedPrimary = 'A';
     this.review = '';
-    this.selectedGroup = 'GIST';
+    this.selectedGroup = this.defaultgroup;
     this.selectedAnyAssigned = 'A';
     this.selectedBackup = 'A';
     this.selectedEvaluation = 'A';
@@ -179,21 +196,27 @@ export class ControlsComponent implements OnInit {
         'title': this.titleContains,
         'risk': this.selectedRisk,
         'primary': this.selectedPrimary,
-        'checklistfrequency': this.selectedFrequency,
-        'reviewlength': this.selectedReview,
-        'checklistgroup': this.selectedGroup,
-        'anyassigned': this.selectedAnyAssigned,
+        'checklistFrequency': this.selectedFrequency,
+        'reviewLength': this.review,
+        'checklistGroup': this.selectedGroup,
+        'anyAssigned': this.selectedAnyAssigned,
         'backup': this.selectedBackup,
         'evaluation': this.selectedEvaluation,
-        'checklistdepartment': this.selectedDepartment,
+        'checklistDepartment': this.selectedDepartment,
         'reviewer': this.selectedReviewer,
         'status': this.selectedStatus,
-        'controllength': this.selectedControl
+        'controlLength': this.control,
+        'taskOperation': this.selectedControlLength,
+        'reviewOperation' : this.selectedReviewLength
       };
+      console.log(this.dataJson, 'dataJson');
         this.searchControlService.fetchSearchControlList(this.dataJson).subscribe(data => {
           this.searchControlService.setControlResultSearch(data);
           this.router.navigate(['/control/searchcontrolresults']);
-        });
+        },
+      error => {
+        this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
+      });
   }
 
 

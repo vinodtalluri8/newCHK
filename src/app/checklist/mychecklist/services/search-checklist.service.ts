@@ -2,42 +2,30 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { appConstants } from '../../../core/constants/appConstants';
+import {BaseServiceService} from '../services/base-service.service';
 
 
 @Injectable()
-export class SearchChecklistService {
-public resultSearch: any[];
-url = environment.serverUrl + 'divachecklistservice/getDisplayChecklist';
+export class SearchChecklistService extends BaseServiceService {
+  public resultSearch: any[];
+  private url = environment.serverUrl + 'divachecklistservice/getDisplayChecklist';
 
-// setResults() {
-//   this.results = this.results;
-// }
+  getResultSearch() {
+    return this.resultSearch;
+  }
 
-getResultSearch() {
-  return this.resultSearch;
-}
-
-setResultsSearch(results) {
-  this.resultSearch = results;
-}
-
-  // searchresultdata: any;
-
-  // private serverURL = environment.serverUrl + '/checklistservice/addChecklistDetails';
-    constructor(private httpClient: HttpClient) { }
-
-  // getSearchChecklistData(data: JSON) {
-  //   return this.httpClient.post(this.url,
-  //     data, appConstants.postHeaderOptions).map((results: JSON[]) => results);
-  // }
-
+  setResultsSearch(results) {
+    this.resultSearch = results;
+  }
+  constructor(private httpClient: HttpClient) {
+    super();
+   }
 
   getSearchChecklistData(data: JSON) {
     return this.httpClient.post(this.url,
       data, appConstants.postHeaderOptions).map((results) => {
-        console.log( 'results', results );
-        return results;
-      });
+                return results;
+      }).catch(this.handleError);
   }
 
 }
