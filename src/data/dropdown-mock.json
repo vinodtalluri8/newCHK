@@ -1,8 +1,46 @@
-[{
-        "id": "3000000000008260",
-        "value": "Bsdda"
-    },
-    {
-        "id": "7",
-        "value": "Daily"
-    }]
+[  
+   {  
+      "label":"Select Option",
+      "value":null
+   },
+   {  
+      "label":"ARG",
+      "value":{  
+         "id":1,
+         "name":"ARG",
+         "code":"NY"
+      }
+   },
+   {  
+      "label":"CSPM",
+      "value":{  
+         "id":2,
+         "name":"CSPM",
+         "code":"RM"
+      }
+   },
+   {  
+      "label":"COMPLIANCE",
+      "value":{  
+         "id":3,
+         "name":"COMPLIANCE",
+         "code":"LDN"
+      }
+   },
+   {  
+      "label":"DCIO",
+      "value":{  
+         "id":4,
+         "name":"DCIO",
+         "code":"IST"
+      }
+   },
+   {  
+      "label":"GIST",
+      "value":{  
+         "id":5,
+         "name":"GIST",
+         "code":"PRS"
+      }
+   }
+]
