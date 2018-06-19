@@ -15,6 +15,7 @@ import { SearchchecklistComponent } from './checklist/mychecklist/searchchecklis
 // tslint:disable-next-line:max-line-length
 import { SearchControlResultsComponent } from './checklist/mychecklist/search-control-results/search-control-results.component';
 import { ControlsComponent } from './checklist/mychecklist/search-control/search-control.component';
+import { SelectChecklistReportComponent } from './checklist/reports/select-checklist-report/select-checklist-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/mychecklist', pathMatch: 'full' },
@@ -29,7 +30,8 @@ const routes: Routes = [
   {path: 'control/searchcontrolresults', component: SearchControlResultsComponent},
   {path: 'checklist/checklistResults', component: SearchChecklistResultsComponent},
   { path: 'checklist/searchchecklist', component: SearchchecklistComponent },
-  {path: 'control/searchcontrol', component: ControlsComponent}
+  {path: 'control/searchcontrol', component: ControlsComponent},
+  { path: 'systemcodes', component: SelectChecklistReportComponent }
 
 ];
 

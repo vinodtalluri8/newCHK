@@ -1,0 +1,30 @@
+<div class="panel-heading section-padding">
+            <h3 class="panel-title " style="font-size: 24px">Select Checklist Report</h3>
+</div>
+<div class="col-sm-4 col-md-4 col-lg-4" id="depFreq">
+    <div class="row paddingTopClass" id="report">
+      <div class="col-sm-9 col-md-9 col-lg-9">
+        <label class="required control-label">Report Type</label>
+      </div>
+    </div>
+    <div class="row paddingDataClass">
+      <div class="col-sm-12 col-md-12 col-lg-12">
+        <app-dropdown [datasource]='report' (selectedItemChange)='this.selectedReport = $event' [selectedItem]='selectedReport'></app-dropdown>
+      </div>
+    </div>
+    <div class="row paddingTopClass" id="group">
+      <div class="col-sm-9 col-md-9 col-lg-9">
+        <label class="required control-label">Group</label>
+      </div>
+
+    </div>
+    <div class="row paddingDataClass">
+      <div class="col-sm-12 col-md-12 col-lg-12">
+        <app-dropdown [datasource]='group' (selectedItemChange)='this.selectedGroup = $event' [selectedItem]='selectedGroup'
+          filter='true'></app-dropdown>
+      </div>
+    </div>
+    <br>
+    <app-button label='Display Report' [disabled]="disable()" (click)="displayReports()" routerLink="/displayReport" styleClass='button-outline'></app-button>
+  </div>
+

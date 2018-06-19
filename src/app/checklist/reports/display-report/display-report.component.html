@@ -1,0 +1,63 @@
+<div class="row gridPadding">
+  <div class="col.sm-12 col-md-12 col-lg-12 padding-zero">
+          <p-growl [(value)]="msgs" [life]="3000"></p-growl>
+  </div>
+  <p-table #lsc [columns]="systemCodelabelList" [value]="sytemcodedatalist" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
+  [resizableColumns]="true" [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName + '-' + this.code">
+      <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix">
+          </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+          <tr>
+              <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+                  {{col.header}}
+                  <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+              </th>
+          </tr>
+          <tr *ngIf="filterable">
+              <th *ngFor="let col of columns" pResizableColumn>
+
+                  <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="lsc.filter($event.target.value, col.field, col.filterMatchMode)">
+
+              </th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRow]="rowData">
+              <td *ngFor="let col of columns" class="ui-resizable-column">
+                  <ng-container *ngIf="col.field == 'action'; else elseTemplate">
+                      <div class="row">
+                          <div class="col-dm-5 col-md-5 col-lg-5">
+                              <a class="hyperlink" (click)="delete(rowData['auditId'])">Delete</a>
+                          </div>
+                          <div class="col-dm-5 col-md-5 col-lg-5">
+                              <a class="hyperlink" (click)="update(rowData)">Update</a>
+                          </div>
+                      </div>
+                  </ng-container>
+                  <ng-template #elseTemplate>
+                      {{rowData[col.field]}}
+                  </ng-template>
+
+              </td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorright" let-state>
+          <div class="grid-page-dropdown">
+              <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+          </div>
+      </ng-template>
+  </p-table>
+  <div *ngIf="!isPaginator" class="pageAlign">
+      <div class="grid-page-dropdown">
+          <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+      </div>
+  </div>
+  <!-- <p-confirmDialog appendTo="body"></p-confirmDialog>
+  <p-dialog [header]="dialogHeader" appendTo="body" [closable]='false' [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
+      [modal]="true" [width]="600">
+      <app-add-system-codes [showdepartment]='showdepartment' [isUpdate]='isUpdate' [update]='updateRecord' [code]='code' (closeSystemCode)='this.refresh($event)'
+          (systemCodeEvent)='this.messageStatus($event)'></app-add-system-codes>
+  </p-dialog> -->
+</div>

@@ -12,6 +12,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MultiSelectModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AssignedChecklistModule } from './checklist/assigned-checklists/assigned-checklist.module';
+import { ReportsModule } from './checklist/reports/reports.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AssignedChecklistModule } from './checklist/assigned-checklists/assigne
     HttpClientModule,
     MultiSelectModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReportsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
