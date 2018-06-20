@@ -1,17 +1,7 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  Message
-} from 'primeng/components/common/api';
-import  { 
-  MenuItem,
-  SelectItem 
-}  from  'primeng/api';
-import  { 
-  Location 
-}  from  '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Message } from 'primeng/components/common/api';
+import { MenuItem, SelectItem } from 'primeng/api';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-display-report',
@@ -20,12 +10,12 @@ import  { 
 })
 export class DisplayReportComponent implements OnInit {
   itemsPath: ({
-    label: string;routerLink: string[];
+    label: string; routerLink: string[];
   } | {
-    label: string;routerLink ? : undefined;
+    label: string; routerLink ?: undefined;
   })[];
   displayRows: {
-    label: string;value: number;
+    label: string; value: number;
   }[];
   selectedRows: number;
   exportFileName: string;
@@ -40,13 +30,19 @@ export class DisplayReportComponent implements OnInit {
   constructor(private location: Location) {
     /** Initilase the breadcrumbs navigation data **/
     this.itemsPath = [{
-        label: 'System Values',
-        routerLink: ['/systemvalues']
+        label: 'Checklists',
+        routerLink: ['/mychecklist']
       },
       {
-        label: 'Values'
-      }
+        label: 'Reports',
+        routerLink: ['/reports']
+
+      },
+      {label: 'Search results'}
     ];
+    this.home = {
+      icon: 'fa fa-home'
+    };
     this.displayRows = [{
         label: '15',
         value: 15

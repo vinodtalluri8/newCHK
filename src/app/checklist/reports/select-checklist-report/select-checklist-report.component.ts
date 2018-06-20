@@ -1,21 +1,8 @@
-import {
-  ReportService
-} from './../services/report.service';
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  MenuItem,
-  SelectItem,
-  Message
-} from 'primeng/api';
-import {
-  Router
-} from '@angular/router';
-import {
-  ChecklistCommonService
-} from '../../services/checklist-common.service';
+import { ReportService } from './../services/report.service';
+import { Component, OnInit } from '@angular/core';
+import { MenuItem, SelectItem, Message } from 'primeng/api';
+import { Router } from '@angular/router';
+import { ChecklistCommonService } from '../../services/checklist-common.service';
 
 @Component({
   selector: 'app-select-checklist-report',
