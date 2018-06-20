@@ -1,40 +1,38 @@
 /**  CSS Styling for the  Reports Screen **/
-.displayReportButton{
-    background-color:#f5f5f5;
-    /*width:calc(100% - 14.1em);*/
-    width: 325%;
-    margin-left : -50px;
-    padding-left: 30px;
-    /*top : calc(100% - 70px);*/
-    height : 70px;
-    padding-top :10px;
-    position: absolute !important;
-    bottom: 0;
 
+.displayReportButton {
+  background-color: #f5f5f5;
+  /*width:calc(100% - 14.1em);*/
+  width: 325%;
+  margin-left: -50px;
+  padding-left: 50px;
+  /*top : calc(100% - 70px);*/
+  height: 70px;
+  padding-top: 10px;
+  position: fixed !important;
+  bottom: 0;
 }
-.paddingTopClass{
-    padding-top: 10px;
 
+.paddingTopClass {
+  padding-top: 10px;
 }
+
 .ui-dropdown .ui-dropdown-panel {
-    min-width: 100%;
-    width: max-content;
-  }
+  min-width: 100%;
+  width: max-content;
+}
 
-  .section-padding{
-    padding-top:9px;
-    margin-left: -43px;
-    margin-top: -2px;
+.section-padding {
+  padding-top: 9px;
+  /* margin-left: -43px; */
+  margin-top: -2px;
 }
 
 .push-right {
-    float: right;
+  float: right;
 }
 
-.panel-title{
-    color:#7e2d40;
-    padding-left: 21px;
+.panel-title {
+  color: #7e2d40;
+  padding-left: 14px;
 }
-
-
-

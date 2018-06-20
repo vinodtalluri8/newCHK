@@ -31,7 +31,7 @@ const routes: Routes = [
   {path: 'checklist/checklistResults', component: SearchChecklistResultsComponent},
   { path: 'checklist/searchchecklist', component: SearchchecklistComponent },
   {path: 'control/searchcontrol', component: ControlsComponent},
-  { path: 'systemcodes', component: SelectChecklistReportComponent }
+  { path: 'reports', component: SelectChecklistReportComponent }
 
 ];
 

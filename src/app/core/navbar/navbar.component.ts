@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
 
         }, {
           displayName: 'Reports',
-          route: 'systemcodes'
+          route: 'reports'
 
         }]
     },

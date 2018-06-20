@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DisplayReportComponent } from './display-report/display-report.component';
 
 const routes: Routes = [
-  {path:'displayReport',component: DisplayReportComponent}
+  {path: 'displayReport', component: DisplayReportComponent}
 ];
 
 @NgModule({

@@ -14,6 +14,6 @@ import { TableModule } from 'primeng/table';
     TableModule
   ],
   declarations: [],
-  providers:[AssignedChecklistService]
+  providers: [AssignedChecklistService]
 })
 export class AssignedChecklistModule { }

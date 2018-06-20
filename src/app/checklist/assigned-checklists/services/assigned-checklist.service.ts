@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 export class AssignedChecklistService {
 
 
-  url = "http://localhost:4200/data/addControls-mock.json";
+  url = 'http://localhost:4200/data/addControls-mock.json';
   constructor(private httpClient: HttpClient) { }
 
   getassignedChecklist() {
