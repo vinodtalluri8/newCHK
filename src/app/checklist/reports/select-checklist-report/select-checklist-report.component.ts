@@ -1,6 +1,7 @@
 import { ReportService } from './../services/report.service';
 import { GroupService } from './../services/group.service';
 import { Component, OnInit } from '@angular/core';
+import { MenuItem, SelectItem, Message } from 'primeng/api';
 
 @Component({
   selector: 'app-select-checklist-report',
@@ -10,11 +11,17 @@ import { Component, OnInit } from '@angular/core';
 export class SelectChecklistReportComponent implements OnInit {
   group: Object;
   report: Object;
+  itemsPath: MenuItem[];
   selectedGroup: any;
   selectedReport: any;
+  home: MenuItem;
   dataJson: { 'checklistGroup': any; 'checklistReport': any; };
 
-  constructor(private groupService:GroupService,private reportService:ReportService) { }
+  constructor(private groupService:GroupService,private reportService:ReportService) {
+    this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
+    { label: 'Reports' }];
+    this.home = { icon: 'fa fa-home' };
+   }
 
  /** method to call data on page on load **/
  ngOnInit() {

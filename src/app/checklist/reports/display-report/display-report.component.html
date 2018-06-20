@@ -2,7 +2,7 @@
   <div class="col.sm-12 col-md-12 col-lg-12 padding-zero">
           <p-growl [(value)]="msgs" [life]="3000"></p-growl>
   </div>
-  <p-table #lsc [columns]="systemCodelabelList" [value]="sytemcodedatalist" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
+  <p-table #scr [columns]="systemCodelabelList" [value]="sytemcodedatalist" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
   [resizableColumns]="true" [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName + '-' + this.code">
       <ng-template pTemplate="caption">
           <div class="ui-helper-clearfix">
@@ -16,9 +16,9 @@
               </th>
           </tr>
           <tr *ngIf="filterable">
-              <th *ngFor="let col of columns" pResizableColumn>
+              <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
 
-                  <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="lsc.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="scr.filter($event.target.value, col.field, col.filterMatchMode)">
 
               </th>
           </tr>

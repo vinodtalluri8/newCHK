@@ -1,5 +1,15 @@
+<div class="panel panel-default" style="padding-left: 3px">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -10px;">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-5 col-md-5 col-lg-8 panel panel-default">
 <div class="panel-heading section-padding">
             <h3 class="panel-title " style="font-size: 24px">Select Checklist Report</h3>
+</div>
+</div>
 </div>
 <div class="col-sm-4 col-md-4 col-lg-4" id="depFreq">
     <div class="row paddingTopClass" id="report">
@@ -24,7 +34,7 @@
           filter='true'></app-dropdown>
       </div>
     </div>
-    <br>
+    <div class="row displayReportButton">
     <app-button label='Display Report' [disabled]="disable()" (click)="displayReports()" routerLink="/displayReport" styleClass='button-outline'></app-button>
   </div>
 
