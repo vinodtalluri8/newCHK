@@ -60,11 +60,11 @@ export class SelectChecklistReportComponent implements OnInit {
     }
   }
   displayReports() {
-    if (!this.disable()) {
-      this.dataJson = {
-        'checklistGroup': this.selectedGroup,
-        'checklistReport': this.selectedReport
-      };
+    if (this.disable()) {
+      // this.dataJson = {
+      //   'checklistGroup': this.selectedGroup,
+      //   'checklistReport': this.selectedReport
+      // };
       this.router.navigate(['/displayReport']);
       console.log(this.dataJson, 'this.dataJson ');
     }
