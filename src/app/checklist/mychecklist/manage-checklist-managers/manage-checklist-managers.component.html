@@ -1,0 +1,55 @@
+<div class="panel panel-default">
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -7px">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-5 col-md-5 col-lg-8 panel panel-default">
+      <div class="panel-heading section-padding">
+        <h3 class="panel-title " style="font-size: 24px;">Online Checklist Administration</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-body section-padding">
+    <div class="row" >
+      <div class="col-sm-6 col-md-6 col-lg-6" style="border: 5px; width: 80.5% !important">
+        <label for="title" class="control-label top-padding" > Active Employee </label>
+        <div>
+          <app-dropdown [datasource]='addChecklistManagers' (selectedItemChange)='this.selectedAddChecklistManagers = $event' [selectedItem]='selectedAddChecklistManagers'></app-dropdown>
+        </div>
+        <div class="row paddingButtons" style="margin-left: -4px">
+        <div class="row searchControlButtons">
+          <app-button (click)="add()" label="Add Manager" styleClass='button-action'></app-button>         
+        </div> 
+        </div>
+      </div>
+    
+   
+      <div class="col-sm-6 col-md-6 col-lg-6" id="icon">
+        <label for="title" class="control-label top-padding" > Online Checklist Manager </label>
+          <p-listbox [options]="managers" [(ngModel)]="selectedManager" [style]="{'width':'80.5%'}" [listStyle]="{'max-height':'250px'}" filter="filter">
+            <ng-template let-car pTemplate="item">
+              <div class="ui-helper-clearfix">
+                <span style="margin:20px 10px 0 0">{{car.value}}</span>
+              </div>
+            </ng-template>
+            <p-footer>
+              Selected: {{selectedManager||'none'}}
+            </p-footer>
+          </p-listbox>
+          <div class="row paddingButtons" style="margin-left: -4px">
+          <div class="row searchControlButtons">
+            <app-button (click)="selectedManager=null" label="Clear Selected Manager" styleClass='button-action'></app-button>
+            <app-button (click)="delete()" label="Delete Manager" styleClass='button-action'></app-button>         
+          </div>
+          </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

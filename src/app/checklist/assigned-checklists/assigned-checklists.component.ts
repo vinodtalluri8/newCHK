@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input } from '@angular/core';
+import { Message } from 'primeng/components/common/api';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MenuItem, SelectItem } from 'primeng/api';
+import { AssignedChecklistService } from '../assigned-checklists/services/assigned-checklist.service';
 
 @Component({
   selector: 'app-assigned-checklists',
@@ -6,43 +10,33 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./assigned-checklists.component.css']
 })
 export class AssignedChecklistsComponent implements OnInit {
-
-  colHeaders: { field: string; header: string; }[];
+  date: Date = new Date();
+  isPaginator: boolean;
   filterable: boolean;
-  assignedChecklist: any[];
-  addControls: any[] = [{
-    'Checklist': 'GIT PM Operations Monthly Checklist',
-    'Schedule': 'EPMO Project On-Boarding Monthly Checklist',
-    'Frequency': 'Monthly',
-    'Review': 'No',
-    'Due Date': '05/20/2018'
-},
-{
-    'Checklist': 'GIT PM Operations Quarterly Checklist',
-    'Schedule': 'EPMO Quarterly On-Boarding Checklist',
-    'Frequency': 'Quarterly',
-    'Review': 'No',
-    'Due Date': '05/20/2018'
-},
-{
-    'Checklist': 'GIT PM Operations Weekly Checklist',
-    'Schedule': 'EPMO Weekly',
-    'Frequency': 'Weekly',
-    'Review': 'No',
-    'Due Date': '05/20/2018'
-  }
-];
+  exportFileName: string;
+  selectedRows: number;
+  msgs: Message[] = [];
+  itemsPath: MenuItem[];
+  home: MenuItem;
+  dataDisplay = false;
+  dataLength: Number;
 
-  constructor() {   this.colHeaders = [
-    { field: 'Checklist', header: 'Checklist' },
-    { field: 'Schedule', header: 'Schedule' },
-    { field: 'Frequency', header: 'Frequency' },
-    { field: 'Review', header: 'Review' },
-    { field: 'Due Date', header: 'Due Date' },
-    { field: 'action', header: 'Action[s]' }
-  ]; }
+  constructor(private assignedChecklistService: AssignedChecklistService) {
+    /** Initilase the breadcrumbs navigation data **/
+    this.home = { icon: 'fa fa-home' };
+    this.itemsPath = [{ label: 'My Online Checklists' },
+    ];
+  }
 
   ngOnInit() {
+    // this.scheduledDisplay = this.assignedChecklistService.getScheduledResultsdata();
+
+  }
+  showOrHide(scheduledDataDisplay, $event) {
+    this.dataLength = $event;
+    if (this.dataLength > 0) {
+      this.dataDisplay = true;
+    }
   }
 
 }

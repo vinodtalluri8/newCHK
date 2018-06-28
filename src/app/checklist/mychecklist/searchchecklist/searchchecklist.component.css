@@ -2,14 +2,14 @@
     background-color:#f5f5f5;
     /*width:calc(100% - 14.1em);*/
     width: 102%;
-    margin-left : -50px;
+    margin-left : -51px;
     padding-left: 30px;
-    /*top : calc(100% - 70px);*/
+ 
     height : 70px;
     padding-top :10px;
     position: absolute !important;
     bottom: 0;
-
+ 
 }
 /**  CSS Styling for the add checklist page **/
 

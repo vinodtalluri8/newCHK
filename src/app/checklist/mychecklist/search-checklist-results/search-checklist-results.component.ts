@@ -1,18 +1,24 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MenuItem, SelectItem } from 'primeng/api';
 import { SearchChecklistService } from './../services/search-checklist.service';
 import { Location } from '@angular/common';
 import { ConfirmationService } from 'primeng/api';
 import { Message } from 'primeng/components/common/api';
+import { AddchecklistService } from '../services/addchecklist.service';
+import { MessageService } from '../../services/message.service';
+import { ViewChecklistsControlsService } from '../services/view-checklists-controls.service';
 
 @Component({
   selector: 'app-search-checklist-results',
   templateUrl: './search-checklist-results.component.html',
   styleUrls: ['./search-checklist-results.component.css']
 })
-export class SearchChecklistResultsComponent implements OnInit {
 
+export class SearchChecklistResultsComponent implements OnInit  {
+  public routePath: any = 'Checklists';
+
+  dataJson: any;
   itemsPath: MenuItem[];
   home: MenuItem;
 
@@ -25,96 +31,132 @@ export class SearchChecklistResultsComponent implements OnInit {
   colHeaders: any[];
   displayRows: SelectItem[];
   msgs: Message[] = [];
+  loading: boolean;
 
 
   constructor(private route: ActivatedRoute, private router: Router, private searchChecklistService: SearchChecklistService,
-     private location: Location , private confirmationService: ConfirmationService) {
-    /** Initilase the breadcrumbs navigation data **/
-    this.home = {icon: 'fa fa-home'};
+    private location: Location, private confirmationService: ConfirmationService,
+    private addchecklistService: AddchecklistService, private messageService: MessageService,
+    private viewChecklistsControlsService: ViewChecklistsControlsService) {
 
+    this.home = { icon: 'fa fa-home' };
+    /** Initilase the breadcrumbs navigation data **/
     this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
     { label: 'Search Checklist', routerLink: ['/checklist/searchchecklist'] },
     { label: 'Search Checklist Results' }
     ];
+    /** Initilase the column headers data **/
     this.colHeaders = [
-      { field: 'checkListName', header: 'Checklist' , width: '20%'},
-      {  field: 'description', header: 'Description' , width: '30%'},
-      {  field: 'checkListDepartment', header: 'Department' , width: '20%' },
-      {  field: 'checkListFrequency', header: 'Frequency', width: '10%' },
-      {  field: 'checkListOnline', header: 'Online' , width: '8%'  },
+      { field: 'checklistName', header: 'Checklist', width: '20%' },
+      { field: 'description', header: 'Description', width: '30%' },
+      { field: 'checklistDepartment', header: 'Department', width: '20%' },
+      { field: 'checklistFrequency', header: 'Frequency', width: '10%' },
+      { field: 'checklistOnline', header: 'Online', width: '8%' },
       { field: 'action', header: 'Action(s)', width: '12%' }
     ];
+    /** Assign values to variables on page load **/
     this.isPaginator = true;
     this.filterable = true;
     this.exportFileName = 'Checklists';
     this.selectedRows = 15;
+    this.loading = false;
     this.displayRows = [{ label: '15', value: 15 },
     { label: '20', value: 20 }, { label: '30', value: 30 },
     { label: '50', value: 50 }, { label: '100', value: 100 }];
-    // this.searchChecklistResults.push({'checkListName': 'str' });
   }
 
+  /** Initilase or call methods onInit**/
   ngOnInit() {
-    this.searchChecklistResults = this.searchChecklistService.getResultSearch();
-    // console.log('testing', this.searchChecklistResults[0]);
-
+    this.loading = true;
+    this.searchChecklistService.refreshResults().subscribe(data => {
+      this.searchChecklistResults = data;
+      this.loading = false;
+    });
+    if (this.messageService.getMessage()) {
+      this.msgs = [this.messageService.getMessage()];
+      this.messageService.clearMessage();
+    }
+    // this.msgs.push();
     this.filterable = true;
     this.isPaginator = true;
 
     console.log('list', this.searchChecklistResults);
-    /*this.searchChecklistResults.push([{
-         'checkListName': null,
-     'description': 'test description',*/
-
-    // }]);
   }
-   checkAndEnablePage(value: number) {
+
+
+  messageStatus(event) {
+    console.log('messageStatus', event);
+    if (event === 'Added') {
+      this.msgs = [{ severity: 'success', detail: 'Record Added Successfully' }];
+    }
+    if (event === 'Updated') {
+      this.msgs = [{ severity: 'success', detail: 'Record Updated Successfully' }];
+
+    }
+  }
+
+  /** To check and enable or disable pagination**/
+  checkAndEnablePage(value: number) {
     if (this.searchChecklistResults.length > value) {
       this.isPaginator = true;
     } else {
       this.isPaginator = false;
     }
     this.selectedRows = value;
+    console.log(' mesagepage ', this.msgs);
   }
+
   pagination(isPaginator: boolean) {
     this.isPaginator = isPaginator;
   }
 
+  /** To go back to the previous screen**/
   back() {
     this.location.back();
   }
-/* to modify record */
+
+  /* to modify record */
   modify(record) {
-    console.log('record', record);
-    this.msgs = [];
-    this.msgs.push({severity: 'info', summary: 'Implementation Pending', detail: 'Modify yet to be Implemented'});
+    // this.addchecklistService.setChecklistById(record);
+    this.router.navigate(['modifychecklist', record['checklistId']]);
+    // this.msgs = [];
+    // this.msgs.push({severity: 'info', summary: 'Implementation Pending', detail: 'Modify yet to be Implemented'});
   }
 
+  /** to delete record**/
   delete(record) {
-    console.log('record', record);
     this.msgs = [];
-    this.msgs.push({severity: 'info', summary: 'Implementation Pending', detail: 'Delete yet to be Implemented'});
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete?',
+      header: 'Delete Confirmation',
+      icon: 'fa fa-trash',
+      accept: () => {
+        this.searchChecklistService.deleteChecklist(record).subscribe(data => {
+          this.msgs = [{ severity: 'success', detail: 'Record Deleted Successfully' }];
+          this.searchChecklistService.refreshResults().subscribe(results => {
+            this.searchChecklistResults = results;
+          });
+        }, error => {
+          this.msgs = [{ severity: 'error', detail: 'Cannot delete a scheduled online checklist' }];
+        });
+      },
+      reject: () => {
+        this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
+      }
+    });
+    // this.msgs.push({severity: 'info', summary: 'Implementation Pending', detail: 'Delete yet to be Implemented'});
+  }
 
-//     this.confirmationService.confirm({
-//       message: ' Delete yet to be Implemented',
-//       header: 'Implementation Pending',
-//       icon: 'fa fa-trash',
-//       accept: () => {
-//         this.msgs = [{ severity: 'success', detail: 'delete yet to be Implemented' }];
-
-// },
-//       reject: () => {
-//         this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
-//       }
-//     });
 
 
+  /** to navigate to the checklist page**/
+  checklistDetails(checklistid, status) {
+    this.dataJson = {
+      'checklistId': checklistid,
+      'status': status,
+    };
+    this.viewChecklistsControlsService.setViewSearchCriteria(this.dataJson);
+    this.router.navigate(['/controls/viewChecklistsControls', this.routePath]);
 
-}
-
-checklistdetails(record) {
-  console.log('record', record);
-  this.msgs = [];
-  this.msgs.push({severity: 'info', summary: 'Implementation Pending', detail: 'Navigation Screen yet to be Implemented'});
   }
 }

@@ -1,0 +1,131 @@
+<!-- search controls screen display -->
+
+<!--<div class="panel panel-default" style="padding-left: 3px">
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -10px;">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-5 col-md-5 col-lg-8 panel panel-default">
+      <div class="panel-heading section-padding">
+        <h3 class="panel-title " style="font-size: 24px; margin-left: -2px;">Search Online Checklist</h3>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="checklistNameContains" class="control-label">Checklist Name Contains</label>
+      <div>
+        <app-input (inputTextSelected)='this.checklistNameContains=$event' [value]='checklistNameContains' maxlength="60"></app-input>
+      </div>
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="scheduleNameContains" class="control-label">Schedule Name Contains</label>
+      <div>
+        <app-input (inputTextSelected)='this.scheduleNameContains=$event' [value]='scheduleNameContains' maxlength="60"></app-input>
+      </div>
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="group" class="control-label">Group</label>
+      <div>
+        <app-dropdown [datasource]='group' (selectedItemChange)='this.selectedGroup = $event' [selectedItem]='selectedGroup'></app-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="department" class="control-label">Department</label>
+      <div>
+        <app-dropdown [datasource]='department' (selectedItemChange)='this.selectedDepartment = $event' [selectedItem]='selectedDepartment'></app-dropdown>
+      </div>
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="employee" class="control-label">Employee</label>
+      <div>
+        <app-dropdown [datasource]='employee' (selectedItemChange)='this.selectedEmployee = $event' [selectedItem]='selectedEmployee'></app-dropdown>
+      </div>
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="manager" class="control-label">Manager</label>
+      <div>
+        <app-dropdown [datasource]='manager' (selectedItemChange)='this.selectedManager = $event' [selectedItem]='selectedManager'></app-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="backupManager" class="control-label">Backup Manager</label>
+      <div>
+        <app-dropdown [datasource]='backupManager' (selectedItemChange)='this.selectedbackupManager = $event' [selectedItem]='selectedbackupManager'></app-dropdown>
+      </div>
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="frequency" class="control-label">Frequency</label>
+      <div>
+        <app-dropdown [datasource]='frequency' (selectedItemChange)='this.selectedFrequency = $event' [selectedItem]='selectedFrequency'></app-dropdown>
+      </div>
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="status" class="control-label">Status</label>
+      <div>
+        <app-dropdown [datasource]='status' (selectedItemChange)='this.selectedStatus = $event' [selectedItem]='selectedStatus'></app-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="managerReviewRequired" class="control-label">Manager Review Required</label>
+      <div>
+        <app-dropdown [datasource]='managerReviewRequired' (selectedItemChange)='this.selectedManagerReviewRequired = $event' [selectedItem]='selectedManagerReviewRequired'></app-dropdown>
+      </div>
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="managerReviewComplete" class="control-label">Manager Review Complete</label>
+      <div>
+        <app-dropdown [datasource]='managerReviewComplete' (selectedItemChange)='this.selectedManagerReviewComplete = $event' [selectedItem]='selectedManagerReviewComplete'></app-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <label for="from" class="control-label">Startdate</label>
+
+      <div>
+        <div id="startDate">
+        <label for="from" class="control-label">From</label>
+     
+          <app-calender id="calenderFrom" (calenderSelected)='this.fromDate=$event' showIcon='true' yearNavigator='true' monthNavigator='true'
+            yearRange='2000:2030' [inputDate]='fromDate'></app-calender>
+          </div>
+          <div id="endDate">
+                <label for="to" class="control-label">To</label>
+            
+                  <app-calender id="calenderTo" (calenderSelected)='this.toDate=$event' showIcon='true' yearNavigator='true' monthNavigator='true'
+                  yearRange='2000:2030' [inputDate]='toDate'></app-calender>
+                </div>  
+              
+        </div>
+        
+
+    </div>
+  </div>
+
+  <div class="row">
+    <app-button id="selectChecklist" label='Select Checklist' (click)="searchControl()" styleClass='button-action'></app-button>
+
+  </div>
+</div>-->

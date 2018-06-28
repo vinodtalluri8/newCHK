@@ -222,16 +222,17 @@ label {
     background: #ffffff;
     color: #444444;
     font-family: Arial, Helvetica, sans-serif !important;
-    font-size: 13px !important;
+    font-size: 12px !important;
     font-weight: normal !important;
  	word-wrap: break-word;
 }
 
 .ui-table .ui-table-thead>tr>th, .ui-table .ui-table-tfoot>tr>td {
     font-family: Arial, Helvetica, sans-serif !important;
-    font-size: 14px !important;
+    font-size: 12px !important;
     font-weight: bold !important;
     color: #444444!important;
+    word-wrap: break-word;
 }
 
 .ui-paginator .ui-dropdown {
@@ -252,7 +253,8 @@ label {
 .ui-dialog.ui-widget .ui-dialog-titlebar {
     color: white;
     background: #205492 !important;
-    padding: 1em 1em !important;
+    padding: 0.5em !important;
+    height: 2.5em;
 }
 
 .ui-dialog .ui-dialog-titlebar-close span.fa.fa-fw.fa-close {
@@ -317,8 +319,47 @@ div .grid-page-dropdown>app-dropdown {
 .panel-title {
     color: #205492 !important;
 }
+
 app-input input {
     padding-top: 10px;
     width: 90%;
     height : 40px;
+}
+
+.help-block {
+    margin-right: 40px !important;
+ }
+
+.toolbar {
+    border: solid 1px lightgrey;
+}
+
+.ui-widget, .ui-widget * {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+/* .ui-g-12 {
+    width: 100%;
+    padding-bottom: 0px;
+    padding-top: 0px;
+} */
+.ui-dialog.ui-widget .ui-dialog-content {
+    padding-top: 0em !important;
+    padding-bottom: 0.2em !important;
+    padding-left: 2em !important;
+}
+ .ui-dialog.ui-widget .ui-dialog-titlebar {
+    padding: 1em 1.5em;
+    padding-top: 0.35em !important;
+} 
+
+/*.ui-state-highlight {
+    border-color: grey;
+    background:  #b3b7bb!important;
+    color: black;
+}*/
+.ui-listbox-header .ui-listbox-filter-container .fa {
+    position: absolute;
+    top: 0.45em !important;
+    right: 1em !important;
 }

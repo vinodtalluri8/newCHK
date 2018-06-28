@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Router, ActivatedRoute, RouterLink, UrlSegment } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
+import { Message } from 'primeng/components/common/api';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-mychecklist',
@@ -10,17 +13,17 @@ import { Router, ActivatedRoute, RouterLink, UrlSegment } from '@angular/router'
 export class MychecklistComponent implements OnInit {
 
   itemsPath: MenuItem[];
-   home: MenuItem;
-
+  home: MenuItem;
+  displayDialog: boolean;
+  isUpdate: boolean;
+  dialogHeader: string;
+  @Input() cancel;
 
   constructor(private router: Router) {
-    this.home = {icon: 'fa fa-home'};
+    this.home = { icon: 'fa fa-home' };
 
     this.itemsPath = [
       { label: 'Checklists' }];
-
-
-
   }
 
   ngOnInit() {
@@ -36,5 +39,16 @@ export class MychecklistComponent implements OnInit {
   searchControls() {
     this.router.navigate(['../control/searchcontrol']);
   }
+  createControls() {
+    this.router.navigate(['../addcontrol']);
+  }
 
+  manageChecklistManagers() {
+    this.router.navigate(['../checklist/managechecklistmanagers']);
+  }
+  refresh(event) {
+    console.log('refresh');
+    // this.dataValues();
+    this.displayDialog = event;
+  }
 }

@@ -1,19 +1,22 @@
 /**  Business logic implementation for the add checklist  **/
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, ViewChild } from '@angular/core';
 import { AddchecklistService } from '../services/addchecklist.service';
 import { ChecklistCommonService } from '../../services/checklist-common.service';
 import { SelectItem, Message } from 'primeng/api';
 import { MenuItem } from 'primeng/api';
 import { Router, ActivatedRoute, RouterLink, UrlSegment } from '@angular/router';
 import { Location } from '@angular/common';
-
+import { EventEmitter } from 'events';
+import { SearchChecklistResultsComponent } from '../search-checklist-results/search-checklist-results.component';
+import { MessageService } from '../../services/message.service';
+import { SearchChecklistService } from '../services/search-checklist.service';
 
 
 @Component({
   selector: 'app-add-check-list',
   templateUrl: './add-check-list.component.html',
-  styleUrls: ['./add-check-list.component.css']
+  styleUrls: ['./add-check-list.component.css'],
 })
 export class AddCheckListComponent implements OnInit {
 
@@ -31,43 +34,91 @@ export class AddCheckListComponent implements OnInit {
   itemsPath: MenuItem[];
   home: MenuItem;
   saved: boolean;
+  checklistId: number;
+  @Input() isUpdate;
+  updateRecord: any;
+  header: string;
+  @Output() checklistEvent = new EventEmitter();
+  @ViewChild(SearchChecklistResultsComponent) searchList: SearchChecklistResultsComponent;
   constructor(private checklistCommonService: ChecklistCommonService,
-    private addchecklistService: AddchecklistService, private router: Router, private location: Location) {
+    private addchecklistService: AddchecklistService, private router: Router, private location: Location,
+    private route: ActivatedRoute, private messageService: MessageService, private searchChecklistService: SearchChecklistService) {
 
-      this.home = {icon: 'fa fa-home'};
+    this.home = { icon: 'fa fa-home' };
 
-      this.itemsPath = [
-        { label: 'Checklists', routerLink: ['/mychecklist'] },
-        { label: 'Add Checklist' }];
+    this.itemsPath = [
+      { label: 'Checklists', routerLink: ['/mychecklist'] },
+      { label: 'Add Checklist' }];
 
     this.selectedGroup = 'GIST';
   }
 
-/** method to call data on page on load **/
+  /** method to call data on page on load **/
   ngOnInit() {
+    this.header = 'Add Checklist';
     this.preloadData();
+    this.route.params.subscribe(params => {
+      this.checklistId = params['id'];
+      if (this.checklistId > 0) {
+        this.addchecklistService.getDataByChecklistId(this.checklistId).subscribe(data => {
+          this.updateRecord = data;
+          this.isUpdate = true;
+          this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
+          { label: 'Search Checklist', routerLink: ['/checklist/searchchecklist'] },
+          { label: 'Search Checklist Results', routerLink: ['checklist/checklistResults'] },
+          { label: 'Modify Checklist' }];
+          this.header = 'Modify Checklist';
+          // this.updateRecord = this.addchecklistService.getDataByChecklistId(this.checklistId);
+          console.log('updateRecord', this.updateRecord);
+          this.populateValues();
+        });
+      }
+
+    });
   }
 
-/** Populate all the required dropdown values during the screen load **/
+  populateValues() {
+    this.name = this.updateRecord['checklistName'] ? this.updateRecord['checklistName'] : '';
+    this.description = this.updateRecord['description'] ? this.updateRecord['description'] : '';
+    this.selectedGroup = this.updateRecord['checklistGroup'] ? this.updateRecord['checklistGroup'] : '';
+    this.selectedDepartments = this.updateRecord['checklistDepartment'] ? this.updateRecord['checklistDepartment'] : '';
+    this.selectedFrequency = this.updateRecord['checklistFrequency'] ? this.updateRecord['checklistFrequency'] : '';
+  }
+  /** Populate all the required dropdown values during the screen load **/
   preloadData() {
 
-    this.checklistCommonService.getFrequency().subscribe(data => {
+    this.checklistCommonService.getFrequency('add').subscribe(data => {
       this.frequency = data;
     });
     this.checklistCommonService.getGroup().subscribe(data => {
       this.groups = data;
     });
-    this.checklistCommonService.getDepartment(this.selectedGroup).subscribe(data => {
+    this.checklistCommonService.getDepartment(this.selectedGroup, 'add').subscribe(data => {
       this.departments = data;
     });
 
   }
 
-/** This method will enable or disable the Save button based on the mandatory fields selected **/
+  isDirty() {
+    if (this.name === this.updateRecord['checklistName'] && this.description === this.updateRecord['description']
+      && this.selectedGroup === this.updateRecord['checklistGroup'] && this.selectedDepartments === this.updateRecord['checklistDepartment']
+      && this.selectedFrequency === this.updateRecord['checklistFrequency']) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  /** This method will enable or disable the Save button based on the mandatory fields selected **/
   disable() {
     if (!this.name || this.name.trim().length === 0 || !this.description || this.description.trim().length === 0
-    || !this.selectedGroup || !this.selectedDepartments || !this.selectedFrequency) {
+      || !this.selectedGroup || !this.selectedDepartments || !this.selectedFrequency) {
+
       return true;
+
+    } else if (this.isUpdate) {
+      console.log('isDirty', this.isDirty());
+      return !this.isDirty();
     } else {
       return false;
     }
@@ -92,11 +143,30 @@ export class AddCheckListComponent implements OnInit {
    * **/
   onChangeGroup(event) {
     this.selectedGroup = event;
-    this.checklistCommonService.getDepartment(event).subscribe(data => {
-    this.departments = data;
+    this.checklistCommonService.getDepartment(event, 'add').subscribe(data => {
+      this.departments = data;
     });
   }
 
+  modifyChecklist() {
+    this.msgs = [];
+    if (!this.disable()) {
+      this.dataJson = {
+        'checklistName': this.name,
+        'description': this.description,
+        'frequency': this.selectedFrequency,
+        'department': this.selectedDepartments,
+        'checklistGroup': this.selectedGroup,
+      };
+      this.addchecklistService.updateSystemValue(this.dataJson, this.updateRecord['checklistId']).subscribe(data => {
+        this.savedRecord = data;
+        this.messageService.clearMessage();
+        this.messageService.sendMessage({ severity: 'success', detail: 'Record Updated Successfully' });
+        this.resetAll();
+        this.back();
+      });
+    }
+  }
   /** This method will save all the data in add checklist screen  **/
   saveChecklist() {
     this.msgs = [];
@@ -112,11 +182,10 @@ export class AddCheckListComponent implements OnInit {
       this.addchecklistService.addChecklist(this.dataJson)
         .subscribe(data => {
           this.savedRecord = data;
-            this.msgs.push({
-            severity: 'success',
-            detail: ' Record Saved Successfully. Checklist id = ' + this.savedRecord['checklistId']
-          });
           this.resetAll();
+          this.messageService.clearMessage();
+          this.messageService.sendMessage({ severity: 'success', detail: 'Record Added Successfully' });
+          this.router.navigate(['/checklist/searchchecklist']);
         });
     }
   }

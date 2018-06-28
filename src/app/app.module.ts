@@ -11,8 +11,8 @@ import { SharedModule } from 'diva-shared-apps/shared.module';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MultiSelectModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AssignedChecklistModule } from './checklist/assigned-checklists/assigned-checklist.module';
-import { ReportsModule } from './checklist/reports/reports.module';
+
+
 
 @NgModule({
   declarations: [
@@ -23,13 +23,11 @@ import { ReportsModule } from './checklist/reports/reports.module';
     CoreModule,
     AngularFontAwesomeModule,
     ChecklistModule,
-    AssignedChecklistModule,
     SharedModule,
     HttpClientModule,
     MultiSelectModule,
     FormsModule,
-    BrowserAnimationsModule,
-    ReportsModule
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

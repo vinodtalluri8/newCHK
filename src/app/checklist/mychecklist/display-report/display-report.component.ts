@@ -1,15 +1,16 @@
-import { ReportService } from './../services/report.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem, SelectItem, Message } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ChecklistCommonService } from '../../services/checklist-common.service';
+import { ReportService } from '../services/report.service';
 
 @Component({
-  selector: 'app-select-checklist-report',
-  templateUrl: './select-checklist-report.component.html',
-  styleUrls: ['./select-checklist-report.component.css']
+  selector: 'app-display-report',
+  templateUrl: './display-report.component.html',
+  styleUrls: ['./display-report.component.css']
 })
-export class SelectChecklistReportComponent implements OnInit {
+export class DisplayReportComponent implements OnInit {
+
   group: Object;
   report: Object;
   itemsPath: MenuItem[];
@@ -60,15 +61,7 @@ export class SelectChecklistReportComponent implements OnInit {
     }
   }
   displayReports() {
-    if (this.disable()) {
-      // this.dataJson = {
-      //   'checklistGroup': this.selectedGroup,
-      //   'checklistReport': this.selectedReport
-      // };
-      this.router.navigate(['/displayReport']);
+      this.router.navigate(['checklist/reports/reportresults']);
       console.log(this.dataJson, 'this.dataJson ');
     }
-
-  }
-
 }

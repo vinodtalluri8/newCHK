@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem, SelectItem, Message } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ChecklistCommonService } from '../../services/checklist-common.service';
+import { MessageService } from '../../services/message.service';
 
 
 @Component({
@@ -13,7 +14,6 @@ import { ChecklistCommonService } from '../../services/checklist-common.service'
 export class SearchchecklistComponent implements OnInit {
   dataJson: any;
   searchChecklistResults;
-  title: string;
   defaultgroup;
   itemsPath: MenuItem[];
   nameContains;
@@ -31,8 +31,9 @@ export class SearchchecklistComponent implements OnInit {
   home: MenuItem;
   msgs: Message[] = [];
   constructor(private router: Router, private searchChecklistService: SearchChecklistService,
-    private checklistCommonService: ChecklistCommonService) {
+    private checklistCommonService: ChecklistCommonService, private messageService: MessageService) {
     this.home = { icon: 'fa fa-home' };
+    /** To initialise breadcrumb data */
     this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
     { label: 'Search Checklist' }];
     this.selectedOnline = 'A';
@@ -45,41 +46,52 @@ export class SearchchecklistComponent implements OnInit {
    **/
   ngOnInit() {
     this.preloadData();
+    if (this.messageService.getMessage()) {
+      this.msgs = [this.messageService.getMessage()];
+      this.messageService.clearMessage();
+    }
   }
 
   /** This method will load the data on page load
    **/
   preloadData() {
-
+    /** to get default group */
     this.checklistCommonService.getDefaultGroup().subscribe(
       (data) => {
         this.defaultgroup = data[0]['departmentName'];
         this.onChangeGroup(this.defaultgroup);
-      }
-    );
+      }, error => {
+        this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
+      });
 
+    /** to get  group dropdown */
     this.checklistCommonService.getGroup().subscribe(
       (data) => {
         this.group = data;
-      }
-    );
-
-    this.checklistCommonService.getFrequency().subscribe(
+      }, error => {
+        this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
+      });
+    /** to get  frequency dropdown */
+    this.checklistCommonService.getFrequency('display').subscribe(
       (data) => {
         this.frequency = data;
-      }
-    );
-    this.checklistCommonService.getStatus().subscribe(
+      }, error => {
+        this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
+      });
+    /** to get  status dropdown */
+    this.checklistCommonService.getStatus('display').subscribe(
       (data) => {
         this.status = data;
-      }
-    );
-
-    this.checklistCommonService.getOnline().subscribe(
+      }, error => {
+        this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
+      });
+    /** to get  online dropdown */
+    this.checklistCommonService.getOnline('display').subscribe(
       (data) => {
         this.online = data;
-      }
-    );
+      }, error => {
+        this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
+      });
   }
 
 
@@ -88,7 +100,7 @@ export class SearchchecklistComponent implements OnInit {
   * **/
   onChangeGroup(event) {
     this.selectedGroup = event;
-    this.checklistCommonService.getDepartment(event).subscribe(data => {
+    this.checklistCommonService.getDepartment(event, 'display').subscribe(data => {
       this.departments = data;
     });
   }
@@ -106,16 +118,15 @@ export class SearchchecklistComponent implements OnInit {
    * for displaying the search results for checklist **/
   searchChecklist() {
     this.dataJson = {
-      'checkListName': this.nameContains,
-      'checkListGroup': this.selectedGroup,
-      'checkListDepartment': this.selectedDepartments,
-      'checkListFrequency': this.selectedFrequency,
-      'checkListOnline': this.selectedOnline,
+      'checklistName': this.nameContains,
+      'checklistGroup': this.selectedGroup,
+      'checklistDepartment': this.selectedDepartments,
+      'checklistFrequency': this.selectedFrequency,
+      'checklistOnline': this.selectedOnline,
       'taskStatus': this.selectedStatus
     };
-
+    /** to call the searchChecklistService and the sets the data to setResultsSearch */
     this.searchChecklistService.getSearchChecklistData(this.dataJson).subscribe(data => {
-      this.searchChecklistService.setResultsSearch(data);
       this.router.navigate(['/checklist/checklistResults']);
     },
       error => {

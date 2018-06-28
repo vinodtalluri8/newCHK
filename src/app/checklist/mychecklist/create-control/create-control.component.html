@@ -1,0 +1,151 @@
+<div class="panel panel-default" style="margin-left: 1px">
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -7px">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+  </div>
+
+  <div class="col.sm-12 col-md-12 col-lg-12 padding-zero">
+      <p-messages [(value)]="msgs"></p-messages>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-5 col-md-5 col-lg-8 panel panel-default">
+      <div class="panel-heading section-padding">
+        <h3 class="panel-title " style="font-size: 24px;">Add Control</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-body section-padding">
+
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="title" class="required control-label top-padding"> Control Title </label>
+        <div>
+          <app-input (inputTextSelected)='this.controlTitle=$event' [value]='controlTitle' maxlength="60"></app-input>
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="title" class="control-label top-padding">Group</label>
+        <div>
+          <app-dropdown [datasource]='group' (selectedItemChange)='this.selectedGroup = $event' [selectedItem]='selectedGroup'></app-dropdown>
+
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="title" class="required control-label top-padding">Primary</label>
+        <div>
+          <app-dropdown [datasource]='primary' (selectedItemChange)='this.selectedPrimary = $event' [selectedItem]='selectedPrimary'></app-dropdown>
+        </div>        
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="title" class="required control-label top-padding"> Description </label>
+        <div>
+          <app-input-text-area rowSize='5' (inputTextAreaSelected)='this.controlText= $event' [value]='controlText' name='control'></app-input-text-area>
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="title" class="required control-label top-padding">Status</label>
+        <div>
+          <app-dropdown [datasource]='status' (selectedItemChange)='this.selectedStatus = $event' [selectedItem]='selectedStatus'></app-dropdown>
+        </div>
+        <label for="title" class="required control-label top-padding">Risk</label>
+        <div>
+          <app-dropdown [datasource]='risk' (selectedItemChange)='this.selectedRisk = $event' [selectedItem]='selectedRisk'></app-dropdown>
+        </div>
+        
+      </div>
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="title" class="required control-label top-padding">Backup</label>
+        <div>
+          <app-dropdown [datasource]='backup' (selectedItemChange)='this.selectedBackup = $event' [selectedItem]='selectedBackup'></app-dropdown>
+        </div>
+        <label for="title" class="required control-label top-padding">Reviewer</label>
+        <div>
+          <app-dropdown [datasource]='reviewer' (selectedItemChange)='this.selectedReviewer = $event' [selectedItem]='selectedReviewer'></app-dropdown>
+        </div>        
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="title" class="control-label top-padding">Procedure</label>
+        <div>
+          <app-dropdown [datasource]='procedure' (selectedItemChange)='this.selectedProcedure = $event' [selectedItem]='selectedProcedure'></app-dropdown>
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="title" class="required control-label top-padding">Evaluation</label>
+        <div>
+          <app-dropdown [datasource]='evaluation' (selectedItemChange)='this.selectedEvaluation = $event' [selectedItem]='selectedEvaluation'></app-dropdown>
+        </div>        
+      </div>
+
+      <div class="col-sm-3 col-md-3 col-lg-3; group" style="padding-right: 0px !important">
+        <label style="visibility: visible;" class="required control-label top-padding">Review Length</label>
+        <div>
+          <app-input appNumberonly (inputTextSelected)='this.review=$event' [value]='review' maxlength="60"></app-input>
+        </div>
+      </div>
+
+      <div class="col-sm-1 col-md-1 col-lg-1 controlReview">
+        <label style="visibility: hidden;">Review</label>
+        <span class="infotext">Hours</span>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="title" class="control-label top-padding">Evidence Required</label>
+        <div>
+          <app-dropdown [datasource]='evidenceRequired' (selectedItemChange)='this.selectedEvidenceRequired = $event' [selectedItem]='selectedEvidenceRequired'></app-dropdown>
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="title" class="control-label top-padding">Checklist</label>
+        <div>
+          <app-dropdown [datasource]='checklist' (selectedItemChange)='this.selectedChecklist = $event' [selectedItem]='selectedChecklist'></app-dropdown>
+        </div>
+      </div>
+
+      <div class="col-sm-3 col-md-3 col-lg-3; group" style="padding-right: 0px !important">
+        <label style="visibility: visible;" class="required control-label top-padding">Control Length</label>
+        <div>
+          <app-input appNumberonly (inputTextSelected)='this.control=$event' [value]='control' maxlength="60"></app-input>
+        </div>
+      </div>
+
+      <div class="col-sm-1 col-md-1 col-lg-1 controlReview">
+        <label style="visibility: hidden;">Control</label>
+        <span class="infotext">Hours</span>
+      </div>
+
+    </div>
+
+    
+
+    <div class="row paddingButtons" style="margin-left: -4px">
+      <div class="row addKeyControlButtons">
+        <app-button label='Save' (click)='saveCreateControl()' [disabled]='disable()' styleClass='button-action'></app-button>
+        <app-button label='Cancel' (click)='resetAll()' styleClass='button-cancel'></app-button>
+      </div>
+    </div>
+
+  </div>
+
+</div>

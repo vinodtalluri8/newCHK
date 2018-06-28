@@ -1,31 +1,46 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { appConstants } from '../../../core/constants/appConstants';
-import {BaseServiceService} from '../services/base-service.service';
+import { BaseServiceService } from '../services/base-service.service';
+import 'rxjs/add/observable/throw';
 
 
 @Injectable()
 export class SearchChecklistService extends BaseServiceService {
-  public resultSearch: any[];
-  private url = environment.serverUrl + 'divachecklistservice/getDisplayChecklist';
 
-  getResultSearch() {
-    return this.resultSearch;
+  private searchCriteria: JSON;
+  private url;
+
+  getResultSearchCriteria() {
+    return this.searchCriteria;
   }
 
-  setResultsSearch(results) {
-    this.resultSearch = results;
-  }
   constructor(private httpClient: HttpClient) {
     super();
-   }
-
+  }
+  /** To get the data for the search checklist grid
+   * @returns results
+   */
   getSearchChecklistData(data: JSON) {
+    this.url = environment.serverUrl + 'DIVA-ChecklistService/getDisplayChecklist';
+    this.searchCriteria = data;
     return this.httpClient.post(this.url,
       data, appConstants.postHeaderOptions).map((results) => {
-                return results;
+        return results;
       }).catch(this.handleError);
+  }
+
+  refreshResults() {
+    return this.getSearchChecklistData(this.searchCriteria);
+  }
+
+  /* This method will get the data of department dropdown based on the group selected by passing the
+    application name and the system code as input parameters*/
+  deleteChecklist(value) {
+    this.url = environment.serverUrl + 'DIVA-ChecklistService/deleteChecklist/' + value;
+    appConstants.deleteHeaderOptions.params = {};
+    return this.httpClient.delete(this.url, appConstants.deleteHeaderOptions).catch(this.handleError);
   }
 
 }

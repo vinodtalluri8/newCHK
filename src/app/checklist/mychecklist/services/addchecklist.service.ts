@@ -1,20 +1,23 @@
 /* This service is used to save the data for addkey control */
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { environment } from '../../../../environments/environment';
 import { appConstants } from '../../../core/constants/appConstants';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BaseServiceService } from './base-service.service';
 
 @Injectable()
-export class AddchecklistService {
+export class AddchecklistService extends BaseServiceService {
   private addControlsSource = new BehaviorSubject<any[]>([]);
   currentAddControls = this.addControlsSource.asObservable();
 
-  private serverURL = environment.serverUrl + 'divachecklistservice/addChecklistDetails';
-  constructor(private httpClient: HttpClient) { }
+  private serverURL;
+  constructor(private httpClient: HttpClient) {
+    super();
+   }
 
 
   changeAddControls(addControls: any[]) {
@@ -22,8 +25,25 @@ export class AddchecklistService {
   }
   /** This method will POST the data of addkeycontrol screen to backend **/
   addChecklist(data: any) {
+    this.serverURL = environment.serverUrl + 'DIVA-ChecklistService//addChecklistDetails';
     return this.httpClient.post(this.serverURL,
       data, appConstants.postHeaderOptions).map((res: Response) => res);
+  }
+
+  getDataByChecklistId(checklistID: number) {
+    this.serverURL =  environment.serverUrl + 'DIVA-ChecklistService/getChecklistData/' + checklistID;
+     appConstants.getHeaderOptions.params = new HttpParams();
+    return this.httpClient
+    .get(this.serverURL, appConstants.getHeaderOptions).map((data) => {
+        return data;
+    });
+    // return this.checklistbyId;
+  }
+
+  updateSystemValue(data, value) {
+    console.log('value', value);
+    this.serverURL = environment.serverUrl + 'DIVA-ChecklistService/updateChecklistData/' + value;
+    return this.httpClient.put(this.serverURL, data, appConstants.putHeaderOptions).catch(this.handleError);
   }
 }
 

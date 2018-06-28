@@ -1,22 +1,22 @@
 [{
-    "Checklist": "GIT PM Operations Monthly Checklist",
-    "Schedule": "EPMO Project On-Boarding Monthly Checklist",
-    "Frequency": "Monthly",
-    "Review": "No",
-    "Due Date": "05/20/2018"
+    "checklist": "GIT PM Operations Monthly Checklist",
+    "schedule": "EPMO Project On-Boarding Monthly Checklist",
+    "frequency": "Monthly",
+    "review": "No",
+    "dueDate": "05/20/2018"
 },
 {
-    "Checklist": "GIT PM Operations Quarterly Checklist",
-    "Schedule": "EPMO Quarterly On-Boarding Checklist",
-    "Frequency": "Quarterly",
-    "Review": "No",
-    "Due Date": "05/20/2018"
+    "checklist": "GIT PM Operations Quarterly Checklist",
+    "schedule": "EPMO Quarterly On-Boarding Checklist",
+    "frequency": "Quarterly",
+    "review": "No",
+    "dueDate": "05/20/2018"
 },
 {
-    "Checklist": "GIT PM Operations Weekly Checklist",
-    "Schedule": "EPMO Weekly",
-    "Frequency": "Weekly",
-    "Review": "No",
-    "Due Date": "05/20/2018"
+    "checklist": "GIT PM Operations Weekly Checklist",
+    "schedule": "EPMO Weekly",
+    "frequency": "Weekly",
+    "review": "No",
+    "dueDate": "05/20/2018"
   }
 ]

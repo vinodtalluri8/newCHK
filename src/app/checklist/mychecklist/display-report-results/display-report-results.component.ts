@@ -4,11 +4,12 @@ import { MenuItem, SelectItem } from 'primeng/api';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-display-report',
-  templateUrl: './display-report.component.html',
-  styleUrls: ['./display-report.component.css']
+  selector: 'app-display-report-results',
+  templateUrl: './display-report-results.component.html',
+  styleUrls: ['./display-report-results.component.css']
 })
-export class DisplayReportComponent implements OnInit {
+export class DisplayReportResultsComponent implements OnInit {
+
   itemsPath: ({
     label: string; routerLink: string[];
   } | {
@@ -35,7 +36,7 @@ export class DisplayReportComponent implements OnInit {
       },
       {
         label: 'Reports',
-        routerLink: ['/reports']
+        routerLink: ['checklist/reports']
 
       },
       {label: 'Search results'}
@@ -319,4 +320,5 @@ export class DisplayReportComponent implements OnInit {
   pagination(isPaginator: boolean) {
     this.isPaginator = isPaginator;
   }
+
 }

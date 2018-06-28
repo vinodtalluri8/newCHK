@@ -58,13 +58,13 @@ export class AddControlsComponent implements OnInit {
     // this.checklistCommonService.getControl().subscribe(data => {
     //   this.control = data;
     // });
-    this.checklistCommonService.getPrimary().subscribe(data => {
+    this.checklistCommonService.getPrimary('add').subscribe(data => {
       this.primary = data;
     });
-    this.checklistCommonService.getBackup().subscribe(data => {
+    this.checklistCommonService.getBackup('add').subscribe(data => {
       this.Backup = data;
     });
-    this.checklistCommonService.getReviewer().subscribe(data => {
+    this.checklistCommonService.getReviewer('add').subscribe(data => {
       this.reviewer = data;
     });
   }

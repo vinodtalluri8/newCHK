@@ -9,56 +9,63 @@ import { Navitems } from 'diva-shared-apps/components/interfaces/navitems';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  navItems: Navitems[] = [
-  
-    {
-      displayName: 'My Assigned Checklists',
-      children: [
-        {
-          displayName: 'View My Online Checklist',
-          route: 'systemvalues'
+  navItems: Navitems[] = [{
+    displayName: 'My Assigned Checklists',
+    children: [
+      {
+        displayName: 'View My Assigned Checklists',
+        route: 'assigned'
 
-        }]
-    }, {
-      displayName: 'Search Online Checklists',
-      children: [
-        {
-          displayName: 'View Online Checklist',
-          route: 'systemvalues'
+      }]
+  },
+  {
+    displayName: 'Search Online Checklists',
+    children: [
+      {
+        displayName: 'Search Online Checklist',
+        route: 'searchonlinechecklist'
 
-        }]
-    },
-    {
+      }]
+  },
+  {
     displayName: 'Manage Checklists',
     children: [
       {
-        displayName: 'View Online Checklist',
+        displayName: 'View Manage Checklist',
         route: 'systemvalues'
 
       }]
-      
-    },
-    {
-      displayName: 'Checklists',
-      children: [
-        {
-          displayName: 'Add Checklist',
-          route: 'addchecklist'
+  },
+  {
+    displayName: 'Checklists',
+    children: [
+      {
+        displayName: 'Add Checklist',
+        route: 'addchecklist'
 
-        }, {
-          displayName: 'Search Checklist',
-          route: 'checklist/searchchecklist'
+      }, {
+        displayName: 'Search Checklist',
+        route: 'checklist/searchchecklist'
 
-        }, {
-          displayName: 'Search Control',
-          route: 'control/searchcontrol'
+      }, {
+        displayName: 'Search Control',
+        route: 'control/searchcontrol'
 
-        }, {
-          displayName: 'Reports',
-          route: 'reports'
+      }, {
+        displayName: 'Reports',
+        route: 'checklist/reports'
 
-        }]
-    }
+      }]
+  }/*,
+  {
+    displayName: ' Checklist Admin',
+    children: [
+      {
+        displayName: 'Add/Delete Checklist Managers',
+        route: 'checklist/managechecklistmanagers'
+
+      }]
+  }*/
   ];
   ngOnInit() {
   }

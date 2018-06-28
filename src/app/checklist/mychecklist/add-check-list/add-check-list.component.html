@@ -6,7 +6,7 @@
 </div>
 <div class="panel panel-default">
   <div class="panel-heading section-padding">
-    <h3 class="panel-title" style="font-size: 24px">Add Checklist</h3>
+    <h3 class="panel-title" style="font-size: 24px">{{header}}</h3>
   </div>
   <p-growl [(value)]="msgs"></p-growl>
   <div class="panel-body section-padding">
@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="row paddingDataClass">
-          <app-input (inputTextSelected)='this.name=$event' [value]='name' maxlength="60"></app-input>
+          <app-input (inputTextSelected)='this.name=$event' [value]='name' [maxlength]= 60></app-input>
 
         </div>
       </div>
@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="row paddingDataClass">
-          <app-input-text-area rowSize='8' (inputTextAreaSelected)='this.description= $event' [value]='description' name='control'></app-input-text-area>
+          <app-input-text-area rowSize='8' (inputTextAreaSelected)='this.description= $event' [value]='description' name='description' [maxlength] = 255 ></app-input-text-area>
         </div>
       </div>
       <div class="col-sm-4 col-md-4 col-lg-4" id="depFreq">
@@ -74,13 +74,14 @@
 
     </div>
     <div class="row addCheckListButtons">
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div *ngIf="!this.isUpdate"class="col-sm-8 col-md-8 col-lg-8">
           <app-button label='Save' (click)='saveChecklist()' [disabled]='disable()' styleClass='button-action'></app-button>
-          <app-button label='Cancel' (click)='resetAll()' styleClass='button-cancel'></app-button>
+          <app-button label='Clear All' (click)='resetAll()' styleClass='button-cancel'></app-button>
       </div>
-      <div class="col-sm-4 col-md-4 col-lg-4 align-right">
-          <app-button (click)='saveAddControl()' label='Save & Add Control' styleClass='button-outline'></app-button>
-        </div>
+      <div *ngIf="this.isUpdate"class="col-sm-8 col-md-8 col-lg-8">
+        <app-button label='Save' (click)='modifyChecklist()' [disabled]='disable()' styleClass='button-action'></app-button>
+        <app-button label='Clear All' (click)='this.populateValues()' styleClass='button-cancel'></app-button>
+    </div>
     </div>
   </div>
 

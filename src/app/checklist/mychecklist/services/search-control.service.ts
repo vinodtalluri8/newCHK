@@ -4,20 +4,17 @@ import { HttpClient, HttpHeaders, HttpParams, } from '@angular/common/http';
 import { appConstants } from '../../../core/constants/appConstants';
 import { environment } from '../../../../environments/environment';
 import { BaseServiceService } from './base-service.service';
+import 'rxjs/add/observable/throw';
 
 
 @Injectable()
 export class SearchControlService extends BaseServiceService {
 
-  public controlResultSearch;
-  private url = environment.serverUrl + 'divachecklistservice/getDisplayControlChecklist';
+  public searchCriteria;
+  private url = environment.serverUrl + 'DIVA-ChecklistService/getDisplayControlChecklist';
 
-  getControlResultSearch() {
-    return  this.controlResultSearch;
-  }
-
-  setControlResultSearch(controlsResults) {
-    this.controlResultSearch = controlsResults;
+  setSearchCriteria(searchCriteria) {
+    this.searchCriteria = searchCriteria;
   }
 
 
@@ -28,8 +25,8 @@ export class SearchControlService extends BaseServiceService {
 
 
   /** This method will POST the data of search controls screen to backend **/
-  fetchSearchControlList(data: JSON) {
-    return this.httpClient.post(this.url, data, appConstants.postHeaderOptions).
+  fetchSearchControlList() {
+    return this.httpClient.post(this.url, this.searchCriteria, appConstants.postHeaderOptions).
       map((controlsResults) => {
         return controlsResults;
       }).catch(this.handleError);

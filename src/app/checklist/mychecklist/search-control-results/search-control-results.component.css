@@ -1,14 +1,15 @@
+.arrow-color {
+    color: black;
+    font-weight: initial;
+    cursor: pointer;
+    font-size: 17px;
+    padding-right: 6px
+}
+
 .panel-title {
     color: #7e2d40
 }
 
-.arrow-color {
-    color: black;
-    font-weight: initial;
-    cursor: pointer;
+.displaycolor{
+    color: rgb(21, 49, 126)
 } 
-
-.arrow-display{
-    font-size: 17px;
-    padding-right: 6px
- }

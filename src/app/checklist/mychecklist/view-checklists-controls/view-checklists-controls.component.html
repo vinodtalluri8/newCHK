@@ -1,0 +1,92 @@
+<div class="panel panel-default" style="margin-left:-3px">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-4px">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-8 col-lg-8">
+      <h3 class="panel-title" style="font-size: 24px; padding-left:5px">
+        <fa class="arrow-color" style="font-size: 17px;" name="chevron-left" size='0.5x' (click)='back()'> </fa>{{checklistName}}</h3>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-4 align-right">
+      <app-button (click)='navigateAddExistingControl()' label='Add Existing Control' styleClass='button-outline'></app-button>
+      <app-button (click)="navigateAddNewControl()" label='Add New Control' styleClass='button-outline'></app-button>
+    </div>
+  </div>
+  <p-growl [(value)]="msgs"></p-growl>
+</div>
+<div class="row gridPadding">
+  <div class="toolbar" *ngIf="viewChecklistsControlsResults && viewChecklistsControlsResults.length > 0">
+    <img class="imgAlign pull-right" (click)="vc.exportCSV()" src="./assets/icon-excel-export.png" alt="Export to Excel.png">
+  </div>
+  <p-table #vc [columns]="colHeaders" [value]="viewChecklistsControlsResults" [responsive]="true" [paginator]="isPaginator" [loading]="loading"
+    [rows]="selectedRows" [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName">
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
+          {{col.header}}
+          <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+        </th>
+      </tr>
+      <tr *ngIf="filterable && viewChecklistsControlsResults && viewChecklistsControlsResults.length > 0">
+        <th *ngFor="let col of columns" [style.width]="col.width">
+
+          <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="vc.filter($event.target.value, col.field, 'contains')">
+
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr [pSelectableRow]="rowData">
+        <td *ngFor="let col of columns" [style.width]="col.width" class="ui-resizable-column">
+          <ng-container *ngIf="col.field == 'action'|| col.field == 'doctitle'; else elseTemplate">
+            <div class="row" *ngIf="col.field == 'action'">
+              <div class="col-sm-6 col-md-6 col-lg-6 displaycolor" style="padding-right:5px !important">
+                <a class="hyperlink" (click)="modify(rowData)">Modify</a>
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-6 displaycolor" style="padding-left:2px !important">
+                <a class="hyperlink" (click)="delete(rowData['checklistId'])">Delete</a>
+              </div>
+            </div>
+            <div class="row" *ngIf="col.field == 'doctitle'">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <a class="hyperlink" (click)="viewProcedureDoc(rowData['localdir'],rowData['flagactive'])">{{rowData['doctitle']}}</a>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #elseTemplate>
+            {{rowData[col.field]}}
+          </ng-template>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+        <td [attr.colspan]="columns.length" style="text-align: center">
+          No records found
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorright" let-state>
+      <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+    </ng-template>
+  </p-table>
+</div>
+<div class="row">
+  <div *ngIf="!isPaginator">
+    <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+  </div>
+</div>
+<div>
+  <p-confirmDialog appendTo="body"></p-confirmDialog>
+  <p-dialog [header]="dialogHeader" appendTo="body" [closable]='false' [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
+    [modal]="true" [width]="650">
+    <app-control-associate-edit [childChecklistName] ="checklistName" (closeControlAssociateEdit)='this.refresh($event)'></app-control-associate-edit>
+  </p-dialog>
+</div>
+

@@ -23,6 +23,28 @@ export const appConstants = {
         }),
         withCredentials: false
     } ,
+    deleteHeaderOptions: {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Access-Control-Request-Method': 'DELETE',
+            'Access-Control-Request-Headers': '*',
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+        }),
+        withCredentials: false,
+        params: {}
+    },
+    putHeaderOptions: {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Access-Control-Request-Method': 'PUT',
+            'Access-Control-Request-Headers': '*',
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+        }),
+        withCredentials: false,
+        params: {}
+    }
 
     // allOption :  [{ 'label': 'All', 'value': '0'}]
 };
