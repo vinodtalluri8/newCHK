@@ -8,20 +8,20 @@ import {AssignedChecklistService} from '../services/assigned-checklist.service';
 })
 export class InprogressChecklistComponent implements OnInit {
   colHeaders: any[];
-  loginid = 'divatest_sa1';
+  loginid = 'bhat_v';
   inprogressChecklistResults;
   @Output() inprogressDataLength = new EventEmitter();
 
   constructor(private assignedChecklistService: AssignedChecklistService) {
     /** assigning grid column headers */
     this.colHeaders = [
-    { field: 'checklist', header: 'Checklist', width: '25%' },
-    { field: 'schedule', header: 'Schedule' , width: '25%' },
-    { field: 'frequency', header: 'Frequency' , width: '15%' },
-    { field: 'startDate', header: 'StartDate' , width: '10%' },
-    { field: 'review', header: 'Review', width: '7%'},
-    { field: 'dueDate', header: 'Due Date', width: '10%' },
-    { field: 'action', header: 'Action', width: '8%' }
+    { field: 'checklistName', header: 'Checklist', width: '25%' },
+    { field: 'subTitle', header: 'Schedule' , width: '10%' },
+    { field: 'frequency', header: 'Frequency' , width: '10%' },
+    { field: 'startDate', header: 'Start Date' , width: '10%' },
+    { field: 'managerReview', header: 'Review', width: '10%'},
+    { field: 'intendedCompletionDate', header: 'Due Date', width: '10%' },
+    { field: 'action', header: 'Action', width: '12%' }
   ];
 }
 

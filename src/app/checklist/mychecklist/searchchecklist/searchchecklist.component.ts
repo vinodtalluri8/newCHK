@@ -4,6 +4,7 @@ import { MenuItem, SelectItem, Message } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ChecklistCommonService } from '../../services/checklist-common.service';
 import { MessageService } from '../../services/message.service';
+import { routerConstants } from '../../../core/constants/routerConstants';
 
 
 @Component({
@@ -16,26 +17,28 @@ export class SearchchecklistComponent implements OnInit {
   searchChecklistResults;
   defaultgroup;
   itemsPath: MenuItem[];
-  nameContains;
-  selectedGroup;
-  group;
-  departments;
-  selectedDepartments;
-  frequency;
-  selectedFrequency;
-  online;
-  selectedOnline;
-  status;
-  selectedStatus;
-  name;
+  nameContains: string;
+  selectedGroup: string;
+  group: SelectItem[];
+  departments: SelectItem[];
+  selectedDepartments: string;
+  frequency: SelectItem[];
+  selectedFrequency: string;
+  online: SelectItem[];
+  selectedOnline: string;
+  status: SelectItem[];
+  selectedStatus: string;
+  name: string;
   home: MenuItem;
   msgs: Message[] = [];
   constructor(private router: Router, private searchChecklistService: SearchChecklistService,
     private checklistCommonService: ChecklistCommonService, private messageService: MessageService) {
     this.home = { icon: 'fa fa-home' };
     /** To initialise breadcrumb data */
-    this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
-    { label: 'Search Checklist' }];
+    this.itemsPath = [
+      { label: 'Checklists', routerLink: [routerConstants.defaultRoute]},
+      { label: 'Search Checklist' }];
+
     this.selectedOnline = 'A';
     this.selectedFrequency = 'A';
     this.selectedDepartments = 'A';
@@ -127,7 +130,7 @@ export class SearchchecklistComponent implements OnInit {
     };
     /** to call the searchChecklistService and the sets the data to setResultsSearch */
     this.searchChecklistService.getSearchChecklistData(this.dataJson).subscribe(data => {
-      this.router.navigate(['/checklist/checklistResults']);
+      this.router.navigate([routerConstants.searchChecklistResults]);
     },
       error => {
         this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];

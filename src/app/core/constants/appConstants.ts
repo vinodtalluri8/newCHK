@@ -10,7 +10,9 @@ export const appConstants = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
             'Access-Control-Request-Method': 'GET',
-            'Access-Control-Request-Headers': '*'
+            'Access-Control-Request-Headers': '*',
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
         }),
         withCredentials: false,
         params: {}
@@ -19,7 +21,9 @@ export const appConstants = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
             'Access-Control-Request-Method': 'POST',
-            'Access-Control-Request-Headers': '*'
+            'Access-Control-Request-Headers': '*',
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
         }),
         withCredentials: false
     } ,

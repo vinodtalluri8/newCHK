@@ -1,0 +1,58 @@
+.ui-listbox-header .ui-inputtext {
+    padding: .125em .125em .125em 1.25em;
+    width: 100%;
+    margin-left: 10px;
+}
+
+.ui-dropdown {
+    display: none;
+    width: 70.5% !important;
+}
+.addManagersButtons{
+    margin-left : 0px;
+    /* padding-left: 30px;  */
+    padding-top :10px;
+    /*position: absolute !important; */
+    
+}
+.deleteManagersButtons{
+     /* margin-top : 192px;  */
+     margin-left: 0px;
+     padding-top :10px;
+   /* position: absolute !important; */
+   /* height: 46px !important; */
+
+}
+.ui-dropdown .ui-dropdown-panel {
+    min-width: 100%;
+    width: max-content;
+}
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444444;
+    font-style: normal;
+    text-align: left;
+    padding-top: 10px !important;
+    padding-bottom: 0px !important;
+}
+.title-input {
+    width: 16em;
+}
+
+.panel-title h3 {
+    font-size: 24px;
+}
+
+.section-padding {
+    padding-top: 0px;
+}
+
+.border-add-delete {
+    border: 1px grey;
+    padding-bottom: 15px;
+}
+
+.ui-listbox-header .ui-listbox-filter-container {
+     width: 92%;
+}

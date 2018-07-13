@@ -1,0 +1,23 @@
+.arrow-color {
+    color: black;
+    font-weight: initial;
+    cursor: pointer;
+    font-size: 17px;
+    padding-right: 6px
+}
+
+.panel-title {
+    color: #7e2d40
+}
+
+.displaycolor{
+    color: rgb(21, 49, 126)
+} 
+
+.titlebar{
+    font-size: 15px;
+    text-align: center;
+}
+.center{
+    text-align: center;
+}

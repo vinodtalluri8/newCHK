@@ -1,0 +1,32 @@
+.scheduleChecklistButtons{
+    margin-left : -50px;
+    padding-left: 30px;
+    padding-top :10px;
+    /* top: 190px; */
+    margin-top: 10px;
+
+}
+.paddingButtons {
+    margin-top: 20px!important;
+}
+
+.ui-dropdown .ui-dropdown-panel {
+    min-width: 100%;
+    width: max-content;
+}
+
+.title-input {
+    width: 16em;
+}
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444444;
+    font-style: normal;
+    text-align: left;
+    padding-top: 10px !important;
+    padding-bottom: 0px !important;
+}
+app-button {
+    padding-left: 20px;
+}

@@ -1,0 +1,39 @@
+<p-table #mrc [columns]="colHeaders" [value]="managerChecklistResults">
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix"></div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" style="color: white;">
+          {{col.header}}
+          <p-sortIcon [field]="col.field" style="float: right;"></p-sortIcon>
+        </th>
+      </tr>
+      <tr *ngIf="filterable">
+        <th *ngFor="let col of columns">
+  
+          <input pInputText type="text" (input)="mrc.filter($event.target.value, col.field, col.filterMatchMode)">
+  
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr [pSelectableRow]="rowData">
+        <td *ngFor="let col of columns">
+          <ng-container *ngIf="col.field == 'action'; else elseTemplate">
+            <app-button label='Review' styleClass='button-grid-action'></app-button>
+          </ng-container>
+          <ng-template #elseTemplate>
+            {{rowData[col.field]}}
+          </ng-template>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage"  let-columns>
+        <tr>
+            <td [attr.colspan]="columns.length"  style="text-align: center">
+                No records found
+            </td>
+        </tr>
+    </ng-template>
+  </p-table>

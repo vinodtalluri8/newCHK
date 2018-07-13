@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { MenuItem, Message } from 'primeng/api';
+import { Component, OnInit, Input } from '@angular/core';
+import { MenuItem, SelectItem } from 'primeng/api';
 import { Router, ActivatedRoute, RouterLink, UrlSegment } from '@angular/router';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChecklistCommonService } from '../../services/checklist-common.service';
 import { CreateControlService } from '../../mychecklist/services/create-control.service';
-import { Location } from '@angular/common';
+import { Location, SlicePipe } from '@angular/common';
 import { ViewChecklistsControlsService } from '../services/view-checklists-controls.service';
+import { MessageService } from '../../services/message.service';
+import { Message } from 'primeng/components/common/api';
+import { routerConstants } from '../../../core/constants/routerConstants';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-create-control',
@@ -15,70 +19,119 @@ import { ViewChecklistsControlsService } from '../services/view-checklists-contr
 export class CreateControlComponent implements OnInit {
 
   dataJson: any;
-  controlTitle: any;
-  group;
-  status;
-  controlText: any;
-  risk;
-  evaluation;
+  controlTitle: string;
+  group: SelectItem[];
+  status: SelectItem[];
+  description: any;
+  risk: SelectItem[];
+  evaluation: SelectItem[];
   control: number;
   review: number;
-  procedure;
-  primary;
-  backup;
-  reviewer;
-  evidenceRequired;
-  checklist;
-  savedRecord;
+  procedure: SelectItem[];
+  primary: SelectItem[];
+  backup: SelectItem[];
+  reviewer: SelectItem[];
+  evidenceRequired: SelectItem[];
+  checklist: SelectItem[];
+  savedRecord: any;
   saved: boolean;
 
-  selectedGroup: any;
-  selectedStatus: any;
-  selectedRisk: any;
-  selectedEvaluation: any;
+  selectedGroup: string;
+  selectedStatus: string;
+  selectedRisk: string;
+  selectedEvaluation: string;
   selectedProcedure: any;
-  selectedPrimary: any;
-  selectedBackup: any;
-  selectedReviewer: any;
-  selectedEvidenceRequired: any;
-  selectedChecklist: any;
-  defaultgroup;
+  selectedPrimary: string;
+  selectedBackup: string;
+  selectedReviewer: string;
+  selectedEvidenceRequired: string;
+  selectedChecklist: number;
+  defaultgroup: string;
+  records;
+  displayOrder: SelectItem[] = [];
+  selectedDisplayOrder: any;
+  displayOrderVal: any;
 
   itemsPath: MenuItem[];
   home: MenuItem;
   msgs: Message[] = [];
 
-  checklistId: any;
+  checklistId: number;
+  taskId: number;
+  header: string;
+  isUpdate: boolean;
+  routePath: string;
+  checklistName: string;
+  updateRecord: any;
+  inactiveProcedure: string;
+  filtererdProcedureVal: SelectItem[];
+  matrixList: any = [];
 
   constructor(private router: Router, private checklistCommonService: ChecklistCommonService,
-   private createControlService: CreateControlService, private location: Location,
-    private viewChecklistsControlsService: ViewChecklistsControlsService, private route: ActivatedRoute) {
-    this.home = {icon: 'fa fa-home'};
-
-    this.itemsPath = [
-      { label: 'Checklist', routerLink: ['/mychecklist'] },
-      { label: 'Search Checklist' },
-      { label: 'Add Control' }];
-
+    private createControlService: CreateControlService, private location: Location,
+    private viewChecklistsControlsService: ViewChecklistsControlsService,
+    private route: ActivatedRoute, private messageService: MessageService, private confirmationService: ConfirmationService) {
+    this.home = { icon: 'fa fa-home' };
     // Filling the dropdown of evidence Required
     this.evidenceRequired = [
-      {label: 'No', value: 'No' },
-      {label: 'Yes', value: 'Yes' }];
+      { label: 'No', value: 'N' },
+      { label: 'Yes', value: 'Y' }];
 
     this.control = 0.0;
     this.review = 0.0;
-    this.selectedEvidenceRequired = 'No';
-   }
-
-/** method to call data on page on load **/
-  ngOnInit() {
-    this.preloadData();
-    this.route.params.subscribe(params => {
-      this.checklistId = params['checklistId'];
-    });
+    this.selectedEvidenceRequired = 'N';
   }
 
-/** Populate all the required dropdown values during the screen load **/
+  /** method to call data on page on load **/
+  ngOnInit() {
+    this.preloadData();
+    this.selectedDisplayOrder = 0;
+    this.route.params.subscribe(params => {
+      this.header = 'Add New Control';
+      this.checklistId = params['checklistId'];
+      this.displayOrderVal = params['displayOrder'];
+      this.taskId = params['taskId'];
+      this.routePath = params['routePath'];
+      this.checklistName = params['checklistName'];
+      this.records = params['records'];
+      if (this.taskId > 0) {
+        this.isUpdate = true;
+        this.header = 'Modify Control';
+        this.createControlService.getControlDetails(this.checklistId, this.taskId, this.displayOrderVal)
+          .subscribe(data => {
+            this.updateRecord = data;
+            this.populateData();
+          });
+      }
+      this.breadcrumbs();
+      this.populateDisplayOrderDropDown();
+    });
+  }
+  populateDisplayOrderDropDown() {
+    this.displayOrder.push({ label: '0', value: 0 });
+    for (let i = 1; i <= this.records; i++) {
+      this.displayOrder.push({ label: i.toString(), value: i });
+    }
+  }
+
+
+  populateData() {
+    this.controlTitle = this.updateRecord['title'] ? this.updateRecord['title'] : '';
+    this.description = this.updateRecord['description'] ? this.updateRecord['description'] : '';
+    this.selectedProcedure = this.updateRecord['docId'] ? this.updateRecord['docId'] : '';
+    this.selectedEvidenceRequired = this.updateRecord['evidenceRequired'] ? this.updateRecord['evidenceRequired'] : '';
+    this.selectedStatus = this.updateRecord['status'] ? this.updateRecord['status'] : '';
+    this.selectedRisk = this.updateRecord['risk'] ? this.updateRecord['risk'] : '';
+    this.selectedEvaluation = this.updateRecord['evaluation'] ? this.updateRecord['evaluation'] : '';
+    this.selectedChecklist = this.updateRecord['checklistId'] ? this.updateRecord['checklistId'] : '';
+    this.selectedPrimary = this.updateRecord['primary'] ? this.updateRecord['primary'] : '';
+    this.selectedBackup = this.updateRecord['backup'] ? this.updateRecord['backup'] : '';
+    this.selectedReviewer = this.updateRecord['reviewer'] ? this.updateRecord['reviewer'] : '';
+    this.review = this.updateRecord['reviewLength'] ? this.updateRecord['reviewLength'] : 0.0;
+    this.control = this.updateRecord['controlLength'] ? this.updateRecord['controlLength'] : 0.0;
+    this.selectedDisplayOrder = this.updateRecord['displayOrder'] ? this.updateRecord['displayOrder'] : '';
+  }
+  /** Populate all the required dropdown values during the screen load **/
   preloadData() {
     this.checklistCommonService.getDefaultGroup().subscribe(
       (data) => {
@@ -95,100 +148,99 @@ export class CreateControlComponent implements OnInit {
 
     this.checklistCommonService.getStatus('add').subscribe(
       (data) => {
-        this.status = data.filter(
-          (status) => {
-          return status.label !== 'All';
-          }
-          );
+        this.status = data;
       }
     );
 
     this.checklistCommonService.getRisk('add').subscribe(
       (data) => {
-        this.risk = data.filter(
-          (risk) => {
-          return risk.label !== 'All';
-          }
-          );
-     }
+        this.risk = data;
+      }
     );
 
     this.checklistCommonService.getEvaluation('add').subscribe(
       (data) => {
-        this.evaluation = data.filter(
-          (evaluation) => {
-          return evaluation.label !== 'All';
-          }
-          );
+        this.evaluation = data;
       }
     );
 
     this.checklistCommonService.getPrimary('add').subscribe(
       (data) => {
-        this.primary = data.filter(
-          (primary) => {
-          return primary.label !== 'All';
-          }
-          );
+        this.primary = data;
       }
     );
 
     this.checklistCommonService.getBackup('add').subscribe(
       (data) => {
-        this.backup = data.filter(
-          (backup) => {
-          return backup.label !== 'All';
-          }
-          );
+        this.backup = data;
       }
     );
 
     this.checklistCommonService.getReviewer('add').subscribe(
       (data) => {
-        this.reviewer = data.filter(
-          (reviewer) => {
-          return reviewer.label !== 'All';
-          }
-          );
+        this.reviewer = data;
       }
     );
 
     this.createControlService.getProcedure().subscribe(
       (data) => {
-       this.procedure = data;
+        this.procedure = data;
       }
     );
 
     this.createControlService.getChecklist().subscribe(
       (data) => {
-       this.checklist = data;
-       this.selectedChecklist = this.checklistId;
+        this.checklist = data;
+        this.selectedChecklist = this.checklistId;
       }
     );
 
   }
-/** This method will enable or disable the Save button based on the mandatory fields selected
-     * !this.review || !this.control || **/
+  /** This method will enable or disable the Save button based on the mandatory fields selected
+       * !this.review || !this.control || **/
   disable() {
-    if (!this.controlTitle || this.controlTitle.trim().length === 0 || !this.controlText ||
-    this.controlText.trim().length === 0 || !this.selectedStatus ||
-        !this.selectedRisk || !this.selectedEvaluation ||
-        !this.selectedPrimary || !this.selectedBackup || !this.selectedReviewer ) {
-        return true;
-      } else {
+    if (!this.controlTitle || this.controlTitle.trim().length === 0 || !this.description ||
+      this.description.trim().length === 0 || !this.selectedStatus ||
+      !this.selectedRisk || !this.selectedEvaluation ||
+      !this.selectedPrimary || !this.selectedBackup || !this.selectedReviewer) {
+      return true;
+    } else if (this.isUpdate) {
+      return !this.isModified();
+    } else {
       return false;
     }
   }
 
-/** This method will navigate back to checklist main screen **/
+  /** To check fields modified or not  **/
+  isModified() {
+    if (this.controlTitle === this.updateRecord['title']
+      && this.description === this.updateRecord['description']
+      && this.selectedStatus === this.updateRecord['status']
+      && this.selectedRisk === this.updateRecord['risk']
+      && this.selectedEvaluation === this.updateRecord['evaluation']
+      && this.selectedPrimary === this.updateRecord['primary']
+      && this.selectedBackup === this.updateRecord['backup']
+      && this.review === this.updateRecord['reviewLength']
+      && this.control === this.updateRecord['controlLength']
+      && (this.selectedProcedure === ''
+        || this.selectedProcedure === this.updateRecord['docId'])
+      && this.selectedEvidenceRequired === this.updateRecord['evidenceRequired']
+      && this.selectedDisplayOrder === this.updateRecord['displayOrder']) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  /** This method will navigate back to checklist main screen **/
   back() {
     this.location.back();
   }
 
-/** This method will reset all values to default **/
+  /** This method will reset all values to default **/
   resetAll() {
     this.controlTitle = '';
-    this.controlText = '';
+    this.description = '';
     this.selectedGroup = this.defaultgroup;
     this.selectedStatus = '';
     this.selectedRisk = '';
@@ -202,67 +254,145 @@ export class CreateControlComponent implements OnInit {
     this.selectedEvidenceRequired = 'No';
 
   }
-
-  // trimWhiteSpaces(value) {
-  //   return value.trim();
-  // }
-
-    // saveKeyControl() {
-    //   this.controlTitle = this.trimWhiteSpaces(this.controlTitle); }
-
-
+  breadcrumbs() {
+    if (this.routePath === 'Controls') {
+      if (!this.isUpdate) {
+        this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+        { label: 'Search Controls', routerLink: ['/' + routerConstants.searchControl] },
+        { label: 'Search Control Results', routerLink: ['/' + routerConstants.searchControlResults] },
+        {label:  'Checklist Controls' , routerLink: ['/' + routerConstants.viewchecklistControl]},
+        { label: 'Add New Control' }
+        ];
+      } else {
+        this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+        { label: 'Search Controls', routerLink: ['/' + routerConstants.searchControl] },
+        { label: 'Search Control Results', routerLink: ['/' + routerConstants.searchControlResults] },
+        {label:  'Checklist Controls' , routerLink: ['/' + routerConstants.viewchecklistControl]},
+        { label: 'Modify Control' }
+        ];
+      }
+    }
+    if (this.routePath === 'Checklists') {
+      if (!this.isUpdate) {
+        this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+        { label: 'Search Checklist', routerLink: ['/' + routerConstants.searchChecklist] },
+        { label: 'Search Checklist Results', routerLink: ['/' + routerConstants.searchChecklistResults] },
+        {label:  'Checklist Controls' ,  routerLink: ['/' + routerConstants.viewchecklistControl]},
+        { label: 'Add New Control' }
+        ];
+      } else {
+        this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+        { label: 'Search Checklist', routerLink: ['/' + routerConstants.searchChecklist] },
+        { label: 'Search Checklist Results', routerLink: ['/' + routerConstants.searchChecklistResults] },
+        {label:  'Checklist Controls' ,  routerLink: ['/' + routerConstants.viewchecklistControl]},
+        { label: 'Modify Control' }
+        ];
+      }
+    }
+  }
   /** This method will save all the data in create control screen  **/
   saveCreateControl() {
-     this.msgs = [];
-    /*{
-    	"title": "addControltesting",
-        "checklistGroup": "GIST",
-		"reviewer" :"CIO",
-		"primary":"CIO",
-		"backup": "CIO",
-		"status":"Active",
-		"risk":"High",
-		"evaluation":"Fine",
-		"evidenceRequired":"No",
-		"controlLength":"0.0",
-		"doc_id":"169",
-		"reviewLength":"0.0",
-		"checklistId":"2836",
-		"displayOrder":"2" */
+    this.msgs = [];
     if (!this.disable()) {
       this.dataJson = {
         'title': this.controlTitle,
         'checklistGroup': this.selectedGroup,
         'status': this.selectedStatus,
-        'description': this.controlText,
+        'description': this.description,
         'risk': this.selectedRisk,
         'controlLength': this.control,
         'evaluation': this.selectedEvaluation,
         'reviewLength': this.review,
-        'procedure': this.selectedProcedure,
+        'docId': this.selectedProcedure,
         'primary': this.selectedPrimary,
         'backup': this.selectedBackup,
         'reviewer': this.selectedReviewer,
         'evidenceRequired': this.selectedEvidenceRequired,
         'checklistId': this.selectedChecklist,
-             'doc_id' : 169,
-             'displayOrder' : 0
-         };
-         console.log('datajson', this.dataJson);
+        'displayOrder': this.selectedDisplayOrder
+      };
+      // Code required for script
+      // console.log('yes' + (this.selectedProcedure.value).substring(1, 2));
+      //  this.filtererdProcedureVal = this.procedure.filter(
+      //     (record) => {
+      //       return  record.value === this.selectedProcedure;
+      //     }
+      //   );
+      //   console.log('label' + (this.filtererdProcedureVal['label']));
+
       this.createControlService.createControlList(this.dataJson)
         .subscribe(data => {
           this.savedRecord = data;
-          console.log('hi');
-          console.log('data', data);
-            this.msgs.push({
+          this.messageService.clearMessage();
+          this.messageService.sendMessage({
             severity: 'success',
-            detail: ' Record Saved Successfully. Checklist id = ' + this.savedRecord['checklistId']
+            detail: 'Record Saved Successfully'
           });
           this.resetAll();
-          this.router.navigate(['/controls/viewChecklistsControls']);
+          this.back();
         });
     }
   }
 
+  modifyControl() {
+    this.msgs = [];
+    this.matrixList = [];
+    if (!this.disable()) {
+      this.dataJson = {
+        'title': this.controlTitle,
+        'description': this.description,
+        'docId': this.selectedProcedure,
+        'evidenceRequired': this.selectedEvidenceRequired,
+        'checklistGroup': this.selectedGroup,
+        'status': this.selectedStatus,
+        'risk': this.selectedRisk,
+        'evaluation': this.selectedEvaluation,
+        'newChecklistId': this.selectedChecklist,
+        'primary': this.selectedPrimary,
+        'backup': this.selectedBackup,
+        'reviewer': this.selectedBackup,
+        'reviewLength': this.review,
+        'controlLength': this.control,
+        'taskId': this.taskId,
+        'displayOrder': this.selectedDisplayOrder,
+        'checklistId': this.checklistId
+      };
+      if (this.updateRecord['matrixlist'] !== null) {
+        this.updateRecord['matrixlist'].forEach((value) => {
+          if (value['matrixName'] != null) {
+            this.matrixList.push(value['matrixName']);
+          }
+        });
+      }
+      if (this.updateRecord['status'] === 'Active'
+        && this.selectedStatus === 'Inactive'
+        && this.updateRecord['flagIcmControl'] === 'Y') {
+        this.confirmationService.confirm({
+          message: 'This control is attached to the following Internal Control Matrices: ' + this.matrixList
+            + '. Are you sure you want to set it to Inactive ?',
+          header: 'Alert',
+          accept: () => {
+            this.updateControlData(this.dataJson);
+          },
+          reject: () => {
+            this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
+          }
+        });
+      } else {
+        this.updateControlData(this.dataJson);
+      }
+    }
+  }
 
+  updateControlData(dataJson) {
+    this.createControlService.updateControl(dataJson).subscribe(data => {
+      this.savedRecord = data;
+      this.messageService.clearMessage();
+      this.messageService.sendMessage({ severity: 'success', detail: 'Record Updated Successfully' });
+      this.resetAll();
+      this.back();
+    }, error => {
+      this.msgs = [{ severity: 'error', detail: 'Cannot modify an assigned control' }];
+    });
+  }
 }

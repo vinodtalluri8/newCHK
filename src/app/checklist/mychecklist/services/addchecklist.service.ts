@@ -31,18 +31,19 @@ export class AddchecklistService extends BaseServiceService {
   }
 
   getDataByChecklistId(checklistID: number) {
-    this.serverURL =  environment.serverUrl + 'DIVA-ChecklistService/getChecklistData/' + checklistID;
-     appConstants.getHeaderOptions.params = new HttpParams();
+    this.serverURL =  environment.serverUrl + 'DIVA-ChecklistService/getChecklistData';
+    const inputJson = {
+      'checklistId' : checklistID
+    };
     return this.httpClient
-    .get(this.serverURL, appConstants.getHeaderOptions).map((data) => {
+    .post(this.serverURL, inputJson, appConstants.postHeaderOptions).map((data) => {
         return data;
     });
     // return this.checklistbyId;
   }
 
-  updateSystemValue(data, value) {
-    console.log('value', value);
-    this.serverURL = environment.serverUrl + 'DIVA-ChecklistService/updateChecklistData/' + value;
+  updateSystemValue(data) {
+    this.serverURL = environment.serverUrl + 'DIVA-ChecklistService/updateChecklistData';
     return this.httpClient.put(this.serverURL, data, appConstants.putHeaderOptions).catch(this.handleError);
   }
 }

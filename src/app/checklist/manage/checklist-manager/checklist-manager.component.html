@@ -1,0 +1,71 @@
+<!--add/delete checklist manager screen display -->
+<div class="panel panel-default">
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -7px">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-5 col-md-5 col-lg-8 panel panel-default">
+      <div class="panel-heading section-padding">
+        <h3 class="panel-title " style="font-size: 24px;">Online Checklist Administration</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="col.sm-12 col-md-12 col-lg-12 padding-zero" *ngIf="msgs.length > 0">
+    <p-growl [(value)]="msgs"></p-growl>
+  </div>
+
+  <div class="panel-body section-padding">
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-4" style="border: 1px grey; padding-bottom: 15px;">    
+        <label for="title" class="control-label top-padding"> Active Employee </label>
+          <p-listbox [options]="addChecklistManagers" [(ngModel)]="selectedAddChecklistManager" [style]="{'width':'90.5%'}" [listStyle]="{'max-height':'250px'}"
+            filter="filter">
+            <!-- <ng-template let-manager pTemplate="item">
+                <div class="ui-helper-clearfix">
+                  <span style="margin:20px 10px 0 0">{{manager.value}}</span>
+                </div>
+              </ng-template> -->
+          <p-footer>
+            Selected: {{selectedAddChecklistManager||'None'}}
+          </p-footer>
+          </p-listbox>
+          <div class="row addManagersButtons">             
+            <!-- <app-button (click)="selectedAddChecklistManager=null" label="Clear Selected Manager" styleClass='button-action'></app-button> -->
+            <div>
+              <app-button (click)="add(selectedAddChecklistManager)" label="Add Manager" styleClass='button-action'></app-button>
+            </div>
+          </div>      
+      </div>
+
+      <div class="offset-sm-2 offset-md-2 offset-lg-2"></div>
+    
+      <div class="col-sm-4 col-md-4 col-lg-4" style="border: 1px grey; padding-bottom: 15px;">
+        <label for="title" class="control-label top-padding"> Online Checklist Manager </label>
+          <p-listbox [options]="managers" [(ngModel)]="selectedManager" [style]="{'width':'90.5%'}" [listStyle]="{'max-height':'250px'}"
+            filter="filter">
+            <!-- <ng-template let-manager pTemplate="item">
+                <div class="ui-helper-clearfix">
+                  <span style="margin:20px 10px 0 0">{{manager.value}}</span>
+                </div>
+              </ng-template> -->
+            <p-footer>
+              Selected: {{selectedManager||'None'}}
+            </p-footer>
+          </p-listbox>
+ 
+          <div class="row deleteManagersButtons">        
+            <!-- <app-button (click)="selectedManager=null" label="Clear Selected Manager" styleClass='button-action'></app-button> -->      
+              <app-button (click)="delete(selectedManager)" label="Delete Manager" styleClass='button-action'></app-button>
+          </div>        
+      </div>
+    </div>
+
+  </div>
+
+</div>

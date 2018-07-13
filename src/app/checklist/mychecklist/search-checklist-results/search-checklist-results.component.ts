@@ -8,6 +8,7 @@ import { Message } from 'primeng/components/common/api';
 import { AddchecklistService } from '../services/addchecklist.service';
 import { MessageService } from '../../services/message.service';
 import { ViewChecklistsControlsService } from '../services/view-checklists-controls.service';
+import { routerConstants } from '../../../core/constants/routerConstants';
 
 @Component({
   selector: 'app-search-checklist-results',
@@ -41,8 +42,8 @@ export class SearchChecklistResultsComponent implements OnInit  {
 
     this.home = { icon: 'fa fa-home' };
     /** Initilase the breadcrumbs navigation data **/
-    this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
-    { label: 'Search Checklist', routerLink: ['/checklist/searchchecklist'] },
+    this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+    { label: 'Search Checklist', routerLink: ['/' + routerConstants.searchChecklist] },
     { label: 'Search Checklist Results' }
     ];
     /** Initilase the column headers data **/
@@ -118,7 +119,7 @@ export class SearchChecklistResultsComponent implements OnInit  {
   /* to modify record */
   modify(record) {
     // this.addchecklistService.setChecklistById(record);
-    this.router.navigate(['modifychecklist', record['checklistId']]);
+    this.router.navigate([routerConstants.modifyChecklist, record['checklistId']]);
     // this.msgs = [];
     // this.msgs.push({severity: 'info', summary: 'Implementation Pending', detail: 'Modify yet to be Implemented'});
   }
@@ -127,7 +128,7 @@ export class SearchChecklistResultsComponent implements OnInit  {
   delete(record) {
     this.msgs = [];
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to delete?',
+      message: 'Are you sure you want to delete?',
       header: 'Delete Confirmation',
       icon: 'fa fa-trash',
       accept: () => {
@@ -150,13 +151,13 @@ export class SearchChecklistResultsComponent implements OnInit  {
 
 
   /** to navigate to the checklist page**/
-  checklistDetails(checklistid, status) {
+  checklistDetails(checklistId, status, checklistName) {
     this.dataJson = {
-      'checklistId': checklistid,
+      'checklistId': checklistId,
       'status': status,
     };
     this.viewChecklistsControlsService.setViewSearchCriteria(this.dataJson);
-    this.router.navigate(['/controls/viewChecklistsControls', this.routePath]);
+    this.router.navigate([routerConstants.viewchecklistControl, this.routePath , checklistId, checklistName]);
 
   }
 }

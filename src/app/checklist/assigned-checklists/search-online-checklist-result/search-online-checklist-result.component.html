@@ -1,0 +1,314 @@
+<div class="panel panel-default" style="margin-left:-3px">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-4px">
+            <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+        </div>
+    </div>
+</div>
+<div>
+    <h3 class="panel-title titlebar">Schedule</h3>
+</div>
+<div class="row gridPadding">
+    <p-table #sv [columns]="colHeaderSchedule" [value]="SOCR" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
+        [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName" [loading]="loading">
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix">
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
+                    {{col.header}}
+                    <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+            <tr *ngIf="filterable && SOCR && SOCR.length > 0">
+                <th *ngFor="let col of columns" [style.width]="col.width">
+
+                    <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="sv.filter($event.target.value, col.field, 'contains')">
+
+                </th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns" [style.width]="col.width">
+                    <ng-container *ngIf="col.field == 'checklistAssignments'|| col.field == 'checklistProcess'; else elseTemplate">
+                        <div class="row" *ngIf="col.field == 'checklistAssignments'">
+                            <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
+                                <app-button (click)="delete(rowData['checklistId'])" label="Assignment" styleClass="button-grid-action"></app-button>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="col.field == 'checklistProcess'">
+                            <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
+                                <app-button (click)="checklistDetails(rowData['checklistId'],rowData['status'],rowData['checklistName'])" label="Edit Schedule"
+                                    styleClass="button-grid-action"></app-button>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-template #elseTemplate>
+                        {{rowData[col.field]}}
+                    </ng-template>
+                </td>
+            </tr>
+        </ng-template>
+        <!--
+  <ng-template pTemplate="emptymessage"  let-columns>
+      <tr>
+          <td [attr.colspan]="columns.length"  style="text-align: center">
+              No records found
+              </td>
+      </tr>
+      </ng-template> -->
+    </p-table>
+</div>
+<br>
+<div>
+    <h3 class="panel-title titlebar">In Progress</h3>
+</div>
+
+<div class="row gridPadding">
+    <p-table #sv [columns]="colHeaderInProgress" [value]="SOCRInProgress" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
+        [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName" [loading]="loading">
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix">
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
+                    {{col.header}}
+                    <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+            <tr *ngIf="filterable && colHeaderInProgress && colHeaderInProgress.length > 0">
+                <th *ngFor="let col of columns" [style.width]="col.width">
+
+                    <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="sv.filter($event.target.value, col.field, 'contains')">
+
+                </th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns" [style.width]="col.width">
+                    <ng-container *ngIf="col.field == 'checklistAssignments'|| col.field == 'checklistView'; else elseTemplate">
+                        <div class="row" *ngIf="col.field == 'checklistAssignments'">
+                            <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
+                                <app-button (click)="delete(rowData['checklistId'])" label="Assignment" styleClass="button-grid-action"></app-button>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="col.field == 'checklistView'">
+                            <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
+                                <app-button (click)="checklistDetails(rowData['checklistId'],rowData['status'],rowData['checklistName'])" label="View Checklist"
+                                    styleClass="button-grid-action"></app-button>
+                            </div>
+                        </div>
+                        <!-- <div class="row" *ngIf="col.field == 'checklistFrequency'" && rowData[col.field]== 'Daily'>
+                            <div style="color: blue">
+                                {{rowData[col.field]}}
+                            </div>
+                        </div> -->
+                    </ng-container>
+
+                    <ng-template #elseTemplate>
+                        {{rowData[col.field]}}
+                    </ng-template>
+                </td>
+            </tr>
+        </ng-template>
+        <!--
+              <ng-template pTemplate="emptymessage"  let-columns>
+                  <tr>
+                      <td [attr.colspan]="columns.length"  style="text-align: center">
+                          No records found
+                          </td>
+                  </tr>
+                  </ng-template> -->
+    </p-table>
+
+</div>
+<br>
+<div>
+    <h3 class="panel-title titlebar">Follow-Up</h3>
+</div>
+
+<div class="row gridPadding">
+    <p-table #sv [columns]="colHeaderFollowUp" [value]="SOCRFollowUp" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
+        [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName" [loading]="loading">
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix">
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
+                    {{col.header}}
+                    <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+            <tr *ngIf="filterable && colHeaderInProgress && colHeaderInProgress.length > 0">
+                <th *ngFor="let col of columns" [style.width]="col.width">
+
+                    <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="sv.filter($event.target.value, col.field, 'contains')">
+
+                </th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns" [style.width]="col.width">
+                    <ng-container *ngIf="col.field == 'checklistProcess'; else elseTemplate">
+                        <div class="row" *ngIf="col.field == 'checklistProcess'">
+                                <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
+                                    <app-button (click)="delete(rowData['checklistId'])" label="View" styleClass="button-grid-action"></app-button>
+                                </div>
+                            </div>
+                    </ng-container>
+
+                    <ng-template #elseTemplate>
+                        {{rowData[col.field]}}
+                    </ng-template>
+                </td>
+            </tr>
+        </ng-template>
+        <!--
+              <ng-template pTemplate="emptymessage"  let-columns>
+                  <tr>
+                      <td [attr.colspan]="columns.length"  style="text-align: center">
+                          No records found
+                          </td>
+                  </tr>
+                  </ng-template> -->
+    </p-table>
+
+</div>
+<br>
+<div>
+    <h3 class="panel-title titlebar">Manager Review</h3>
+</div>
+
+<div class="row gridPadding">
+    <p-table #sv [columns]="colHeaderManaerReview" [value]="SOCRManagerReview" [responsive]="true" [paginator]="isPaginator"
+        [rows]="selectedRows" [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName" [loading]="loading">
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix">
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
+                    {{col.header}}
+                    <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+            <tr *ngIf="filterable && SOCRManagerReview && SOCRManagerReview.length > 0">
+                <th *ngFor="let col of columns" [style.width]="col.width">
+
+                    <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="sv.filter($event.target.value, col.field, 'contains')">
+
+                </th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns" [style.width]="col.width">
+                    <ng-container *ngIf="col.field == 'checklistReview'; else elseTemplate">
+                        <div class="row" *ngIf="col.field == 'checklistReview'">
+                            <div class="col-sm-12 col-md-12 col-lg-12 center">
+                                <app-button (click)="delete(rowData['checklistId'])" label="View" styleClass="button-grid-action"></app-button>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-template #elseTemplate>
+                        {{rowData[col.field]}}
+                    </ng-template>
+                </td>
+            </tr>
+        </ng-template>
+        <!--
+              <ng-template pTemplate="emptymessage"  let-columns>
+                  <tr>
+                      <td [attr.colspan]="columns.length"  style="text-align: center">
+                          No records found
+                          </td>
+                  </tr>
+                  </ng-template> -->
+    </p-table>
+
+</div>
+<br>
+<div>
+    <h3 class="panel-title titlebar">Closed/Completed</h3>
+</div>
+
+<div class="row gridPadding">
+    <p-table #sv [columns]="colHeaderCloseCompleted" [value]="SOCRClosedCompleted" [responsive]="true" [paginator]="isPaginator"
+        [rows]="selectedRows" [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName" [loading]="loading">
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix">
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
+                    {{col.header}}
+                    <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+            <tr *ngIf="filterable && SOCRManagerReview && SOCRManagerReview.length > 0">
+                <th *ngFor="let col of columns" [style.width]="col.width">
+
+                    <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="sv.filter($event.target.value, col.field, 'contains')">
+
+                </th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns" [style.width]="col.width">
+                    <ng-container *ngIf="col.field == 'checklistAssignments' || col.field == 'checklistComments' || col.field == 'checklistView'; else elseTemplate">
+                        <div class="row" *ngIf="col.field == 'checklistAssignments'">
+                            <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
+                                <app-button (click)="delete(rowData['checklistId'])" label="Assignments" styleClass="button-grid-action"></app-button>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="col.field == 'checklistComments'">
+                            <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
+                                <app-button (click)="delete(rowData['checklistId'])" label="Comments" styleClass="button-grid-action"></app-button>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="col.field == 'checklistView'">
+                            <div class="col-sm-12 col-md-12 col-lg-12 displaycolor">
+                                <app-button (click)="delete(rowData['checklistId'])" label="View" styleClass="button-grid-action"></app-button>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-template #elseTemplate>
+                        {{rowData[col.field]}}
+                    </ng-template>
+                </td>
+            </tr>
+        </ng-template>
+        <!--
+              <ng-template pTemplate="emptymessage"  let-columns>
+                  <tr>
+                      <td [attr.colspan]="columns.length"  style="text-align: center">
+                          No records found
+                          </td>
+                  </tr>
+                  </ng-template> -->
+    </p-table>
+
+</div>
+<p-confirmDialog appendTo="body"></p-confirmDialog>

@@ -11,6 +11,7 @@ import { EventEmitter } from 'events';
 import { SearchChecklistResultsComponent } from '../search-checklist-results/search-checklist-results.component';
 import { MessageService } from '../../services/message.service';
 import { SearchChecklistService } from '../services/search-checklist.service';
+import { routerConstants } from '../../../core/constants/routerConstants';
 
 
 @Component({
@@ -20,6 +21,7 @@ import { SearchChecklistService } from '../services/search-checklist.service';
 })
 export class AddCheckListComponent implements OnInit {
 
+  // checklistItem: ChecklistItem;
   groups: SelectItem[];
   departments: SelectItem[];
   frequency: SelectItem[];
@@ -47,7 +49,7 @@ export class AddCheckListComponent implements OnInit {
     this.home = { icon: 'fa fa-home' };
 
     this.itemsPath = [
-      { label: 'Checklists', routerLink: ['/mychecklist'] },
+      { label: 'Checklists', routerLink: [routerConstants.defaultRoute]},
       { label: 'Add Checklist' }];
 
     this.selectedGroup = 'GIST';
@@ -63,9 +65,9 @@ export class AddCheckListComponent implements OnInit {
         this.addchecklistService.getDataByChecklistId(this.checklistId).subscribe(data => {
           this.updateRecord = data;
           this.isUpdate = true;
-          this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
-          { label: 'Search Checklist', routerLink: ['/checklist/searchchecklist'] },
-          { label: 'Search Checklist Results', routerLink: ['checklist/checklistResults'] },
+          this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+          { label: 'Search Checklist', routerLink: ['/' + routerConstants.searchChecklist] },
+          { label: 'Search Checklist Results', routerLink: ['/' + routerConstants.searchChecklistResults] },
           { label: 'Modify Checklist' }];
           this.header = 'Modify Checklist';
           // this.updateRecord = this.addchecklistService.getDataByChecklistId(this.checklistId);
@@ -133,7 +135,7 @@ export class AddCheckListComponent implements OnInit {
   resetAll() {
     this.name = '';
     this.description = '';
-    this.selectedGroup = 'DCIO';
+    this.selectedGroup = 'GIST';
     this.selectedFrequency = '';
     this.selectedDepartments = '';
   }
@@ -152,13 +154,14 @@ export class AddCheckListComponent implements OnInit {
     this.msgs = [];
     if (!this.disable()) {
       this.dataJson = {
+        'checklistId': this.updateRecord['checklistId'],
         'checklistName': this.name,
         'description': this.description,
         'frequency': this.selectedFrequency,
         'department': this.selectedDepartments,
         'checklistGroup': this.selectedGroup,
       };
-      this.addchecklistService.updateSystemValue(this.dataJson, this.updateRecord['checklistId']).subscribe(data => {
+      this.addchecklistService.updateSystemValue(this.dataJson ).subscribe(data => {
         this.savedRecord = data;
         this.messageService.clearMessage();
         this.messageService.sendMessage({ severity: 'success', detail: 'Record Updated Successfully' });
@@ -185,7 +188,7 @@ export class AddCheckListComponent implements OnInit {
           this.resetAll();
           this.messageService.clearMessage();
           this.messageService.sendMessage({ severity: 'success', detail: 'Record Added Successfully' });
-          this.router.navigate(['/checklist/searchchecklist']);
+          this.router.navigate([routerConstants.searchChecklist]);
         });
     }
   }
@@ -199,6 +202,6 @@ export class AddCheckListComponent implements OnInit {
     };
     console.log(this.dataJson, 'this.dataJson ');
     this.addchecklistService.changeAddControls([this.dataJson]);
-    this.router.navigate(['/addControls']);
+    this.router.navigate([routerConstants.addControl]);
   }
 }

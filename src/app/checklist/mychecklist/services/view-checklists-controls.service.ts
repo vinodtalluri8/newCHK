@@ -23,11 +23,24 @@ export class ViewChecklistsControlsService extends BaseServiceService {
 
   /** This method will POST the data for fetch checklists**/
   fetchViewCheckLists() {
+    this.url = environment.serverUrl + 'DIVA-ChecklistService/getChecklistLinkData';
     return this.httpClient.post(this.url, this.viewSearchCriteria, appConstants.postHeaderOptions).
       map((viewResults) => {
         return viewResults;
       }).catch(this.handleError);
 
+  }
+/* This method will refresh results*/
+  refreshResults() {
+    return this.fetchViewCheckLists();
+  }
+
+  /* This method will delete the control*/
+  deleteControl(inputJson) {
+    console.log('inputjson', inputJson);
+    this.url = environment.serverUrl + 'DIVA-ChecklistService/deleteControlData/';
+
+    return this.httpClient.post(this.url, inputJson, appConstants.postHeaderOptions).map((res: Response) => res).catch(this.handleError);
   }
 
 }

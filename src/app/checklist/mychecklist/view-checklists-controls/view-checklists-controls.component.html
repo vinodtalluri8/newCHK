@@ -5,11 +5,12 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-6 col-md-8 col-lg-8">
+    <div class="col-sm-5 col-md-7 col-lg-6">
       <h3 class="panel-title" style="font-size: 24px; padding-left:5px">
         <fa class="arrow-color" style="font-size: 17px;" name="chevron-left" size='0.5x' (click)='back()'> </fa>{{checklistName}}</h3>
     </div>
-    <div class="col-sm-6 col-md-4 col-lg-4 align-right">
+    <div class="col-sm-7 col-md-5 col-lg-6 align-right">
+        <app-button (click)='navigateOrder()' label='Order' styleClass='button-outline'></app-button>
       <app-button (click)='navigateAddExistingControl()' label='Add Existing Control' styleClass='button-outline'></app-button>
       <app-button (click)="navigateAddNewControl()" label='Add New Control' styleClass='button-outline'></app-button>
     </div>
@@ -21,7 +22,7 @@
     <img class="imgAlign pull-right" (click)="vc.exportCSV()" src="./assets/icon-excel-export.png" alt="Export to Excel.png">
   </div>
   <p-table #vc [columns]="colHeaders" [value]="viewChecklistsControlsResults" [responsive]="true" [paginator]="isPaginator" [loading]="loading"
-    [rows]="selectedRows" [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName">
+    [rows]="selectedRows" [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName" >
     <ng-template pTemplate="caption">
       <div class="ui-helper-clearfix">
       </div>
@@ -47,10 +48,10 @@
           <ng-container *ngIf="col.field == 'action'|| col.field == 'doctitle'; else elseTemplate">
             <div class="row" *ngIf="col.field == 'action'">
               <div class="col-sm-6 col-md-6 col-lg-6 displaycolor" style="padding-right:5px !important">
-                <a class="hyperlink" (click)="modify(rowData)">Modify</a>
+                <a class="hyperlink" (click)="modify(rowData['checklistId'],rowData['taskId'],rowData['displayOrder'])">Modify</a>
               </div>
               <div class="col-sm-6 col-md-6 col-lg-6 displaycolor" style="padding-left:2px !important">
-                <a class="hyperlink" (click)="delete(rowData['checklistId'])">Delete</a>
+                <a class="hyperlink" (click)="delete(rowData)">Delete</a>
               </div>
             </div>
             <div class="row" *ngIf="col.field == 'doctitle'">
@@ -84,9 +85,11 @@
 </div>
 <div>
   <p-confirmDialog appendTo="body"></p-confirmDialog>
+  <div *ngIf="displayDialog">
   <p-dialog [header]="dialogHeader" appendTo="body" [closable]='false' [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
-    [modal]="true" [width]="650">
-    <app-control-associate-edit [childChecklistName] ="checklistName" (closeControlAssociateEdit)='this.refresh($event)'></app-control-associate-edit>
-  </p-dialog>
+    [modal]="true" [width]="650">    
+    <app-control-associate-edit [childChecklistName] ="checklistName" [childChecklistId] ="checklistId" [displayRecordsLength]="records" (closeControlAssociateEdit)='this.refresh($event)'></app-control-associate-edit>
+   </p-dialog>
+  </div>
 </div>
 

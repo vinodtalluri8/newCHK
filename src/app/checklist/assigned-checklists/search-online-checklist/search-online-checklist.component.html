@@ -1,6 +1,4 @@
-<!-- search controls screen display -->
-
-<!--<div class="panel panel-default" style="padding-left: 3px">
+<div class="panel panel-default" style="padding-left: 3px">
 
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -10px;">
@@ -15,25 +13,30 @@
       </div>
     </div>
   </div>
+
+  <div class="col.sm-12 col-md-12 col-lg-12 padding-zero" *ngIf="msgs.length > 0">
+      <p-growl [(value)]="msgs"></p-growl>
+    </div>
+
   <div class="row">
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label for="checklistNameContains" class="control-label">Checklist Name Contains</label>
       <div>
-        <app-input (inputTextSelected)='this.checklistNameContains=$event' [value]='checklistNameContains' maxlength="60"></app-input>
+        <app-input  maxlength="60"></app-input>
       </div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label for="scheduleNameContains" class="control-label">Schedule Name Contains</label>
       <div>
-        <app-input (inputTextSelected)='this.scheduleNameContains=$event' [value]='scheduleNameContains' maxlength="60"></app-input>
+        <app-input maxlength="60"></app-input>
       </div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label for="group" class="control-label">Group</label>
       <div>
-        <app-dropdown [datasource]='group' (selectedItemChange)='this.selectedGroup = $event' [selectedItem]='selectedGroup'></app-dropdown>
+        <app-dropdown [datasource]='group' (selectedItemChange)='onChangeGroup($event)' [selectedItem]='selectedGroup'></app-dropdown>
       </div>
     </div>
   </div>
@@ -56,7 +59,7 @@
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label for="manager" class="control-label">Manager</label>
       <div>
-        <app-dropdown [datasource]='manager' (selectedItemChange)='this.selectedManager = $event' [selectedItem]='selectedManager'></app-dropdown>
+        <app-dropdown [datasource]='employee' (selectedItemChange)='this.selectedManager = $event' [selectedItem]='selectedManager'></app-dropdown>
       </div>
     </div>
   </div>
@@ -65,7 +68,7 @@
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label for="backupManager" class="control-label">Backup Manager</label>
       <div>
-        <app-dropdown [datasource]='backupManager' (selectedItemChange)='this.selectedbackupManager = $event' [selectedItem]='selectedbackupManager'></app-dropdown>
+        <app-dropdown [datasource]='employee' (selectedItemChange)='this.selectedbackupManager = $event' [selectedItem]='selectedbackupManager'></app-dropdown>
       </div>
     </div>
 
@@ -98,34 +101,40 @@
         <app-dropdown [datasource]='managerReviewComplete' (selectedItemChange)='this.selectedManagerReviewComplete = $event' [selectedItem]='selectedManagerReviewComplete'></app-dropdown>
       </div>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12">
-      <label for="from" class="control-label">Startdate</label>
-
+    <!-- <div class="row"> -->
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label class="control-label">Startdate</label>
       <div>
         <div id="startDate">
-        <label for="from" class="control-label">From</label>
-     
+          <label for="from" class="control-label">From</label>
+
           <app-calender id="calenderFrom" (calenderSelected)='this.fromDate=$event' showIcon='true' yearNavigator='true' monthNavigator='true'
             yearRange='2000:2030' [inputDate]='fromDate'></app-calender>
-          </div>
-          <div id="endDate">
-                <label for="to" class="control-label">To</label>
-            
-                  <app-calender id="calenderTo" (calenderSelected)='this.toDate=$event' showIcon='true' yearNavigator='true' monthNavigator='true'
-                  yearRange='2000:2030' [inputDate]='toDate'></app-calender>
-                </div>  
-              
         </div>
-        
+        <div id="endDate">
+          <label for="to" class="control-label">To</label>
 
+          <app-calender id="calenderTo" (calenderSelected)='this.toDate=$event' showIcon='true' yearNavigator='true' monthNavigator='true'
+            yearRange='2000:2030' [inputDate]='toDate'></app-calender>
+        </div>
+
+      </div>
+
+      <div class="note">
+        <small><i>NOTE: Use these fields to find In Progress, Completed and Closed checklists that were started within a specific date
+          range. (These fields do not apply to the scheduled checklists. The search will always return any scheduled checklists
+          that match the other criteria.) </i></small>
+      </div>
     </div>
+
   </div>
 
   <div class="row">
-    <app-button id="selectChecklist" label='Select Checklist' (click)="searchControl()" styleClass='button-action'></app-button>
+    <app-button id="selectChecklist" label='Search' (click)="selectChecklist()" styleClass='button-action'></app-button>
 
   </div>
-</div>-->
+
+  <!-- </div> -->
+
+
+</div>

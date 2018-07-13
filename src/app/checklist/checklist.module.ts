@@ -9,10 +9,6 @@ import { MessageModule } from 'primeng/message';
 import { AddchecklistService } from './mychecklist/services/addchecklist.service';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { RouterModule } from '@angular/router';
-// import { SearchControlComponent } from './mychecklist/search-control/search-control.component';
-// import { SearchchecklistComponent } from './mychecklist/searchchecklist/searchchecklist.component';
-import { AddSearchTabsComponent } from './mychecklist/add-search-tabs/add-search-tabs.component';
-import { AddControlsComponent } from './mychecklist/add-check-list/add-controls/add-controls.component';
 import { TableModule } from 'primeng/table';
 import {DialogModule} from 'primeng/dialog';
 import { InputSwitchModule } from 'primeng/inputswitch';
@@ -33,8 +29,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { GrowlModule } from 'primeng/growl';
 
-import { ManageChecklistManagersComponent } from './mychecklist/manage-checklist-managers/manage-checklist-managers.component';
-
 import { CreateControlComponent } from './mychecklist/create-control/create-control.component';
 import { CreateControlService } from './mychecklist/services/create-control.service';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -53,6 +47,21 @@ import { DisplayReportComponent } from './mychecklist/display-report/display-rep
 import { DisplayReportResultsComponent } from './mychecklist/display-report-results/display-report-results.component';
 import {ListboxModule} from 'primeng/listbox';
 import { SearchOnlineChecklistComponent } from '../checklist/assigned-checklists/search-online-checklist/search-online-checklist.component';
+
+import { ChecklistManagersService } from '../checklist/manage/services/checklist-managers.service';
+import { ChecklistManagerComponent } from '../checklist/manage/checklist-manager/checklist-manager.component';
+import { SearchScheduleComponent } from './manage/search-schedule/search-schedule.component';
+import { SearchScheduleResultsComponent } from './manage/search-schedule-results/search-schedule-results.component';
+
+// import { SearchOnlineChecklistResultComponent
+// } from './assigned-checklists/search-online-checklist-result/search-online-checklist-result.component';
+import { ChecklistScheduledComponent } from './manage/checklist-scheduled/checklist-scheduled.component';
+import { ManagerChecklistsComponent } from './assigned-checklists/manager-checklists/manager-checklists.component';
+
+import {AddExistingControlService} from '../checklist/mychecklist/services/add-existing-control.service';
+import { OrderComponent } from './mychecklist/view-checklists-controls/order/order.component';
+import { ChecklistScheduleService } from './manage/services/checklist-schedule.service';
+
 
 @NgModule({
   imports: [
@@ -76,16 +85,18 @@ import { SearchOnlineChecklistComponent } from '../checklist/assigned-checklists
     ListboxModule
   ],
   declarations: [MychecklistComponent, AddCheckListComponent, SearchchecklistComponent,
-    AddSearchTabsComponent, AddControlsComponent,
     AssignedChecklistsComponent, SearchChecklistResultsComponent, SearchControlResultsComponent,
     ControlsComponent, NumberonlyDirective, ViewChecklistsControlsComponent,
     CreateControlComponent, InprogressChecklistComponent, ScheduledChecklistComponent,
     FollowupChecklistComponent, ClosedChecklistComponent, AwaitingChecklistComponent,
     DisplayReportComponent, DisplayReportResultsComponent, ControlAssociateEditComponent,
-    SearchOnlineChecklistComponent, ManageChecklistManagersComponent],
+    SearchScheduleResultsComponent, SearchOnlineChecklistComponent, ChecklistManagerComponent,
+    SearchScheduleComponent, ManagerChecklistsComponent, ChecklistScheduledComponent, OrderComponent],
+
 
   providers : [SearchControlService, ChecklistCommonService , AddchecklistService, SearchChecklistService, AddControlService,
-     ConfirmationService, MessageService, ViewChecklistsControlsService, CreateControlService, AssignedChecklistService, ReportService]
+     ConfirmationService, MessageService, ViewChecklistsControlsService, CreateControlService, AssignedChecklistService,
+     ReportService, ChecklistManagersService, AddExistingControlService, ChecklistScheduleService]
 
 })
 export class ChecklistModule { }

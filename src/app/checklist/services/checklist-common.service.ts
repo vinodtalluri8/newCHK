@@ -25,7 +25,7 @@ export class ChecklistCommonService extends BaseServiceService {
   private groupserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/groupList';
   private departmentserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/departmentList';
   private onlineserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/getOnlineList';
-  private controlserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/allControls ';
+  private controlserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/allControls';
   private userDefaultserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/userDefaultGroup';
 
 
@@ -200,11 +200,14 @@ export class ChecklistCommonService extends BaseServiceService {
   /** This method will get the data of group dropdown
    * @returns groupsList
    * **/
-  getGroup() {
+  getGroup(value?) {
     appConstants.getHeaderOptions.params = new HttpParams().set('loginId', 'Chuprin_a');
     return this.httpClient
       .get(this.groupserverURL, appConstants.getHeaderOptions).map((groups: SelectItem[]) => {
         const groupsList: any = [];
+        if (value === 'display') {
+          groupsList.push(allOption);
+        }
         for (const group of groups) {
           groupsList.push({ 'label': group['departmentName'], 'value': group['departmentName'] });
         }

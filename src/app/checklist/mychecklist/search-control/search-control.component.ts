@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem, SelectItem, Message } from 'primeng/api';
-import { DropdownModule } from 'primeng/dropdown';
 import { ChecklistCommonService } from '../../services/checklist-common.service';
 import { SearchControlService } from '../services/search-control.service';
+import { routerConstants } from '../../../core/constants/routerConstants';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-controls',
@@ -11,43 +12,38 @@ import { SearchControlService } from '../services/search-control.service';
   styleUrls: ['./search-control.component.css']
 })
 export class ControlsComponent implements OnInit {
-
-  // dataJson: { 'title': any; 'risk': any; 'primary': any; 'frequency': any; 'reviewLength': SelectItem[];
-  // 'review': any; 'group': any; 'anyAssigned': any; 'backup': any; 'evaluation': any;
-  //  'department': any; 'reviewer': any; 'status': any; 'controlLength': SelectItem[]; 'control': any; };
-
   dataJson: any;
-  selectedFrequency: any;
-  selectedPrimary: any;
-  selectedRisk: any;
-  selectedReviewLength: any;
-  review: any;
-  selectedGroup: any;
-  selectedAnyAssigned: any;
-  selectedBackup: any;
-  selectedEvaluation: any;
-  selectedDepartment: any;
-  selectedReviewer: any;
-  selectedStatus: any;
-  selectedControlLength: any;
+  selectedFrequency: string;
+  selectedPrimary: string;
+  selectedRisk: string;
+  selectedReviewLength: string;
+  review: number;
+  selectedGroup: string;
+  selectedAnyAssigned: string;
+  selectedBackup: string;
+  selectedEvaluation: string;
+  selectedDepartment: string;
+  selectedReviewer: string;
+  selectedStatus: string;
+  selectedControlLength: string;
   selectedReview: any;
   selectedControl: any;
-  control: any;
-  titleContains: any;
-  frequency;
-  primary;
-  risk;
-  reviewLength;
-  group;
-  anyAssigned;
-  backup;
-  evaluation;
-  department;
-  reviewer;
-  status;
-  controlLength;
+  control: number;
+  titleContains: string;
+  frequency: SelectItem[];
+  primary: SelectItem[];
+  risk: SelectItem[];
+  reviewLength: SelectItem[];
+  group: SelectItem[];
+  anyAssigned: SelectItem[];
+  backup: SelectItem[];
+  evaluation: SelectItem[];
+  department: SelectItem[];
+  reviewer: SelectItem[];
+  status: SelectItem[];
+  controlLength: SelectItem[];
   savedRecord;
-  defaultgroup;
+  defaultgroup: string;
 
   itemsPath: MenuItem[];
   home: MenuItem;
@@ -55,11 +51,11 @@ export class ControlsComponent implements OnInit {
 
   constructor(private router: Router,
     private checklistCommonService: ChecklistCommonService,
-    private searchControlService: SearchControlService) {
+    private searchControlService: SearchControlService, private messageService: MessageService) {
     this.home = { icon: 'fa fa-home' };
     /** To initialise breadcrumb data */
     this.itemsPath = [
-      { label: 'Checklists', routerLink: ['/mychecklist'] },
+      { label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
       { label: 'Search Controls' }];
 
     /** Filling the dropdown of review length and control length */
@@ -88,6 +84,10 @@ export class ControlsComponent implements OnInit {
   /** to call methods on init */
   ngOnInit() {
     this.preloadData();
+    if (this.messageService.getMessage()) {
+      this.msgs = [this.messageService.getMessage()];
+      this.messageService.clearMessage();
+    }
   }
   /** to get data for dropdowns from  common service*/
   preloadData() {
@@ -172,19 +172,6 @@ export class ControlsComponent implements OnInit {
         this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
       });
   }
-  /** This method will enable or disable the Save button based on the mandatory fields selected **/
-  disable() {
-    if (!this.titleContains || !this.selectedFrequency || !this.selectedPrimary ||
-      !this.selectedRisk || !this.selectedReviewLength || !this.review || !this.selectedGroup ||
-      !this.selectedAnyAssigned || !this.selectedBackup || !this.selectedEvaluation ||
-      !this.selectedDepartment || !this.selectedReviewer || !this.selectedStatus ||
-      !this.selectedControlLength || !this.control
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   /** This method will assign the changed group value
   * @param event
@@ -203,7 +190,7 @@ export class ControlsComponent implements OnInit {
     this.selectedReviewLength = '=';
     this.selectedRisk = 'A';
     this.selectedPrimary = 'A';
-    this.review = '';
+    this.review = 0.0;
     this.selectedGroup = this.defaultgroup;
     this.selectedAnyAssigned = 'A';
     this.selectedBackup = 'A';
@@ -213,10 +200,11 @@ export class ControlsComponent implements OnInit {
     this.selectedFrequency = 'A';
     this.selectedStatus = 'Active';
     this.selectedControlLength = '=';
-    this.control = '';
+    this.control = 0.0;
   }
 
-  /** This method will save all the data in search control screen  **/
+  /** This method will send the inputs
+   * for displaying the search results for search control screen **/
   searchControl() {
     this.dataJson = {
       'title': this.titleContains,
@@ -236,7 +224,8 @@ export class ControlsComponent implements OnInit {
       'reviewOperation': this.selectedReviewLength
     };
     this.searchControlService.setSearchCriteria(this.dataJson);
-      this.router.navigate(['/control/searchcontrolresults']);
+    this.router.navigate([routerConstants.searchControlResults]);
+
   }
 
 

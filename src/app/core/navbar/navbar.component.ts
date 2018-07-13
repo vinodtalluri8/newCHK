@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
     children: [
       {
         displayName: 'View My Assigned Checklists',
-        route: 'assigned'
+        route: 'assigned/viewassigned'
 
       }]
   },
@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
     displayName: 'Search Online Checklists',
     children: [
       {
-        displayName: 'Search Online Checklist',
+        displayName: 'Search Online Checklists',
         route: 'searchonlinechecklist'
 
       }]
@@ -31,29 +31,34 @@ export class NavbarComponent implements OnInit {
     displayName: 'Manage Checklists',
     children: [
       {
-        displayName: 'View Manage Checklist',
-        route: 'systemvalues'
+        displayName: 'Add/Delete Checklist Managers',
+        route: 'managed/checklistmanager'
 
-      }]
+      }, {
+        displayName: 'Schedule Checklist',
+        route: 'managed/schedulechecklist'
+
+      }
+    ]
   },
   {
     displayName: 'Checklists',
     children: [
       {
         displayName: 'Add Checklist',
-        route: 'addchecklist'
+        route: 'checklists/addchecklist'
 
       }, {
         displayName: 'Search Checklist',
-        route: 'checklist/searchchecklist'
+        route: 'checklists/searchchecklist'
 
       }, {
         displayName: 'Search Control',
-        route: 'control/searchcontrol'
+        route: 'checklists/searchcontrol'
 
       }, {
         displayName: 'Reports',
-        route: 'checklist/reports'
+        route: 'checklists/reports'
 
       }]
   }/*,

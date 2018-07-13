@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { MenuItem, SelectItem } from 'primeng/api';
 import { Message } from 'primeng/components/common/api';
 import { ViewChecklistsControlsService } from '../services/view-checklists-controls.service';
+import { routerConstants } from '../../../core/constants/routerConstants';
 
 @Component({
   selector: 'app-search-control-results',
@@ -35,8 +36,8 @@ export class SearchControlResultsComponent implements OnInit {
     /** Initilase the breadcrumbs navigation data **/
 
     this.home = {icon: 'fa fa-home'};
-    this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
-    { label: 'Search Controls', routerLink: ['/control/searchcontrol'] },
+    this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute]},
+    { label: 'Search Controls', routerLink: ['/' + routerConstants.searchControl] },
     { label: 'Search Control Results' }
   ];
     this.colHeaders = [
@@ -92,12 +93,12 @@ export class SearchControlResultsComponent implements OnInit {
     this.location.back();
     }
 /** This method will hit service get checklist data**/
-  viewChecklistsForControls(checklistid, status) {
+  viewChecklistsForControls(checklistId, status, checklistName) {
     this.dataJson = {
-      'checklistId': checklistid,
+      'checklistId': checklistId,
       'status': status,
     };
     this.viewChecklistsControlsService.setViewSearchCriteria(this.dataJson);
-    this.router.navigate(['/controls/viewChecklistsControls' , this.routePath]);
+    this.router.navigate([routerConstants.viewchecklistControl, this.routePath , checklistId, checklistName]);
   }
 }

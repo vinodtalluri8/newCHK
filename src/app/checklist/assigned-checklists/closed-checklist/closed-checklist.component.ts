@@ -8,19 +8,19 @@ import { AssignedChecklistService } from '../services/assigned-checklist.service
 })
 export class ClosedChecklistComponent implements OnInit {
   colHeaders: any[];
-  loginid = 'divatest_sa1';
+  loginid = 'bhat_v';
   closedChecklistResults;
   @Output() closedDataLength = new EventEmitter();
 
   constructor(private assignedChecklistService: AssignedChecklistService) {
     /** assigning grid column headers */
     this.colHeaders = [
-      { field: 'checklist', header: 'Checklist', width: '20%' },
-      { field: 'schedule', header: 'Schedule', width: '20%' },
+      { field: 'checklistName', header: 'Checklist', width: '20%' },
+      { field: 'subTitle', header: 'Schedule', width: '20%' },
       { field: 'frequency', header: 'Frequency', width: '10%' },
       { field: 'startDate', header: 'Start Date', width: '10%' },
-      { field: 'dueDate', header: 'Due Date', width: '8%' },
-      { field: 'lastToModify', header: 'Last to Modify', width: '15%' },
+      { field: 'intendedCompletionDate', header: 'Due Date', width: '8%' },
+      { field: 'modifyUser', header: 'Last to Modify', width: '15%' },
       { field: 'comments', header: 'Comments', width: '9%' },
       { field: 'action', header: 'Action', width: '8%' }
     ];

@@ -8,7 +8,7 @@ import { AssignedChecklistService } from '../services/assigned-checklist.service
 })
 export class FollowupChecklistComponent implements OnInit {
   colHeaders: any[];
-  loginid = 'divatest_sa1';
+  loginid = 'bhat_v';
   followupChecklistResults;
   @Output() followupDataLength = new EventEmitter();
 
@@ -16,13 +16,13 @@ export class FollowupChecklistComponent implements OnInit {
   constructor(private assignedChecklistService: AssignedChecklistService) {
     /** assigning grid column headers */
     this.colHeaders = [
-      { field: 'checklist', header: 'Checklist', width: '20%' },
-      { field: 'schedule', header: 'Schedule', width: '20%' },
+      { field: 'checklistName', header: 'Checklist', width: '20%' },
+      { field: 'subTitle', header: 'Schedule', width: '20%' },
       { field: 'frequency', header: 'Frequency', width: '10%' },
-      { field: 'intendedComp', header: 'Intended Comp', width: '15%' },
+      { field: 'intendedCompletionDate', header: 'Intended Comp', width: '15%' },
       { field: 'status', header: 'Status', width: '8%' },
-      { field: 'revCmnt', header: 'Rev Cmnt', width: '10%' },
-      { field: 'dueDate', header: 'Due Date', width: '9%' },
+      { field: 'reviewComment', header: 'Rev Cmnt', width: '10%' },
+      { field: 'intendedCompletionDate', header: 'Due Date', width: '9%' },
       { field: 'action', header: 'Action', width: '8%' }
     ];
   }

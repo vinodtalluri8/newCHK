@@ -1,40 +1,49 @@
+
+<div class="panel panel-default" style="padding-left: 2px">
 <div class="row">
-  <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-4px">
+  <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-8px">
     <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
   </div>
 </div>
-<h3 class="panel-title" style="font-size: 24px; padding-left:5px">My Checklists for: {{date | date: 'MM/dd/yyyy'}}</h3>
+<h3 class="panel-title" style="font-size: 24px; padding-left:0px">My Checklists for: {{date | date: 'MM/dd/yyyy'}}</h3>
 <br>
 <div>
 <p-accordion [multiple]="true">
   <div>
-  <p-accordionTab header="Scheduled ({{dataLength}})" [selected]="dataDisplay">
-    <app-scheduled-checklist (scheduledDataLength)='showOrHide(dataDisplay, $event)' ></app-scheduled-checklist>
+  <p-accordionTab header="Scheduled ({{dataLength['schedule'] ? dataLength['schedule'] : 0 }})" [selected]="dataDisplay">
+    <app-scheduled-checklist (scheduledDataLength)='showOrHide(dataDisplay, $event, "schedule")' ></app-scheduled-checklist>
   </p-accordionTab>
 </div>
 <br>
 <div>
-  <p-accordionTab header="In Progress ({{dataLength}})" [selected]="dataDisplay">
-    <app-inprogress-checklist (inprogressDataLength)='showOrHide(dataDisplay, $event)'></app-inprogress-checklist>
+  <p-accordionTab header="In Progress ({{dataLength['inprogress'] ? dataLength['inprogress'] : 0 }})" [selected]="dataDisplay">
+    <app-inprogress-checklist (inprogressDataLength)='showOrHide(dataDisplay, $event, "inprogress")'></app-inprogress-checklist>
   </p-accordionTab>
 </div>
 <br>
 <div>
-  <p-accordionTab header="Follow-Up ({{dataLength}})" [selected]="dataDisplay">
-    <app-followup-checklist (followupDataLength)='showOrHide(dataDisplay, $event)'></app-followup-checklist>
+  <p-accordionTab header="Follow-Up ({{dataLength['followup'] ? dataLength['followup'] : 0}})" [selected]="dataDisplay">
+    <app-followup-checklist (followupDataLength)='showOrHide(dataDisplay, $event, "followup")'></app-followup-checklist>
   </p-accordionTab>
 </div>
 <br>
 <div>
-  <p-accordionTab header="Awaiting Manager Review ({{dataLength}})" [selected]="dataDisplay">
-    <app-awaiting-checklist (awaitingDataLength)='showOrHide(dataDisplay, $event)'></app-awaiting-checklist>
+  <p-accordionTab header="Awaiting Manager Review ({{dataLength['awaiting'] ? dataLength['awaiting'] :0 }})" [selected]="dataDisplay">
+    <app-awaiting-checklist (awaitingDataLength)='showOrHide(dataDisplay, $event, "awaiting")'></app-awaiting-checklist>
   </p-accordionTab>
   <br>
 </div>
 <div>
-  <p-accordionTab header="Closed/Completed ({{dataLength}})" [selected]="dataDisplay">
-    <app-closed-checklist (closedDataLength)='showOrHide(dataDisplay, $event)'></app-closed-checklist>
+    <p-accordionTab header="Manager Review ({{dataLength['manager'] ? dataLength['manager'] : 0}})" [selected]="dataDisplay">
+      <app-manager-checklists (managerDataLength)='showOrHide(dataDisplay, $event, "manager")'></app-manager-checklists>
+    </p-accordionTab>
+    <br>
+  </div>
+<div>
+  <p-accordionTab header="Closed/Completed ({{dataLength['closed'] ? dataLength['closed'] : 0}})" [selected]="dataDisplay">
+    <app-closed-checklist (closedDataLength)='showOrHide(dataDisplay, $event, "closed")'></app-closed-checklist>
   </p-accordionTab>
 </div>
 </p-accordion>
+</div>
 </div>

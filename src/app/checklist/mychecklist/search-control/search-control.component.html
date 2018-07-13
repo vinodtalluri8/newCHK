@@ -15,6 +15,11 @@
       </div>
     </div>
   </div>
+
+  <div class="col.sm-12 col-md-12 col-lg-12 padding-zero" *ngIf="msgs.length > 0">
+    <p-growl [(value)]="msgs"></p-growl>
+  </div>
+  
   <div class="row">
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label for="title" class="control-label">Title Contains</label>
@@ -24,14 +29,14 @@
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="title" class="control-label">Group</label>
-	<div>
+      <label for="group" class="control-label">Group</label>
+	    <div>
       <app-dropdown [datasource]='group' (selectedItemChange)='onChangeGroup($event)' [selectedItem]='selectedGroup'></app-dropdown>
       </div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="title" class="control-label">Department</label>
+      <label for="department" class="control-label">Department</label>
       <div>
         <app-dropdown [datasource]='department' (selectedItemChange)='this.selectedDepartment = $event' [selectedItem]='selectedDepartment'></app-dropdown>
       </div>
@@ -40,21 +45,21 @@
 
   <div class="row">
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="title" class="control-label">Frequency</label>
+      <label for="frequency" class="control-label">Frequency</label>
       <div>
         <app-dropdown [datasource]='frequency' (selectedItemChange)='this.selectedFrequency = $event' [selectedItem]='selectedFrequency'></app-dropdown>
       </div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="title" class="control-label">Any Assigned</label>
+      <label for="assigned" class="control-label">Any Assigned</label>
       <div>
         <app-dropdown [datasource]='anyAssigned' (selectedItemChange)='this.selectedAnyAssigned = $event' [selectedItem]='selectedAnyAssigned'></app-dropdown>
       </div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="title" class="control-label">Reviewer</label>
+      <label for="reviewer" class="control-label">Reviewer</label>
       <div>
         <app-dropdown [datasource]='reviewer' (selectedItemChange)='this.selectedReviewer = $event' [selectedItem]='selectedReviewer'></app-dropdown>
       </div>
@@ -63,21 +68,21 @@
 
   <div class="row">
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="title" class="control-label">Primary</label>
+      <label for="primary" class="control-label">Primary</label>
       <div>
         <app-dropdown [datasource]='primary' (selectedItemChange)='this.selectedPrimary = $event' [selectedItem]='selectedPrimary'></app-dropdown>
       </div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="title" class="control-label">Backup</label>
+      <label for="backup" class="control-label">Backup</label>
       <div>
         <app-dropdown [datasource]='backup' (selectedItemChange)='this.selectedBackup = $event' [selectedItem]='selectedBackup'></app-dropdown>
       </div>
     </div>
 
     <div class="col-sm-2 col-md-2 col-lg-2">
-      <label for="title" class="control-label">Review Length</label>
+      <label for="reviewlength" class="control-label">Review Length</label>
       <div>
         <app-dropdown [datasource]='reviewLength' (selectedItemChange)='this.selectedReviewLength = $event' [selectedItem]='selectedReviewLength'></app-dropdown>
       </div>
@@ -99,21 +104,21 @@
 
   <div class="row">
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="title" class="control-label">Risk</label>
+      <label for="risk" class="control-label">Risk</label>
       <div>
         <app-dropdown [datasource]='risk' (selectedItemChange)='this.selectedRisk = $event' [selectedItem]='selectedRisk'></app-dropdown>
       </div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="title" class="control-label">Evaluation</label>
+      <label for="evaluation" class="control-label">Evaluation</label>
       <div>
         <app-dropdown [datasource]='evaluation' (selectedItemChange)='this.selectedEvaluation = $event' [selectedItem]='selectedEvaluation'></app-dropdown>
       </div>
     </div>
 
     <div class="col-sm-2 col-md-2 col-lg-2">
-      <label for="title" class="control-label">Control Length</label>
+      <label for="controllength" class="control-label">Control Length</label>
       <div>
         <app-dropdown [datasource]='controlLength' (selectedItemChange)='this.selectedControlLength = $event' [selectedItem]='selectedControlLength'></app-dropdown>
       </div>
@@ -129,14 +134,13 @@
     <div class="col-sm-1 col-md-1 col-lg-1" style="padding-right: 0px !important; padding-left: 0px !important; line-height: 28px;">
       <label style="visibility: hidden;">Control</label>
       <span class="infotext">Hours</span>
-  </div>
+    </div>
 
   </div>
-
 
   <div class="row">
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="title" class="control-label">Status</label><br>
+      <label for="status" class="control-label">Status</label><br>
       <div>
         <app-dropdown [datasource]='status' (selectedItemChange)='this.selectedStatus = $event' [selectedItem]='selectedStatus'></app-dropdown>
       </div>

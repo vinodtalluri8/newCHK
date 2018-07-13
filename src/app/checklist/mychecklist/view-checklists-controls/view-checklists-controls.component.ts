@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem, SelectItem  } from 'primeng/api';
+import { MenuItem, SelectItem } from 'primeng/api';
 import { ViewChecklistsControlsService } from '../services/view-checklists-controls.service';
-import { Location  } from '@angular/common';
+import { Location } from '@angular/common';
 import { Message } from 'primeng/components/common/api';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from '../../services/message.service';
+import { ConfirmationService } from 'primeng/api';
+import { routerConstants } from '../../../core/constants/routerConstants';
+
 
 @Component({
   selector: 'app-view-checklists-controls',
@@ -23,36 +27,25 @@ export class ViewChecklistsControlsComponent implements OnInit {
   checklistId: string;
   checklistName: string;
   msgs: Message[] = [];
-  displayOrder: string;
 
   displayDialog: boolean;
   isUpdate: boolean;
   dialogHeader: string;
   dataJson: any;
   loading: boolean;
-  routePath: any;
+  routePath: string;
+  records: number;
 
   constructor(private viewChecklistsControlsService: ViewChecklistsControlsService,
-    private location: Location, private router: Router, private route: ActivatedRoute) {
-      this.route.params.subscribe(params => {
-        this.routePath = params['routePath'];
-        console.log('this.routePath', this.routePath);
-      });
+    private location: Location, private router: Router, private route: ActivatedRoute,
+    private messageService: MessageService, private confirmationService: ConfirmationService) {
+    this.route.params.subscribe(params => {
+      this.routePath = params['routePath'];
+      this.checklistId = params['checklistId'];
+      this.checklistName = params['checklistName'];
+    });
     this.home = { icon: 'fa fa-home' };
-   if (this.routePath === 'Controls') {
-    this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
-    { label: 'Search Controls', routerLink: ['/control/searchcontrol'] },
-    { label: 'Search Control Results', routerLink: ['/control/searchcontrolresults'] },
-    { label: 'Checklist Info' }
-    ];
-  }
-  if (this.routePath === 'Checklists') {
-    this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
-    { label: 'Search Checklist', routerLink: ['/checklist/searchchecklist'] },
-    { label: 'Search Checklist Results' , routerLink: ['/checklist/checklistResults'] },
-    { label: 'Checklist Info' }
-    ];
-  }
+    this.breadcrumbs();
     this.colHeaders = [
       { field: 'title', header: 'Title', width: '10%' },
       { field: 'description', header: 'Description', width: '20%' },
@@ -79,17 +72,28 @@ export class ViewChecklistsControlsComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.viewChecklistsControlsService.fetchViewCheckLists().subscribe(data => {
+    this.fetchValues();
+  }
+
+  /*
+  *fetch the values for the grid.
+  * */
+
+fetchValues() {
+  this.viewChecklistsControlsService.fetchViewCheckLists().subscribe(data => {
     this.viewChecklistsControlsResults = data;
     this.loading = false;
-      if (this.viewChecklistsControlsResults.length > 0) {
-        this.checklistName = this.viewChecklistsControlsResults[0]['checklistName'];
-        this.checklistId = this.viewChecklistsControlsResults[0]['checklistId'];
-        }},
+    this.records = this.viewChecklistsControlsResults.length;
+      },
     error => {
       this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
     });
-  }
+    if (this.messageService.getMessage()) {
+      this.msgs = [this.messageService.getMessage()];
+      this.messageService.clearMessage();
+    }
+}
+
 
   /*
   *To enable or diable pagination
@@ -108,21 +112,63 @@ export class ViewChecklistsControlsComponent implements OnInit {
   back() {
     this.location.back();
   }
-
   /*
-  *Modify checklists
+   *To display breadcrumbs
+   */
+  breadcrumbs() {
+    if (this.routePath === 'Controls') {
+      this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+      { label: 'Search Controls', routerLink: ['/' + routerConstants.searchControl] },
+      { label: 'Search Control Results', routerLink: ['/' + routerConstants.searchControlResults] },
+      { label: 'Checklist Controls' }
+      ];
+    }
+    if (this.routePath === 'Checklists') {
+      this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+      { label: 'Search Checklist', routerLink: ['/' + routerConstants.searchChecklist] },
+      { label: 'Search Checklist Results', routerLink: ['/' + routerConstants.searchChecklistResults] },
+      { label: 'Checklist Controls' }
+      ];
+    }
+  }
+  /*
+  *Modify controls
   */
-  modify(record) {
-    this.msgs = [];
-    this.msgs.push({ severity: 'info', summary: 'Implementation Pending', detail: 'Modify yet to be Implemented' });
+  modify(checklistId, taskId, displayOrder) {
+    this.router.navigate([routerConstants.modifycontrols, this.routePath, checklistId, taskId, this.checklistName,
+      displayOrder , this.records]);
   }
   /*
   *Delete checklists
   */
-  delete(record) {
-    this.msgs = [];
-    this.msgs.push({ severity: 'info', summary: 'Implementation Pending', detail: 'Delete yet to be Implemented' });
-  }
+ delete(record) {
+  this.msgs = [];
+  console.log('record', record);
+  const inputJson = {
+    'checklistId': record['checklistId'],
+    'taskId': record['taskId'],
+    'displayOrder': record['displayOrder']
+  };
+  this.confirmationService.confirm({
+    message: 'Are you sure you want to delete?',
+    header: 'Delete Confirmation',
+    icon: 'fa fa-trash',
+    accept: () => {
+      this.viewChecklistsControlsService.deleteControl(inputJson).subscribe(data => {
+        this.viewChecklistsControlsService.fetchViewCheckLists().subscribe(results => {
+          this.viewChecklistsControlsResults = results;
+          this.records = this.viewChecklistsControlsResults.length;
+            });
+        this.msgs = [{ severity: 'success', detail: 'Record Deleted Successfully' }];
+      }, error => {
+        this.msgs = [{ severity: 'error', detail: 'Cannot delete an assigned control' }];
+      });
+    },
+    reject: () => {
+      this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
+    }
+  });
+}
   /*
   *View procedure Document
   */
@@ -134,19 +180,27 @@ export class ViewChecklistsControlsComponent implements OnInit {
   *Add new control
   */
   navigateAddNewControl() {
-    this.router.navigate(['/addcontrol/', this.checklistId]);
+    this.router.navigate([routerConstants.addControl, this.routePath, this.checklistId, this.checklistName,  this.records]);
   }
- /*
-  *Add Existing control
-  */
+  /*
+   *Add Existing control
+   */
   navigateAddExistingControl() {
     this.displayDialog = true;
     this.isUpdate = false;
     this.dialogHeader = 'Add Control to Checklist';
   }
+  /*
+  *navigating to order Screen
+  */
+ navigateOrder() {
+  this.router.navigate([routerConstants.order, this.routePath, this.checklistId, this.checklistName]);
+}
+  /*
+  *Refresh dialog
+  */
   refresh(event) {
-    console.log('refresh');
-    // this.dataValues();
+    this.fetchValues();
     this.displayDialog = event;
   }
 }

@@ -38,9 +38,13 @@ export class SearchChecklistService extends BaseServiceService {
   /* This method will get the data of department dropdown based on the group selected by passing the
     application name and the system code as input parameters*/
   deleteChecklist(value) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/deleteChecklist/' + value;
-    appConstants.deleteHeaderOptions.params = {};
-    return this.httpClient.delete(this.url, appConstants.deleteHeaderOptions).catch(this.handleError);
+    this.url = environment.serverUrl + 'DIVA-ChecklistService/deleteChecklist';
+    const inputJson = {
+      'checklistId' : value
+    };
+    return this.httpClient.post(this.url, inputJson, appConstants.postHeaderOptions).map((results) => {
+      return results;
+    }).catch(this.handleError);
   }
 
 }

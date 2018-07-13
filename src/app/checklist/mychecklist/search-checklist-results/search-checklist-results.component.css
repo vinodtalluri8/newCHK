@@ -12,4 +12,8 @@
 .displaycolor{
     color: rgb(21, 49, 126);
 }
+.pageAlign{
+    margin-top: 2px;
+    margin-right: -13px;
+}
 

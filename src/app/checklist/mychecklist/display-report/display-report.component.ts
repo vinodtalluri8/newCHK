@@ -3,6 +3,8 @@ import { MenuItem, SelectItem, Message } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ChecklistCommonService } from '../../services/checklist-common.service';
 import { ReportService } from '../services/report.service';
+import { routerConstants } from '../../../core/constants/routerConstants';
+
 
 @Component({
   selector: 'app-display-report',
@@ -23,17 +25,10 @@ export class DisplayReportComponent implements OnInit {
   };
 
   constructor(private router: Router, private checklistCommonService: ChecklistCommonService, private reportService: ReportService) {
-    this.itemsPath = [{
-        label: 'Checklists',
-        routerLink: ['/mychecklist']
-      },
-      {
-        label: 'Reports'
-      }
-    ];
-    this.home = {
-      icon: 'fa fa-home'
-    };
+    this.itemsPath = [
+      { label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+      { label: 'Reports' }];
+    this.home = { icon: 'fa fa-home' };
   }
 
   /** method to call data on page on load **/
@@ -61,7 +56,7 @@ export class DisplayReportComponent implements OnInit {
     }
   }
   displayReports() {
-      this.router.navigate(['checklist/reports/reportresults']);
+      this.router.navigate([routerConstants.displayreports]);
       console.log(this.dataJson, 'this.dataJson ');
     }
 }

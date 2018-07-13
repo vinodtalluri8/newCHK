@@ -1,0 +1,72 @@
+<!-- schedule checklist online screen display -->
+
+<div class="panel panel-default" style="padding-left: 3px">
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -10px;">
+      <app-breadcrumbs [items]='itemsPath' [home]='home' ></app-breadcrumbs>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-5 col-md-5 col-lg-8 panel panel-default">
+      <div class="panel-heading section-padding">
+        <h3 class="panel-title " style="font-size: 24px; margin-left: -2px;">Schedule Checklist </h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="col.sm-12 col-md-12 col-lg-12 padding-zero" *ngIf="msgs.length > 0">
+    <p-growl [(value)]="msgs"></p-growl>
+  </div>
+
+  <p-accordion>
+    <p-accordionTab header="Find a Checklist to be Scheduled Online" [selected]="flag">
+    <div style="margin-top:-10px">
+      <div class="row">
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <label for="title" class="control-label">Title Contains</label>
+          <div>
+            <app-input (inputTextSelected)='this.titleContains=$event' [value]='titleContains' maxlength="60"></app-input>
+          </div> 
+        </div>
+      
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <label for="group" class="control-label">Group</label>
+          <div>
+          <app-dropdown [datasource]='group' (selectedItemChange)='onChangeGroup($event)' [selectedItem]='selectedGroup'></app-dropdown>
+          </div>
+        </div>
+      
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <label for="frequency" class="control-label">Frequency</label>
+          <div>
+            <app-dropdown [datasource]='frequency' (selectedItemChange)='this.selectedFrequency = $event' [selectedItem]='selectedFrequency'></app-dropdown>
+          </div>
+        </div>
+      
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <label for="department" class="control-label">Department</label>
+          <div>
+            <app-dropdown [datasource]='department' (selectedItemChange)='this.selectedDepartment = $event' [selectedItem]='selectedDepartment'></app-dropdown>
+          </div>
+        </div>       
+      </div>
+          
+      <div class="row scheduleChecklistButtons">
+        <app-button label='Search' (click)="scheduleChecklist()" styleClass='button-action'></app-button>
+        <app-button label='Clear All' (click)="resetToDefault()" styleClass='button-cancel'></app-button>
+      </div>
+    
+    </div>
+    </p-accordionTab>  
+  </p-accordion>
+  
+  <div class="row" *ngIf="!flag">
+    <app-search-schedule-results [scheduleChecklistResults]= 'scheduleChecklistResults'></app-search-schedule-results></div>
+
+</div>
+  
+ 
+
+

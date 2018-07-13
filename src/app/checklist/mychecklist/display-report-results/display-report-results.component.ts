@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Message } from 'primeng/components/common/api';
 import { MenuItem, SelectItem } from 'primeng/api';
 import { Location } from '@angular/common';
+import { routerConstants } from '../../../core/constants/routerConstants';
 
 @Component({
   selector: 'app-display-report-results',
@@ -30,20 +31,12 @@ export class DisplayReportResultsComponent implements OnInit {
   home: MenuItem;
   constructor(private location: Location) {
     /** Initilase the breadcrumbs navigation data **/
-    this.itemsPath = [{
-        label: 'Checklists',
-        routerLink: ['/mychecklist']
-      },
-      {
-        label: 'Reports',
-        routerLink: ['checklist/reports']
-
-      },
+    this.itemsPath = [
+      { label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+      { label: 'Reports', routerLink: ['/' + routerConstants.reports] },
       {label: 'Search results'}
     ];
-    this.home = {
-      icon: 'fa fa-home'
-    };
+    this.home = { icon: 'fa fa-home' };
     this.displayRows = [{
         label: '15',
         value: 15

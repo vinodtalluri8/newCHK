@@ -1,6 +1,6 @@
 <div class="panel panel-default" style="padding-left: 3px">
     <div class="row">
-      <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: 5px;">
+      <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -9px;">
         <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
       </div>
     </div>
@@ -11,26 +11,28 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-4 col-md-4 col-lg-4" id="depFreq">
-      <div class="row paddingTopClass" id="report">
-        <div class="col-sm-9 col-md-9 col-lg-9">
-          <label class="required control-label">Report Type</label>
+
+    <div class="panel-body section-padding" style="margin-left: -14px">
+      <div class="col-sm-4 col-md-4 col-lg-4" id="depFreq">
+        <div class="row paddingTopClass" id="report">
+          <div class="col-sm-9 col-md-9 col-lg-9">
+            <label class="required control-label">Report Type</label>
+          </div>
         </div>
-      </div>
-      <div class="row paddingDataClass">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-          <app-dropdown [datasource]='report' (selectedItemChange)='this.selectedReport = $event' [selectedItem]='selectedReport'></app-dropdown>
+        <div class="row paddingDataClass">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <app-dropdown [datasource]='report' (selectedItemChange)='this.selectedReport = $event' [selectedItem]='selectedReport'></app-dropdown>
+          </div>
         </div>
-      </div>
-      <div class="row paddingTopClass" id="group">
-        <div class="col-sm-9 col-md-9 col-lg-9">
-          <label class="required control-label">Group</label>
+        <div class="row paddingTopClass" id="group">
+          <div class="col-sm-9 col-md-9 col-lg-9">
+            <label class="required control-label">Group</label>
+          </div>    
         </div>
-  
-      </div>
-      <div class="row paddingDataClass">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-          <app-dropdown [datasource]='group' (selectedItemChange)='this.selectedGroup = $event' [selectedItem]='selectedGroup' filter='true'></app-dropdown>
+        <div class="row paddingDataClass">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <app-dropdown [datasource]='group' (selectedItemChange)='this.selectedGroup = $event' [selectedItem]='selectedGroup' filter='true'></app-dropdown>
+          </div>
         </div>
       </div>
       </div>

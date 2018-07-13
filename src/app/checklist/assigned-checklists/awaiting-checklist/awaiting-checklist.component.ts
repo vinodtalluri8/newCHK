@@ -7,15 +7,15 @@ import {AssignedChecklistService} from '../services/assigned-checklist.service';
   styleUrls: ['./awaiting-checklist.component.css']
 })
 export class AwaitingChecklistComponent implements OnInit { colHeaders: any[];
-  loginid = 'divatest_sa1';
+  loginid = 'bhat_v';
   awaitingChecklistResults;
   @Output() awaitingDataLength = new EventEmitter();
 
   constructor(private assignedChecklistService: AssignedChecklistService) {
     /** assigning grid column headers */
     this.colHeaders = [
-      { field: 'checklist', header: 'Checklist', width: '30%' },
-      { field: 'schedule', header: 'Schedule' , width: '30%' },
+      { field: 'checklistName', header: 'Checklist', width: '30%' },
+      { field: 'subTitle', header: 'Schedule' , width: '30%' },
       { field: 'frequency', header: 'Frequency' , width: '10%' },
       { field: 'startDate', header: 'StartDate' , width: '10%' },
       { field: 'dueDate', header: 'Due Date', width: '10%' },

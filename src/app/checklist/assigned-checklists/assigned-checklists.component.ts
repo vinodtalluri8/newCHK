@@ -3,7 +3,8 @@ import { Message } from 'primeng/components/common/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MenuItem, SelectItem } from 'primeng/api';
 import { AssignedChecklistService } from '../assigned-checklists/services/assigned-checklist.service';
-
+import { routerConstants } from '../../core/constants/routerConstants';
+import { DataGrid } from 'primeng/primeng';
 @Component({
   selector: 'app-assigned-checklists',
   templateUrl: './assigned-checklists.component.html',
@@ -19,12 +20,12 @@ export class AssignedChecklistsComponent implements OnInit {
   itemsPath: MenuItem[];
   home: MenuItem;
   dataDisplay = false;
-  dataLength: Number;
+  dataLength: number[] = [];
 
   constructor(private assignedChecklistService: AssignedChecklistService) {
     /** Initilase the breadcrumbs navigation data **/
     this.home = { icon: 'fa fa-home' };
-    this.itemsPath = [{ label: 'My Online Checklists' },
+    this.itemsPath = [{ label: 'My Assigned Checklists' },
     ];
   }
 
@@ -32,9 +33,9 @@ export class AssignedChecklistsComponent implements OnInit {
     // this.scheduledDisplay = this.assignedChecklistService.getScheduledResultsdata();
 
   }
-  showOrHide(scheduledDataDisplay, $event) {
-    this.dataLength = $event;
-    if (this.dataLength > 0) {
+  showOrHide(scheduledDataDisplay, $event, grid) {
+    this.dataLength[grid] = $event;
+    if ($event > 0) {
       this.dataDisplay = true;
     }
   }

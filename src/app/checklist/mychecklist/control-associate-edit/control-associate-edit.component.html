@@ -43,13 +43,23 @@
         <app-dropdown [datasource]='reviewer' (selectedItemChange)='this.selectedReviewer = $event' [selectedItem]='selectedReviewer'></app-dropdown>
       </div>
     </div>
+    <div class="ui-g-12 form-group modalForm">
+      <div class="ui-g-2 paddingForm">
+        <label for="DisplayOrder" class="required control-label">Display Order</label>
+      </div>
+      <div class="ui-g-10 paddingForm">
+        <app-dropdown [datasource]='displayOrder' (selectedItemChange)='this.selectedDisplayOrder = $event' [selectedItem]='selectedDisplayOrder'></app-dropdown>
+      </div>
+    </div>
+
+
   </div>
 </form>
 <!-- <app-button label="Assign"></app-button> -->
 
 <!-- <div class="ui-g-8 ui-dialog-buttonpane ui-helper-clearfix">-->
 <div class="buttonPadding" class="buttonPadding">
-  <app-button label='Save' (click)='save()' [disabled]='disable()' styleClass='button-action'></app-button>
+  <app-button label='Save' (click)='updateControlAssociateEdit()' [disabled]='disable()' styleClass='button-action'></app-button>
   <app-button label='Clear All' (click)='clearAll()' styleClass='button-cancel'></app-button>
   <app-button label='Cancel' (click)='back()' styleClass='button-cancel'></app-button>
 </div>
