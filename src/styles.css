@@ -11,7 +11,9 @@ body {
 }
 
 #calender .ui-inputtext, #calender .ui-datepicker {
-    width: calc(100% - 2em);
+    /* width: calc(100% - 2em); */
+    width:calc(100% - 2.4em) !important;
+    height: 40px !important;
 }
 
 #calender span.ui-calendar {
@@ -260,6 +262,7 @@ label {
 .ui-dialog.ui-widget .ui-dialog-content {
     padding: 1em 1em !important;
     padding-bottom: 0px !important;
+    height : 100%;
 }
 .ui-confirmdialog .ui-dialog.ui-widget .ui-dialog-content {
     padding: 1em 1em !important;
@@ -335,11 +338,18 @@ app-input input {
     padding-top: 0.35em !important;
 } 
 
-.ui-listbox-header .ui-listbox-filter-container .fa {
+/* .ui-listbox-header .ui-listbox-filter-container .fa {
+    top: 0.45em !important;
+    left: auto !important;
+    padding-left: 5px;
+} */
+.ui-listbox-header .ui-listbox-filter-container .ui-listbox-filter-icon {
+    position: absolute;
     top: 0.45em !important;
     left: auto !important;
     padding-left: 5px;
 }
+
 
 app-search-online-checklist .calWidth {
     width: 6.85em;
@@ -368,4 +378,20 @@ button.button-grid-action.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-
 
 .padding-grid {
     padding-left: 2.2em !important;
+}
+
+app-manager-assignment .ui-fluid .ui-inputtext{
+    width:90% !important;
+}
+
+span.ui-button-icon-left.ui-clickable.pi.pi-calendar {
+    color: #555555 !important;
+}
+
+span.pi.pi-arrow-up.ui-table-reorder-indicator-down.ng-star-inserted {
+    display: none;
+}
+
+span.pi.pi-arrow-down.ui-table-reorder-indicator-up.ng-star-inserted {
+    display: none;
 }

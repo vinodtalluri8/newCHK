@@ -1,0 +1,149 @@
+<div style="margin-left: 4px;">
+  <div class="panel panel-default">
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-13px">
+        <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+      </div>
+    </div>
+  </div>
+</div>
+<p-growl [(value)]="msgs"></p-growl>
+
+<div class="row">
+  <div class="col-sm-3 col-md-3 col-lg-3" style="padding-left: 19px">
+    <h3 class="panel-title titlebar">Employee Assignments</h3>
+  </div>
+  <div class="offset-sm-4 offset-md-4 offset-lg-4"> </div>
+  <div class="col-sm-5 col-md-5 col-lg-5" style="padding-left: 70px">
+    <div *ngIf="value">
+      <div>
+        <app-button id="addAssignment" (click)='addNewAssignment()' label='Add New Assignment' styleClass='button-action'></app-button>
+        <app-button style="padding-left: 20px" id="addNewChecklistManager" (click)='addNewChecklistManager()' label='Add New Checklist Managers'
+          styleClass='button-cancel'></app-button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-left: 4px">
+<div>
+  <span class="red">
+    <small>
+      <b>Checklist: {{checklistName}}</b>
+    </small>
+  </span>
+</div>
+<div>
+  <span class="purple">
+    <small>
+      <b>Schedule: {{checklistSchedule}}</b>
+    </small>
+  </span>
+</div>
+</div>
+
+<div class="center">
+  <span  class="purple" style="font-size: 12px">
+    <b>Current Assignments</b>
+  </span>
+</div>
+
+<!-- Code for grid to show details based on view mode or Edit mode -->
+<div class="row gridPadding">
+  <p-table #sv [columns]="colHeader" [value]="results" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
+    [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName" [loading]="loading">
+    <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
+          {{col.header}}
+          <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+        </th>
+      </tr>
+      <tr *ngIf="filterable && results && results.length > 0">
+        <th *ngFor="let col of columns" [style.width]="col.width">
+
+          <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="sv.filter($event.target.value, col.field, 'contains')">
+
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr [pSelectableRow]="rowData">
+        <td *ngFor="let col of columns" [style.width]="col.width">
+          <ng-container *ngIf="col.field == 'checklistEdit'|| col.field == 'checklistDelete'; else elseTemplate">
+            <div class="row" *ngIf="col.field == 'checklistEdit'">
+              <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
+                <app-button id="navigateModifyManager" (click)='navigateModifyManager(rowData)' label="Edit Manager Assignment" styleClass="button-grid-action"></app-button>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="col.field == 'checklistDelete'">
+              <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
+                <app-button (click)="deleteAssignments(rowData['checklistScheduleId'], rowData['employeeLoginId'])" label="Delete Assignment"
+                  styleClass="button-grid-action"></app-button>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #elseTemplate>
+            {{rowData[col.field]}}
+          </ng-template>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage"  let-columns>
+        <tr>
+          <td [attr.colspan]="columns.length"  style="text-align: center">
+            No records found
+          </td>
+        </tr>
+    </ng-template>
+  </p-table>
+
+  
+  <div>
+    <div style="padding-top: 15px">
+      <app-button label='Done' (click)='done()' styleClass='button-action'></app-button>
+    </div>
+  </div>
+
+  <div>
+      <div *ngIf="displayDialog">
+    <p-confirmDialog appendTo="body"></p-confirmDialog>
+    
+      <p-dialog [header]="dialogHeader" appendTo="body" [closable]='false' [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
+        [modal]="true" [width]="650">
+        <app-manager-assignment [childChecklistName]="checklistName" [childScheduleName]="checklistSchedule" [screenName]="screenName"
+          [childChecklistId]="scheduleId" [modifyManagerData]="modifyManagerData" (closeModifyAssignment)='this.refresh($event)'></app-manager-assignment>
+      </p-dialog>
+    </div>
+
+    <div>
+        <div *ngIf="addAssignmentDialog">
+        <p-confirmDialog appendTo="body"></p-confirmDialog>
+        
+        <p-dialog [header]="dialogHeader" appendTo="body" [closable]='false' [(visible)]="addAssignmentDialog" [responsive]="true" showEffect="fade"
+          [modal]="true" [width]="650" [height]="500">    
+          <app-manager-assignment [childChecklistName] ="checklistName" [screenName]= "screenName" [childScheduleName]="checklistSchedule" [childChecklistId] ="scheduleId" (closeModifyAssignment)='this.refresh($event)'></app-manager-assignment>
+         </p-dialog>
+        </div>
+      </div>
+</div>
+
+
+<div>
+    <div *ngIf="addNewChecklistManagerDialog">
+  <p-confirmDialog appendTo="body"></p-confirmDialog>
+ 
+  <p-dialog [header]="dialogHeader" appendTo="body" [closable]='false' [(visible)]="addNewChecklistManagerDialog" [responsive]="true" showEffect="fade"
+    [modal]="true" [width]="650" [height]="500" >    
+    <app-add-checklist-manager (closeAddChecklistManager)='this.refresh($event)'></app-add-checklist-manager>
+   </p-dialog>
+  </div>
+</div>
+<p-confirmDialog appendTo="body"></p-confirmDialog>

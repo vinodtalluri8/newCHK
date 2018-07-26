@@ -53,14 +53,28 @@ import { ChecklistManagerComponent } from '../checklist/manage/checklist-manager
 import { SearchScheduleComponent } from './manage/search-schedule/search-schedule.component';
 import { SearchScheduleResultsComponent } from './manage/search-schedule-results/search-schedule-results.component';
 
-// import { SearchOnlineChecklistResultComponent
-// } from './assigned-checklists/search-online-checklist-result/search-online-checklist-result.component';
+import { SearchOnlineChecklistResultComponent
+ } from './assigned-checklists/search-online-checklist-result/search-online-checklist-result.component';
 import { ChecklistScheduledComponent } from './manage/checklist-scheduled/checklist-scheduled.component';
 import { ManagerChecklistsComponent } from './assigned-checklists/manager-checklists/manager-checklists.component';
 
 import {AddExistingControlService} from '../checklist/mychecklist/services/add-existing-control.service';
 import { OrderComponent } from './mychecklist/view-checklists-controls/order/order.component';
 import { ChecklistScheduleService } from './manage/services/checklist-schedule.service';
+import { ManagerAssignmentComponent } from './assigned-checklists/manager-assignment/manager-assignment.component';
+import { CommentsChecklistComponent } from './assigned-checklists/comments-checklist/comments-checklist.component';
+import { AssignmentComponent } from './assigned-checklists/assignment/assignment.component';
+import { OnlineChecklistService } from './assigned-checklists/services/online-checklist.service';
+import { SearchOnlineChecklistResultService } from './assigned-checklists/services/search-online-checklist-result.service';
+import { NewChecklistScheduleComponent } from './manage/new-checklist-schedule/new-checklist-schedule.component';
+import { NewEditScheduleService } from './manage/services/new-edit-schedule.service';
+import { AddChecklistManagerComponent } from './assigned-checklists/add-checklist-manager/add-checklist-manager.component';
+
+import { OnlineChecklistControlsComponent } from './assigned-checklists/online-checklist-controls/online-checklist-controls.component';
+import { OnlineUpdateViewControlsComponent } from './assigned-checklists/online-update-view-controls/online-update-view-controls.component';
+import { AssignmentServiceService } from './assigned-checklists/services/assignment-service.service';
+import { StatusSearchOnlineChecklistService} from './assigned-checklists/services/status-search-online-checklist.service';
+import { UpdateChecklistStatusComponent } from './assigned-checklists/update-checklist-status/update-checklist-status.component';
 
 
 @NgModule({
@@ -91,12 +105,16 @@ import { ChecklistScheduleService } from './manage/services/checklist-schedule.s
     FollowupChecklistComponent, ClosedChecklistComponent, AwaitingChecklistComponent,
     DisplayReportComponent, DisplayReportResultsComponent, ControlAssociateEditComponent,
     SearchScheduleResultsComponent, SearchOnlineChecklistComponent, ChecklistManagerComponent,
-    SearchScheduleComponent, ManagerChecklistsComponent, ChecklistScheduledComponent, OrderComponent],
+    SearchScheduleComponent, ManagerChecklistsComponent, ChecklistScheduledComponent,
+    OrderComponent, SearchOnlineChecklistResultComponent, AssignmentComponent, NewChecklistScheduleComponent, CommentsChecklistComponent,
+    ManagerAssignmentComponent,
+    AddChecklistManagerComponent, OnlineChecklistControlsComponent, OnlineUpdateViewControlsComponent, UpdateChecklistStatusComponent],
 
 
   providers : [SearchControlService, ChecklistCommonService , AddchecklistService, SearchChecklistService, AddControlService,
      ConfirmationService, MessageService, ViewChecklistsControlsService, CreateControlService, AssignedChecklistService,
-     ReportService, ChecklistManagersService, AddExistingControlService, ChecklistScheduleService]
+     ReportService, ChecklistManagersService, AddExistingControlService, ChecklistScheduleService, OnlineChecklistService,
+     SearchOnlineChecklistResultService, NewEditScheduleService, AssignmentServiceService, StatusSearchOnlineChecklistService]
 
 })
 export class ChecklistModule { }

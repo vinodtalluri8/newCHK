@@ -11,40 +11,41 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class ChecklistManagersService extends BaseServiceService {
 
-  private searchCriteria;
-  private url;
-  private addManagerUrl = 'http://168.66.39.58:8080/DIVA-CommonService/checklist/getActiveUsersNotManagers';
-  private deleteManagerUrl = 'http://168.66.39.58:8080/DIVA-CommonService/checklist/getAllManagers';
-  private getBackupURL = environment.serverUrl + 'DIVA-CommonService/checklist/employeeList';
+  private addManagerUrl;
+  private deleteManagerUrl;
+  private addDropdownUrl = environment.serverUrl + 'DIVA-CommonService/checklist/getActiveUsersNotManagers';
+  private deleteDropdownUrl =  environment.serverUrl + 'DIVA-CommonService/checklist/getAllManagers';
 
   constructor(private httpClient: HttpClient) {
     super();
   }
 
-  /** This method will get the list of active employees who are not managers
+  /** This method will get the list of active employees for add manager dropdown
    * @returns list of active employees who are not managers
   **/
   getAddManagerList() {
   return this.httpClient
-    .get(this.addManagerUrl, appConstants.getHeaderOptions).map((evaluation: SelectItem[]) => {
+    .get(this.addDropdownUrl, appConstants.getHeaderOptions).map((evaluation: SelectItem[]) => {
     const addManagerList: any = [];
+    let i = 0;
     for (const item of evaluation) {
-      addManagerList.push({ 'label': item['fullName'], 'value': item['fullName'] });
+      i++;
+      addManagerList.push({ 'label': item['fullName'], 'value': { 'id': i, 'fullName': item['fullName'], 'loginId': item['loginId']} });
     }
     return addManagerList;
     }).catch(this.handleError);
   }
 
 
-  /** This method will get the list of active managers
+  /** This method will get the list of active managers for delete dropdown
    * @returns list of managers
   **/
   getDeleteManagerList() {
   return this.httpClient
-    .get(this.deleteManagerUrl, appConstants.getHeaderOptions).map((evaluation: SelectItem[]) => {
+    .get(this.deleteDropdownUrl, appConstants.getHeaderOptions).map((evaluation: SelectItem[]) => {
     const deleteManagerList: any = [];
     for (const item of evaluation) {
-      deleteManagerList.push({ 'label': item['fullName'], 'value': item['fullName'] });
+      deleteManagerList.push({ 'label': item['fullName'], 'value': { 'fullName': item['fullName'], 'loginId': item['loginId']} });
     }
     return deleteManagerList;
     }).catch(this.handleError);
@@ -52,20 +53,35 @@ export class ChecklistManagersService extends BaseServiceService {
 
 
   /** This method will POST the data(selected manager) in add checklist manager screen to backend **/
-  addChecklistManager(data: string) {
+  addChecklistManager(data: any) {
     // appConstants.postHeaderOptions.params = new HttpParams();
     console.log('inside add service n value passed is', data);
-    this.addManagerUrl = environment.serverUrl + 'DIVA-ChecklistService/getDisplayChecklist';
+    this.addManagerUrl =  environment.serverUrl + 'DIVA-ChecklistService/adminAddManager';
+    const inputJson = {
+      'valueChar1': data['loginId'],
+      'description': data['fullName']
+    };
+    console.log('inside add service n value passed is', inputJson);
     return this.httpClient.post(this.addManagerUrl,
-      data, appConstants.postHeaderOptions).map((res: Response) => res);
+      inputJson, appConstants.postHeaderOptions).map((res: Response) => res).catch(this.handleError);
   }
 
   /** This method will delete the selected manager in delete checklist manager screen in backend **/
   deleteChecklistManager(value) {
     console.log('inside delete service n value passed is', value);
-    this.deleteManagerUrl = environment.serverUrl + 'DIVA-ChecklistService/deleteChecklist/' + value;
-    appConstants.deleteHeaderOptions.params = {};
-    return this.httpClient.delete(this.deleteManagerUrl, appConstants.deleteHeaderOptions).catch(this.handleError);
+    this.deleteManagerUrl =  environment.serverUrl + 'DIVA-ChecklistService/adminDeleteManager';
+    const inputJson = {
+      'valueChar1' : value['loginId']
+    };
+    return this.httpClient.post(this.deleteManagerUrl, inputJson, appConstants.postHeaderOptions).map((res:
+      Response) => res).catch(this.handleError);
+  }
+
+  refreshAddList() {
+    return this.getAddManagerList();
+  }
+  refreshDeleteList() {
+    return this.getDeleteManagerList();
   }
 
 }

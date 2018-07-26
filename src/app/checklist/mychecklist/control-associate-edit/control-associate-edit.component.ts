@@ -31,15 +31,14 @@ export class ControlAssociateEditComponent implements OnInit, AfterViewInit {
   selectedDisplayOrder: any;
 
 
-
   @Output() closeControlAssociateEdit = new EventEmitter();
   constructor(private checklistCommonService: ChecklistCommonService, private messageService: MessageService,
     private addExistingControlService: AddExistingControlService) {
     this.controlAssociateEditForm = new FormGroup({
-      backup: new  FormControl(''),
-      reviewer: new  FormControl(''),
-      control: new  FormControl(''),
-      primary: new  FormControl('')
+      backup: new FormControl(''),
+      reviewer: new FormControl(''),
+      control: new FormControl(''),
+      primary: new FormControl('')
     });
   }
 
@@ -48,19 +47,19 @@ export class ControlAssociateEditComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.preloadData();
   }
-/** This method is used to  set the  displayRecordsLength got as input */
+  /** This method is used to  set the  displayRecordsLength got as input */
   @Input()
   set displayRecordsLength(displayRecordsLength: number) {
     if (displayRecordsLength > 0) {
       this.populateDisplayOrderDropDown(displayRecordsLength);
     }
   }
-/** This method is used to  get the  displayRecordsLength */
+  /** This method is used to  get the  displayRecordsLength */
   get displayRecordsLength(): number {
     return this.selectedDisplayOrder;
   }
 
- /** This method is used to  populate the display order drop down based on the length  */
+  /** This method is used to  populate the display order drop down based on the length  */
   populateDisplayOrderDropDown(displayRecordsLength) {
     this.displayOrder.push({ label: '0', value: 0 });
     for (let i = 1; i <= displayRecordsLength; i++) {
@@ -69,28 +68,31 @@ export class ControlAssociateEditComponent implements OnInit, AfterViewInit {
     this.selectedDisplayOrder = 0;
   }
 
- /** This method is used to get the data for the dropdowns */
+  /** This method is used to get the data for the dropdowns */
   preloadData() {
 
     this.checklistCommonService.getControl('add').subscribe(data => {
       this.control = data;
+      console.log('data', data);
     }
     );
     this.checklistCommonService.getPrimary('add').subscribe(
       (data) => {
         this.primary = data;
-      }
-    );
-    this.checklistCommonService.getBackup('add').subscribe(
-      (data) => {
         this.backup = data;
-      }
-    );
-    this.checklistCommonService.getReviewer('add').subscribe(
-      (data) => {
         this.reviewer = data;
       }
     );
+    /* this.checklistCommonService.getBackup('add').subscribe(
+       (data) => {
+         this.backup = data;
+       }
+     );
+     this.checklistCommonService.getReviewer('add').subscribe(
+       (data) => {
+         this.reviewer = data;
+       }
+     );*/
   }
 
   /** This method is used to  back button */
@@ -100,8 +102,9 @@ export class ControlAssociateEditComponent implements OnInit, AfterViewInit {
     this.controlAssociateEditForm.reset();
   }
 
-   /** This method is used to  clear entries for the fields */
+  /** This method is used to  clear entries for the fields */
   clearAll() {
+    // this.selectedControl = { label: '', value: '' };
     this.selectedControl = '';
     this.selectedPrimary = '';
     this.selectedBackup = '';
@@ -110,13 +113,12 @@ export class ControlAssociateEditComponent implements OnInit, AfterViewInit {
   }
   /** This method is used to  disable the save button */
   disable() {
-    if (!this.selectedControl || !this.selectedPrimary || !this.selectedBackup || !this.selectedReviewer ) {
+    if (!this.selectedControl || !this.selectedPrimary || !this.selectedBackup || !this.selectedReviewer) {
       return true;
     } else {
       return false;
     }
   }
-
   /** This method is used to  call the service to add existing control */
   updateControlAssociateEdit() {
     this.msgs = [];

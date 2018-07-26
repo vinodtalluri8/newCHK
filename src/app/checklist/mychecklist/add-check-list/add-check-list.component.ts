@@ -145,6 +145,7 @@ export class AddCheckListComponent implements OnInit {
    * **/
   onChangeGroup(event) {
     this.selectedGroup = event;
+    this.selectedDepartments = null;
     this.checklistCommonService.getDepartment(event, 'add').subscribe(data => {
       this.departments = data;
     });

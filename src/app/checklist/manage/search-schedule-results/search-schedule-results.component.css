@@ -1,5 +1,6 @@
 .displaycolor{
     color: rgb(21, 49, 126);
+    margin: inherit;
 }
 .padding-grid {
     padding-left: 1em !important;

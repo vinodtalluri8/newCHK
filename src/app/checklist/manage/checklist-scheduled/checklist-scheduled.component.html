@@ -6,8 +6,9 @@
     </div>
 
     <div class="row">
-      <div class="col-sm-3 col-md-3 col-lg-3">
-        <h3 class="panel-title" style="font-size: 24px; margin-left:5px">Checklist Schedule</h3> 
+      <div class="col-sm-3 col-md-3 col-lg-3">    
+        <h3 class="panel-title" style="font-size: 24px; margin-left:5px">
+        <fa class="arrow-color" style="font-size: 17px;" name="chevron-left" size='0.5x' (click)='back()'></fa>Checklist Schedule</h3>
       </div>
       <div class="col-sm-9 col-md-9 col-lg-9 align-right">  
        <app-button (click)='navigateNewSchedule()' label='New Schedule' styleClass='button-outline'></app-button>
@@ -19,13 +20,13 @@
     </div>
 
     <div class="row col-sm-4 col-md-4 col-lg-4">
-        <div class="selectedName"><b>{{selectedName}}</b></div>   
+        <div class="selectedName"><strong>{{selectedName}}</strong></div>   
     </div>   
     <div class="row col-sm-4 col-md-4 col-lg-4">  
         <div class="selectedFrequency"><strong>Frequency: {{selectedFrequency}}</strong></div>
     </div>
       
-    <div class="row">
+    <div class="row"><br>
         <div class="offset-sm-4 offset-md-4 offset-lg-4  col-sm-4 col-md-4 col-lg-4  offset-sm-4 offset-md-4 offset-lg-4">
             <span class="text">This checklist has already been scheduled</span>
         </div>
@@ -35,9 +36,9 @@
 
 <div class="row gridPadding">
 <div class="toolbar" *ngIf="checklistScheduled && checklistScheduled.length > 0">
-  <img class="imgAlign pull-right" (click)="scr.exportCSV()" src="./assets/icon-excel-export.png" alt="Export to Excel.png">
+  <img class="imgAlign pull-right" (click)="chsch.exportCSV()" src="./assets/icon-excel-export.png" alt="Export to Excel.png">
 </div>
-<p-table #scr [columns]="colHeaders" [value]="checklistScheduled" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
+<p-table #chsch [columns]="colHeaders" [value]="checklistScheduled" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
   [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName" [loading] ="loading">
   <ng-template pTemplate="caption">
       <div class="ui-helper-clearfix">
@@ -53,7 +54,7 @@
       <tr *ngIf="filterable && checklistScheduled && checklistScheduled.length > 0">
           <th *ngFor="let col of columns" [style.width]="col.width">
 
-              <input *ngIf="col.field == 'subTitle' || col.field == 'startDate'" pInputText type="text" placeholder="Filter" (input)="scr.filter($event.target.value, col.field, 'contains')">
+              <input *ngIf="col.field == 'subTitle' || col.field == 'startDate'" pInputText type="text" placeholder="Filter" (input)="chsch.filter($event.target.value, col.field, 'contains')">
 
           </th>
       </tr>
@@ -67,10 +68,10 @@
               <ng-container *ngIf="col.field == 'action'; else elseTemplate">
                   <div class="row" *ngIf="col.field == 'action'">
                       <div class="col-sm-5 col-md-5 col-lg-5 displaycolor">
-                          <app-button label='Edit Schedule' (click)="editSchedule(rowData['checklistId'])" styleClass='button-grid-action'></app-button>
+                          <app-button label='Edit Schedule' (click)="editSchedule(rowData)" styleClass='button-grid-action'></app-button>
                       </div>
                       <div class="col-sm-5 col-md-5 col-lg-5 displaycolor">
-                          <app-button label='Edit Assignments' (click)="editAssignments(rowData['checklistId'])" styleClass='button-grid-action'></app-button>
+                          <app-button label='Edit Assignments' (click)="editAssignments(rowData)" styleClass='button-grid-action'></app-button>
                       </div>
                   </div>
               </ng-container>

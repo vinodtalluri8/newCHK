@@ -1,0 +1,101 @@
+.newScheduleButtons{
+    margin-left : -53px;
+    padding-left: 20px;
+    padding-top :10px;
+    /* top: 190px; */
+    margin-top: 10px;
+
+}
+.paddingButtons {
+    margin-top: 20px!important;
+}
+
+.ui-dropdown .ui-dropdown-panel {
+    min-width: 100%;
+    width: max-content;
+}
+
+.title-input {
+    width: 16em;
+}
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444444;
+    font-style: normal;
+    text-align: left;
+    padding-top: 10px !important;
+    padding-bottom: 0px !important;
+}
+
+label.required:after {
+    content: " *";
+    color: red;
+}
+
+app-button {
+    padding-left: 20px;
+}
+/* .control-label{
+    padding-left:16px;
+    float: left;
+    padding-right: 10px;
+} */
+
+.selectedName{
+    color: blue;
+    font-size: 15px;
+    margin-left:0px;
+}
+.selectedFrequency{
+    color: purple;
+    font-size: 15px;
+    margin-left:0px;
+}
+
+app-calender {
+    width :100%;
+}
+#calender .ui-inputtext, #calender .ui-datepicker{
+    width:calc(100% - 2.4em) !important;
+    height: 40px !important;
+}
+
+#calender span.ui-calendar{
+    width:calc(100% - 2em);
+}
+
+.ui-calendar .ui-calendar-button {
+    min-width: 10px !important;
+    border: 1px solid lightgray!important;
+    background-color:white!important; 
+}
+
+#calender .ui-datepicker.ui-widget .ui-datepicker-calendar td a{
+    padding:0px;
+}
+
+#calender .ui-datepicker td span, .ui-datepicker td a{
+    padding:0px;
+}
+
+#tooltip {
+        margin-left: -0px;
+}
+
+#requiredCompletionLength #tooltip {
+    position: relative !important;
+    margin-left: 0px;
+}
+
+.no-padding-left {
+    padding-left: 0px !important;
+}
+
+.arrow-color {
+    color: black;
+    font-weight: initial;
+    cursor: pointer;
+    font-size: 17px;
+    padding-right: 6px
+}

@@ -120,7 +120,7 @@
       <div class="col-sm-4 col-md-4 col-lg-4">
         <label for="checklist" class="control-label top-padding">Checklist</label>
         <div>
-          <app-dropdown [datasource]='checklist' (selectedItemChange)='this.selectedChecklist = $event' [selectedItem]='selectedChecklist'></app-dropdown>
+          <app-dropdown [datasource]='checklist' (selectedItemChange)='this.selectedChecklist = $event' [selectedItem]='selectedChecklist' [disabled]='checklistDisabled'></app-dropdown>
         </div>
       </div>
 
@@ -142,7 +142,7 @@
       <div class="col-sm-4 col-md-4 col-lg-4">
         <label for="DisplayOrder" class="control-label top-padding">Display Order</label>
         <div>
-          <app-dropdown [datasource]='displayOrder' (selectedItemChange)='this.selectedDisplayOrder = $event' [selectedItem]='selectedDisplayOrder'></app-dropdown>
+          <app-dropdown [datasource]='displayOrder' (selectedItemChange)='this.selectedDisplayOrder = $event' [selectedItem]='selectedDisplayOrder' [disabled]='displayDisabled'></app-dropdown>
         </div>
       </div>
 

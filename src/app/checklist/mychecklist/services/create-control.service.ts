@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpHeaders, HttpParams, } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { appConstants } from '../../../core/constants/appConstants';
 import { environment } from '../../../../environments/environment';
 import { SelectItem } from 'primeng/api';

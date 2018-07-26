@@ -13,3 +13,14 @@
 .displaycolor{
     color: rgb(21, 49, 126)
 } 
+
+.labelheader{
+    color: #205492 !important;
+    padding-left: 36px;
+}
+
+.labelvalue{
+    color: #1b1d1f;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+}

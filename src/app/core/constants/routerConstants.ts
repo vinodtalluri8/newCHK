@@ -16,11 +16,18 @@ export const routerConstants = {
     assigned : 'assigned/',
     viewassigned: 'assigned/' + 'viewassigned',
     manage: 'managed',
+    searchOnlineChecklistt: searchOnlineChecklist,
     searchonlinechecklistResult: searchOnlineChecklist  + 'results',
     checklistManager: 'manage' + 'checklistmanagers',
     modifycontrols : checklist + 'modifycontrols',
     scheduleChecklist: 'managed/' + 'schedulechecklist',
     scheduleChecklistResults: 'managed/' + 'schedulechecklist/' + 'schedulechecklistresults',
     checklistScheduled: 'managed/' + 'schedulechecklist/' + 'schedulechecklistresults/' + 'checklistscheduled',
-    order: checklist + 'order'
+    order: checklist + 'order',
+    onlineChecklistAssignment: searchOnlineChecklist + '/assignments',
+    newChecklistSchedule: 'managed/' + 'newchecklistschedule',
+    editChecklistSchedule: 'managed/' + 'editchecklistschedule',
+    ModifyManagerAssignment: searchOnlineChecklist + 'employeeassignments/' + 'modifymanagerassignment',
+    searchonlinechecklistControls: searchOnlineChecklist  + 'checklistControls',
+
 };

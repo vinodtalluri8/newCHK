@@ -22,50 +22,47 @@
   <div class="panel-body section-padding">
 
     <div class="row">
-      <div class="col-sm-4 col-md-4 col-lg-4" style="border: 1px grey; padding-bottom: 15px;">    
+      <div class="col-sm-4 col-md-4 col-lg-4" style="border: 1px grey; padding-bottom: 15px;">
         <label for="title" class="control-label top-padding"> Active Employee </label>
-          <p-listbox [options]="addChecklistManagers" [(ngModel)]="selectedAddChecklistManager" [style]="{'width':'90.5%'}" [listStyle]="{'max-height':'250px'}"
-            filter="filter">
-            <!-- <ng-template let-manager pTemplate="item">
-                <div class="ui-helper-clearfix">
-                  <span style="margin:20px 10px 0 0">{{manager.value}}</span>
-                </div>
-              </ng-template> -->
+
+        <app-listbox [datasource]="addChecklistManagers" [selectedItem]="selectedAddChecklistManager" [style]="{'width':'90.5%'}"
+          [liststyle]="{'max-height':'250px'}" (selectedItemChange) = "this.selectedAddChecklistManager = $event">
           <p-footer>
-            Selected: {{selectedAddChecklistManager||'None'}}
+            <ng-container *ngIf="selectedAddChecklistManager; else elseTemplate">
+              Selected: {{selectedAddChecklistManager['fullName']}}
+            </ng-container>
+            <ng-template #elseTemplate>
+              Selected: {{'None'}}
+            </ng-template>
           </p-footer>
-          </p-listbox>
-          <div class="row addManagersButtons">             
-            <!-- <app-button (click)="selectedAddChecklistManager=null" label="Clear Selected Manager" styleClass='button-action'></app-button> -->
-            <div>
-              <app-button (click)="add(selectedAddChecklistManager)" label="Add Manager" styleClass='button-action'></app-button>
-            </div>
-          </div>      
+        </app-listbox>
+        <div class="row addManagersButtons">
+          <app-button (click)="add(selectedAddChecklistManager)" label="Add Manager" styleClass='button-action'></app-button>
+        </div>
       </div>
 
       <div class="offset-sm-2 offset-md-2 offset-lg-2"></div>
-    
+
       <div class="col-sm-4 col-md-4 col-lg-4" style="border: 1px grey; padding-bottom: 15px;">
         <label for="title" class="control-label top-padding"> Online Checklist Manager </label>
-          <p-listbox [options]="managers" [(ngModel)]="selectedManager" [style]="{'width':'90.5%'}" [listStyle]="{'max-height':'250px'}"
-            filter="filter">
-            <!-- <ng-template let-manager pTemplate="item">
-                <div class="ui-helper-clearfix">
-                  <span style="margin:20px 10px 0 0">{{manager.value}}</span>
-                </div>
-              </ng-template> -->
-            <p-footer>
-              Selected: {{selectedManager||'None'}}
-            </p-footer>
-          </p-listbox>
- 
-          <div class="row deleteManagersButtons">        
-            <!-- <app-button (click)="selectedManager=null" label="Clear Selected Manager" styleClass='button-action'></app-button> -->      
-              <app-button (click)="delete(selectedManager)" label="Delete Manager" styleClass='button-action'></app-button>
-          </div>        
+        <app-listbox [datasource]="managers" [selectedItem]="selectedManager" [style]="{'width':'90.5%'}" [liststyle]="{'max-height':'250px'}" (selectedItemChange) = "this.selectedManager = $event">
+          <p-footer appendTo= "listFooter" >
+            <ng-container *ngIf="selectedManager; else elseTemplate">
+              Selected: {{selectedManager['fullName']}}
+            </ng-container>
+            <ng-template #elseTemplate>
+              Selected: {{'None'}}
+            </ng-template>
+          </p-footer>
+        </app-listbox>
+
+        <div class="row deleteManagersButtons">
+          <app-button (click)="delete(selectedManager)" label="Delete Manager" styleClass='button-action'></app-button>
+        </div>
       </div>
     </div>
 
   </div>
 
 </div>
+<p-confirmDialog appendTo="body"></p-confirmDialog>

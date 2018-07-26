@@ -1,0 +1,30 @@
+<form [formGroup]="addChecklistManagerForm">
+  <div class="ui-g ui-fluid" style="padding-left: 10px;">
+
+
+    <p-growl [(value)]="msgs"></p-growl>
+
+    
+
+    <div class="ui-g-12 form-group modalForm">
+      <div class="ui-g-2 paddingForm">
+          <label for="activeEmployees" class="required control-label">Active Employees</label>
+        </div>          
+      
+      
+        <div class="ui-g-10 paddingForm">
+          <app-multiselect [dataSource]='activeEmployees' (selectedMultiSelect)='changeActiveEmployees($event)' [selectedItems]='selectedActiveEmployees'></app-multiselect>
+        </div>
+     
+
+    </div>
+
+   
+  </div>
+
+</form>
+<div class="buttonPadding" class="buttonPadding">
+  <app-button label='Save' (click)='addChecklistManager()' [disabled]='disable()' styleClass='button-action'></app-button>
+  <app-button label='Clear All' (click)='resetAll()' styleClass='button-cancel'></app-button>
+  <app-button label='Cancel' (click)='back()' styleClass='button-cancel'></app-button>
+</div>

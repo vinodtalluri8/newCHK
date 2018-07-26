@@ -1,0 +1,58 @@
+<div class="panel panel-default" style="margin-left: 0px">
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -8px">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+  </div>
+
+  <p-growl [(value)]="msgs"></p-growl>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <h3 class="panel-title" style="font-size: 24px; padding-left:0px">
+        <fa class="arrow-color" style="font-size: 17px;" name="chevron-left" size='0.5x' (click)='back()'> </fa>{{header}}</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 panel panel-default">
+      <h3 class="panel-title " style="font-size: 24px; padding-left:2px">{{checklistName}}</h3>
+    </div>
+  </div>
+
+  <div class="panel-body section-padding">
+    <div class="row">
+      <div class="row col-sm-4 col-md-4 col-lg-4">
+        <label class="labelheader">Frequency: </label>
+        <div class="labelvalue"> {{this.displayFrequency}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row col-sm-4 col-md-4 col-lg-4">
+        <label class="labelheader">Start Date: </label>
+        <div class="labelvalue">{{this.displayStartDate}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="status" class="control-label">Status</label>
+        <div>
+          <app-dropdown [datasource]='status' (selectedItemChange)='this.selectedStatus = $event' [selectedItem]='selectedStatus'></app-dropdown>
+        </div>
+        <label for="additionalComments" class="required control-label top-padding">Comments</label>
+        <div>
+          <app-input-text-area rowSize='5' (inputTextAreaSelected)='this.additionalComments= $event' [value]='additionalComments' name='additionalComments'></app-input-text-area>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row commentsButtons">
+      <div class="col-sm-12 col-md-12 col-lg-12">
+        <app-button label='Save' (click)='saveComments()' styleClass='button-action'></app-button>
+        <app-button label='Cancel' (click)='resetAll()' styleClass='button-cancel'></app-button>
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -17,7 +17,9 @@ export class SearchControlService extends BaseServiceService {
     this.searchCriteria = searchCriteria;
   }
 
-
+  getSearchCriteria() {
+    return this.searchCriteria;
+  }
 
   constructor(private httpClient: HttpClient) {
     super();

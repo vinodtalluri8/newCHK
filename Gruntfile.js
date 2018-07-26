@@ -16,9 +16,9 @@ module.exports = function (grunt) {
 
                 options: {
 
-                    war_dist_folder: 'dist', /* Folder where to generate the WAR. */
+                    war_dist_folder: 'build', /* Folder where to generate the WAR. */
 
-                    war_name: 'DivaChecklist-webapps'                    /* The name fo the WAR file (.war will be the extension) */
+                    war_name: 'DIVA-Checklist'                    /* The name fo the WAR file (.war will be the extension) */
 
                 },
 

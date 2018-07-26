@@ -118,6 +118,9 @@ export class ControlsComponent implements OnInit {
     this.checklistCommonService.getPrimary('display').subscribe(
       (data) => {
         this.primary = data;
+        this.reviewer = data;
+        this.anyAssigned = data;
+        this.backup = data;
       }, error => {
         this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
       });
@@ -129,19 +132,19 @@ export class ControlsComponent implements OnInit {
         this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
       });
     /** to get  assignee dropdown */
-    this.checklistCommonService.getAssignee('display').subscribe(
+   /* this.checklistCommonService.getAssignee('display').subscribe(
       (data) => {
         this.anyAssigned = data;
       }, error => {
         this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
-      });
+      });*/
     /** to get  backup dropdown */
-    this.checklistCommonService.getBackup('display').subscribe(
+    /*this.checklistCommonService.getBackup('display').subscribe(
       (data) => {
         this.backup = data;
       }, error => {
         this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
-      });
+      });*/
     /** to get  evaluation dropdown */
     this.checklistCommonService.getEvaluation('display').subscribe(
       (data) => {
@@ -158,12 +161,12 @@ export class ControlsComponent implements OnInit {
         this.msgs.push({ severity: 'error', summary: 'Error Message', detail: error });
       });
     /** to get  reviewer dropdown */
-    this.checklistCommonService.getReviewer('display').subscribe(
+    /*this.checklistCommonService.getReviewer('display').subscribe(
       (data) => {
         this.reviewer = data;
       }, error => {
         this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
-      });
+      });*/
     /** to get  status dropdown */
     this.checklistCommonService.getStatus('display').subscribe(
       (data) => {
@@ -190,7 +193,7 @@ export class ControlsComponent implements OnInit {
     this.selectedReviewLength = '=';
     this.selectedRisk = 'A';
     this.selectedPrimary = 'A';
-    this.review = 0.0;
+    this.review = null;
     this.selectedGroup = this.defaultgroup;
     this.selectedAnyAssigned = 'A';
     this.selectedBackup = 'A';
@@ -200,7 +203,7 @@ export class ControlsComponent implements OnInit {
     this.selectedFrequency = 'A';
     this.selectedStatus = 'Active';
     this.selectedControlLength = '=';
-    this.control = 0.0;
+    this.control = null;
   }
 
   /** This method will send the inputs

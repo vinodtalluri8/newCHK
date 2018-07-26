@@ -1,0 +1,54 @@
+<form [formGroup]="managerAssignmentForm">
+  <div class="ui-g ui-fluid" style="padding-left: 10px;">
+    <div class="ui-g-8 form-group modalForm checklistDisplay">
+      <div class="ui-g-12 paddingForm">
+        <label for="Control">
+          <small>{{childChecklistName}}</small>
+        </label>
+      </div>
+    </div>
+    <div class="ui-g-12 form-group modalForm controlDisplay">
+      <div class="ui-g-12 paddingForm">
+        <label for="Control">
+          <small>{{childScheduleName}}</small>
+        </label>
+      </div>
+    </div>
+    <p-growl [(value)]="msgs"></p-growl>
+    <div class="ui-g-12 form-group modalForm">
+      <div class="ui-g-2 paddingForm">
+        <label for="employee" class="required control-label">Employee</label>
+      </div>
+      <div class="ui-g-10 paddingForm">
+        <app-dropdown [datasource]='employee' (selectedItemChange)='this.selectedEmployee = $event' [selectedItem]='selectedEmployee'
+          [disabled]='disabled'></app-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 form-group modalForm">
+      <div class="ui-g-2 paddingForm">
+        <label for="manager" class="required control-label">Manager</label>
+      </div>
+      <div class="ui-g-10 paddingForm">
+        <app-dropdown [datasource]='manager' (selectedItemChange)='checkActiveManager($event , "manager")' [selectedItem]='selectedManager'></app-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 form-group modalForm">
+      <div class="ui-g-2 paddingForm">
+        <label for="backupmanager" class="required control-label">Backup Manager</label>
+      </div>
+      <div class="ui-g-10 paddingForm">
+        <app-dropdown [datasource]='backupManager' (selectedItemChange)='checkActiveManager($event , "backupManager")' [selectedItem]='selectedBackupManager'></app-dropdown>
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+</form>
+<div class="buttonPadding" class="buttonPadding">
+  <app-button label='Save' (click)='modifyManagerAssignment()' [disabled]='disable()' styleClass='button-action'></app-button>
+     <app-button label='Clear All' (click)='resetAll()' styleClass='button-cancel'></app-button>
+   <app-button label='Cancel' (click)='back()' styleClass='button-cancel'></app-button>
+</div>

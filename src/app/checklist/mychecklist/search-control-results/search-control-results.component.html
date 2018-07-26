@@ -1,71 +1,132 @@
 <div class="panel panel-default" style="margin-left:-3px">
-<div class="row">
-  <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-4px">
-    <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-4px">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+  </div>
+
+  <h3 class="panel-title" style="font-size: 24px; padding-left:5px">
+    <fa class="arrow-color" style="font-size: 17px;" name="chevron-left" size='0.5x' (click)='back()'> </fa>Controls</h3>
+</div>
+
+<div class="row" style="font-size: 12px">
+  <div class="row" *ngIf="this.displayTitle">
+    <label class="labelheader">Title contains: </label>
+    <div class="labelvalue">{{this.displayTitle}} ,</div>
+  </div>
+  <div class="row" *ngIf="this.displayGroup">
+    <label class="labelheader">Group: </label>
+    <div class="labelvalue"> {{this.displayGroup}} ,</div>
+  </div>
+  <div class="row" *ngIf="this.displayDepartment && this.displayDepartment!='A'">
+    <label class="labelheader">Department: </label>
+    <div class="labelvalue"> {{this.displayDepartment}} ,</div>
+  </div>
+  <div class="row" *ngIf="this.displayFrequency && this.displayFrequency!='A'">
+    <label class="labelheader">Frequency: </label>
+    <div class="labelvalue"> {{this.displayFrequency}} ,</div>
+  </div>
+  <div class="row" *ngIf="this.displayAssignee && this.displayAssignee!='A'">
+    <label class="labelheader">Assignee: </label>
+    <div class="labelvalue"> {{this.displayAssignee}} ,</div>
+  </div>
+  <div class="row" *ngIf="this.displayReviewer && this.displayReviewer!='A'">
+    <label class="labelheader">Reviewer: </label>
+    <div class="labelvalue">{{this.displayReviewer}} ,</div>
+  </div>
+  <div class="row" *ngIf="this.displayPrimary && this.displayPrimary!='A'">
+    <label class="labelheader">Primary: </label>
+    <div class="labelvalue"> {{this.displayPrimary}} ,</div>
+  </div>
+  <div class="row" *ngIf="this.displayBackup && this.displayBackup!='A'">
+    <label class="labelheader">Backup: </label>
+    <div class="labelvalue"> {{this.displayBackup}} ,</div>
+  </div>
+  <div class="row" *ngIf="this.displayReview != null">
+    <label class="labelheader">Review length: </label>
+    <div class="labelvalue"> {{this.displayReviewOperation}} {{this.displayReview}} ,</div>
+  </div>
+  <div class="row" *ngIf="this.displayRisk && this.displayRisk!='A'">
+    <label class="labelheader">Risk: </label>
+    <div class="labelvalue"> {{this.displayRisk}} ,</div>
+  </div>
+  <div class="row" *ngIf="this.displayEvaluation && this.displayEvaluation!='A'">
+    <label class="labelheader">Evaluation: </label>
+    <div class="labelvalue"> {{this.displayEvaluation}} ,</div>
+  </div>
+  <div class="row" *ngIf="this.displayControl">
+    <label class="labelheader">Control length: </label>
+    <div class="labelvalue"> {{this.displayControlOperation}} {{this.displayControl}} ,</div>
+  </div>
+  <div class="row" *ngIf="this.displayStatus && this.displayStatus!='A'">
+    <label class="labelheader">Status: </label>
+    <div class="labelvalue"> {{this.displayStatus}} </div>
   </div>
 </div>
 
-<h3 class="panel-title" style="font-size: 24px; padding-left:5px">
-  <fa class="arrow-color" style="font-size: 17px;" name="chevron-left" size='0.5x' (click)='back()'> </fa>Controls</h3>
-</div>
 <div class="col.sm-12 col-md-12 col-lg-12 padding-zero" *ngIf="msgs.length > 0">
-    <p-growl [(value)]="msgs"></p-growl>
+  <p-growl [(value)]="msgs"></p-growl>
 </div>
 <div class="row gridPadding">
-    <div class="toolbar" *ngIf="searchControlResults && searchControlResults.length > 0">
-        <img class="imgAlign pull-right" (click)="sv.exportCSV()" src="./assets/icon-excel-export.png" alt="Export to Excel.png">
-      </div>
-<p-table #sv [columns]="colHeaders" [value]="searchControlResults" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
+  <div class="toolbar" *ngIf="searchControlResults && searchControlResults.length > 0">
+    <img class="imgAlign pull-right" (click)="scor.exportCSV()" src="./assets/icon-excel-export.png" alt="Export to Excel.png">
+  </div>
+
+<p-table #scor [columns]="colHeaders" [value]="searchControlResults" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
       [alwaysShowPaginator]="false"   [exportFilename]="this.exportFileName" [loading] ="loading">
       <ng-template pTemplate="caption">
         <div class="ui-helper-clearfix">
         </div>
       </ng-template>
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
-            {{col.header}}
-            <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
-          </th>
-        </tr>
-        <tr *ngIf="filterable && searchControlResults && searchControlResults.length > 0">
-          <th *ngFor="let col of columns" [style.width]="col.width" >
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
+          {{col.header}}
+          <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+        </th>
+      </tr>
+      <tr *ngIf="filterable && searchControlResults && searchControlResults.length > 0">
+        <th *ngFor="let col of columns" [style.width]="col.width">
 
-            <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="sv.filter($event.target.value, col.field, 'contains')">
+          <input *ngIf="col.field !== 'action'" pInputText type="text" placeholder="Filter" (input)="scor.filter($event.target.value, col.field, 'contains')">
 
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr [pSelectableRow]="rowData">
-          <td *ngFor="let col of columns" [style.width]="col.width" class="ui-resizable-column">
-            <ng-container *ngIf="col.field == 'checklistName'; else elseTemplate">
-              <div class="displaycolor">
-                <a class="hyperlink" (click)="viewChecklistsForControls(rowData['checklistId'],rowData['status'],rowData['checklistName'])">{{rowData['checklistName']}}</a>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr [pSelectableRow]="rowData">
+        <td *ngFor="let col of columns" [style.width]="col.width" class="ui-resizable-column">
+          <ng-container *ngIf="col.field == 'checklistName'; else elseTemplate">
+            <div class="displaycolor">
+              <a class="hyperlink" (click)="viewChecklistsForControls(rowData['checklistId'],rowData['status'],rowData['checklistName'])">{{rowData['checklistName']}}</a>
             </div>
-            </ng-container>
-            <ng-template #elseTemplate>
-              {{rowData[col.field]}}
-            </ng-template>
+          </ng-container>
+          <ng-template #elseTemplate>
+            {{rowData[col.field]}}
+          </ng-template>
 
 
-          </td>
-        </tr>
-      </ng-template>
+        </td>
+      </tr>
+    </ng-template>
 
-      <ng-template pTemplate="emptymessage" let-columns>
-        <tr>
-          <td [attr.colspan]="columns.length" style="text-align: center">
-            No records found
-          </td>
-        </tr>
-      </ng-template>
+    <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+        <td [attr.colspan]="columns.length" style="text-align: center">
+          No records found
+        </td>
+      </tr>
+    </ng-template>
 
-      <ng-template pTemplate="paginatorright" let-state>
-        <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
-      </ng-template>
-    </p-table>
-    </div>
-    <div *ngIf="!isPaginator">
+    <ng-template pTemplate="paginatorright" let-state>
+      <div class="grid-page-dropdown">
       <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
-    </div>
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+<div *ngIf="!isPaginator" class="pageAlign">
+  <div class="grid-page-dropdown">
+  <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+  </div>
+</div>

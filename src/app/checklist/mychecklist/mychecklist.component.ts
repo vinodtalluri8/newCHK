@@ -43,16 +43,16 @@ export class MychecklistComponent implements OnInit {
     this.router.navigate(['../addcontrol']);
   }
 
-  checklistManagers() {
-    this.router.navigate(['../managed/checklistmanager']);
+  newSchedule() {
+    this.router.navigate(['../managed/newchecklistschedule']);
   }
 
   scheduleChecklistOnline() {
     this.router.navigate(['../managed/schedulechecklist']);
   }
 
-  scheduleChecklistResults() {
-    this.router.navigate(['../managed/schedulechecklist/schedulechecklistresults']);
+  updateChecklistStatus() {
+    this.router.navigate(['../updatecheckliststatus']);
   }
 
   refresh(event) {

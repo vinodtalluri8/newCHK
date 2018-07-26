@@ -16,11 +16,14 @@ export class ChecklistManagerComponent implements OnInit {
   selectedManager: string;
 
   addChecklistManagers: SelectItem[];
-  selectedAddChecklistManager: string;
+  selectedAddChecklistManager: any;
   itemsPath: MenuItem[];
   home: MenuItem;
   msgs: Message[] = [];
-  savedRecord: any;
+  savedAddRecord: any;
+  addRecordLength: any;
+  savedDeleteRecord: any;
+  deletRecordLength: any;
 
   constructor(private checklistCommonService: ChecklistCommonService, private messageService: MessageService,
     private checklistManagersService: ChecklistManagersService, private confirmationService: ConfirmationService) {
@@ -30,10 +33,6 @@ export class ChecklistManagerComponent implements OnInit {
     this.itemsPath = [
       { label: 'Checklist', routerLink: [routerConstants.defaultRoute] },
       { label: 'Manage Checklist Managers' }];
-
-    //   this.managers = [
-    //     {label: 'Daily Scan of Instances', value: 'Daily Scan of Instances'}
-    // ];
    }
 
  /** to call methods on init */
@@ -52,6 +51,7 @@ export class ChecklistManagerComponent implements OnInit {
   this.checklistManagersService.getAddManagerList().subscribe(
     (data) => {
       this.addChecklistManagers = data;
+      this.addRecordLength = this.addChecklistManagers.length;
     }, error => {
       this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
     });
@@ -60,49 +60,61 @@ export class ChecklistManagerComponent implements OnInit {
   this.checklistManagersService.getDeleteManagerList().subscribe(
     (data) => {
       this.managers = data;
+      this.deletRecordLength = this.managers.length;
     }, error => {
       this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
     });
 
   }
-  /** this method makes an active employee as checklist manager **/
-  add(value) {
-  console.log('add, selectedAddChecklistManager', this.selectedAddChecklistManager);
-  this.msgs = [{ severity: 'info', summary: 'Implemention Pending', detail: 'Add yet to be implemented' }];
-  // console.log('value', value);
-  // this.checklistManagersService.addChecklistManager(value)
-  // .subscribe(data => {
-  //   this.savedRecord = data;
-  //   this.messageService.clearMessage();
-  //   this.messageService.sendMessage({ severity: 'success', detail: 'Record Added Successfully' });
-  //   },
-  //   error => {
-  //     this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
-  //   });
+  selectedvalue(selectedAddChecklistManager) {
+    console.log('value', this.addChecklistManagers[selectedAddChecklistManager]);
   }
+
+
+  /** this method makes an active employee as checklist manager **/
+  add(selectedAddChecklistManager) {
+  console.log('add, selectedAddChecklistManager', this.selectedAddChecklistManager);
+
+  this.checklistManagersService.addChecklistManager(selectedAddChecklistManager.value)
+  .subscribe(data => {
+    this.savedAddRecord = data;
+    console.log('after add service is called in ts');
+    this.preloadData();
+    console.log('after preload data add');
+    this.messageService.clearMessage();
+    this.selectedAddChecklistManager = null;
+    },
+    error => {
+      this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
+    });
+    this.msgs = [{ severity: 'success', detail: 'Record Added Successfully' }];
+  }
+
+
   /** to delete checklist manager**/
-  delete(value) {
-    console.log('delete');
-    // this.msgs = [];
-    // this.confirmationService.confirm({
-    //   message: 'Are you sure you want to delete?',
-    //   header: 'Delete Confirmation',
-    //   icon: 'fa fa-trash',
-    //   accept: () => {
-    //     this.checklistManagersService.deleteChecklistManager(value).subscribe(data => {
-    //       this.msgs = [{ severity: 'success', detail: 'Record Deleted Successfully' }];
-    //       // this.checklistManagersService.refreshResults().subscribe(results => {
-    //       //   this.checklistManagersService = results;
-    //       // });
-    //     }, error => {
-    //       this.msgs = [{ severity: 'error', detail: 'Cannot delete checklist manager' }];
-    //     });
-    //   },
-    //   reject: () => {
-    //     this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
-    //   }
-    // });
-    this.msgs.push({severity: 'info', summary: 'Implementation Pending', detail: 'Delete yet to be Implemented'});
+  delete(selectedManager) {
+    console.log('delete', selectedManager);
+    this.msgs = [];
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete?',
+      header: 'Delete Confirmation',
+      icon: 'fa fa-trash',
+      accept: () => {
+        this.checklistManagersService.deleteChecklistManager(selectedManager.value).subscribe(data => {
+          console.log('after delete service is called in ts');
+          this.preloadData();
+          console.log('after preload data delte');
+            this.msgs = [{ severity: 'success', detail: 'Record Deleted Successfully' }];
+            this.selectedManager = null;
+        }, error => {
+          this.msgs = [{ severity: 'error', detail: 'Cannot delete checklist manager' }];
+        });
+      },
+      reject: () => {
+        this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
+      }
+    });
+    // this.msgs.push({severity: 'info', summary: 'Implementation Pending', detail: 'Delete yet to be Implemented'});
   }
 
 }

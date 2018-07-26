@@ -2,6 +2,13 @@
     padding-top: 10px;
     padding-left: 17px !important;
 }
+.arrow-color {
+    color: black;
+    font-weight: initial;
+    cursor: pointer;
+    font-size: 17px;
+    padding-right: 6px
+}
 
 .selectedName{
     color: blue;

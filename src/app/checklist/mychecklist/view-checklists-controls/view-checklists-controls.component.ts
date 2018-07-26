@@ -55,7 +55,7 @@ export class ViewChecklistsControlsComponent implements OnInit {
       { field: 'reviewer', header: 'Reviewer', width: '7%' },
       { field: 'reviewLength', header: 'Review Length', width: '6%' },
       { field: 'risk', header: 'Risk', width: '6%' },
-      { field: 'doctitle', header: 'Procedure', width: '6%' },
+      { field: 'docTitle', header: 'Procedure', width: '6%' },
       { field: 'procedureModDate', header: 'Procedure ModDate', width: '8%' },
       { field: 'evidenceRequired', header: 'Evidence', width: '6%' },
       { field: 'action', header: 'Action(s)', width: '10%' }
@@ -80,7 +80,7 @@ export class ViewChecklistsControlsComponent implements OnInit {
   * */
 
 fetchValues() {
-  this.viewChecklistsControlsService.fetchViewCheckLists().subscribe(data => {
+  this.viewChecklistsControlsService.fetchViewCheckLists(this.routePath).subscribe(data => {
     this.viewChecklistsControlsResults = data;
     this.loading = false;
     this.records = this.viewChecklistsControlsResults.length;
@@ -155,7 +155,7 @@ fetchValues() {
     icon: 'fa fa-trash',
     accept: () => {
       this.viewChecklistsControlsService.deleteControl(inputJson).subscribe(data => {
-        this.viewChecklistsControlsService.fetchViewCheckLists().subscribe(results => {
+        this.viewChecklistsControlsService.fetchViewCheckLists(this.routePath).subscribe(results => {
           this.viewChecklistsControlsResults = results;
           this.records = this.viewChecklistsControlsResults.length;
             });
@@ -169,13 +169,6 @@ fetchValues() {
     }
   });
 }
-  /*
-  *View procedure Document
-  */
-  viewProcedureDoc(record, records) {
-    this.msgs = [];
-    this.msgs.push({ severity: 'info', summary: 'Implementation Pending', detail: 'Yet to be Implemented' });
-  }
   /*
   *Add new control
   */

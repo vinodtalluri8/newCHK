@@ -1,0 +1,277 @@
+<!-- new checklist schedule screen display -->
+
+<div class="panel panel-default" style="padding-left: 3px">
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -10px;">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- <div class="col-sm-5 col-md-5 col-lg-8 panel panel-default">
+      <div class="panel-heading section-padding">
+        <h3 class="panel-title " style="font-size: 24px; margin-left: -2px;">New Checklist Schedule</h3>
+      </div>
+    </div> -->
+    <div class="col-sm-8 col-md-8 col-lg-8 panel panel-default">
+      <h3 class="panel-title" style="font-size: 24px; margin-left: -2px;">
+        <fa class="arrow-color" style="font-size: 17px;" name="chevron-left" size='0.5x' (click)='back()'> </fa>{{scheduleHeader}}</h3>
+    </div>
+
+  </div>
+
+  <div class="col.sm-12 col-md-12 col-lg-12 padding-zero" *ngIf="msgs.length > 0">
+    <p-growl [(value)]="msgs"></p-growl>
+  </div>
+
+  <div class="col-sm-10 col-md-10 col-lg-10" style="margin-left: -16px;">
+    <div class="selectedName">
+      <strong>{{selectedName}}</strong>
+    </div>
+  </div>
+  <div class="row col-sm-4 col-md-4 col-lg-4">
+    <div class="selectedFrequency">
+      <strong>Frequency: {{selectedFrequency}}</strong>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <label for="schedule" class="required control-label">Schedule</label>
+      <div>
+        <app-input (inputTextSelected)='this.schedule=$event' [value]='schedule' maxlength="60"></app-input>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-3" id="requiredCompletionLength">
+
+      <div *ngIf="selectedFrequency == 'Daily'">
+        <div class="row">
+         <label class="col-sm-10 col-md-10 col-lg-10" for="requiredCompletionLength" class="required control-label" style="margin-left: 15px">Required Completion Time</label> 
+         <app-tooltip class="col-sm-2 col-md-2 col-lg-2" message='Required Completion Time should be greater than or equal to Email Alert Warning Time' style="line-height: 40px; margin-left: -20px"></app-tooltip> 
+        </div>
+        
+        <div class="row">
+          <div class="col-sm-2 col-md-2 col-lg-2" style="line-height: 40px;">
+            <span class="infotext">Hour</span>
+          </div>
+          <div class="col-sm-4 col-md-4 col-lg-4">
+            <div>
+              <app-dropdown [datasource]='requiredCompletionLength' (selectedItemChange)='this.selectedRequiredCompletionLength = $event'
+                [selectedItem]='selectedRequiredCompletionLength'></app-dropdown>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-4 col-lg-4">
+            <div>
+              <app-dropdown [datasource]='completionHoursFormat' (selectedItemChange)='this.selectedcompletionHoursFormat = $event' [selectedItem]='selectedcompletionHoursFormat'></app-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="selectedFrequency !== 'Daily'">
+
+        <div>
+          <div class="row" *ngIf="selectedFrequency == 'Weekly'">
+            <label class="col-sm-10 col-md-10 col-lg-10" for="requiredCompletionLength" class="required control-label" style="margin-left: 15px">Required Completion Length</label>
+            <app-tooltip class="col-sm-2 col-md-2 col-lg-2" message='Required Completion Length should be from 1 to 5' style="line-height: 40px; margin-left: -20px"></app-tooltip>
+          </div>
+          <div class="row" *ngIf="selectedFrequency == 'Monthly'">
+            <label class="col-sm-10 col-md-10 col-lg-10" for="requiredCompletionLength" class="required control-label" style="margin-left: 15px">Required Completion Length</label>
+            <app-tooltip class="col-sm-2 col-md-2 col-lg-2" message='Required Completion Length should be from 1 to 20' style="line-height: 40px; margin-left: -20px"></app-tooltip>
+          </div>
+          <div class="row" *ngIf="selectedFrequency == 'Quarterly'">
+            <label class="col-sm-10 col-md-10 col-lg-10" for="requiredCompletionLength" class="required control-label" style="margin-left: 15px">Required Completion Length</label>
+            <app-tooltip class="col-sm-2 col-md-2 col-lg-2" message='Required Completion Length should be from 1 to 60' style="line-height: 40px; margin-left: -20px"></app-tooltip>
+          </div>
+          <div class="row" *ngIf="selectedFrequency == 'Semi - annual'">
+            <label class="col-sm-10 col-md-10 col-lg-10" for="requiredCompletionLength" class="required control-label" style="margin-left: 15px">Required Completion Length</label>
+            <app-tooltip class="col-sm-2 col-md-2 col-lg-2" message='Required Completion Length should be from 1 to 125' style="line-height: 40px; margin-left: -20px"></app-tooltip>
+          </div>
+          <div class="row" *ngIf="selectedFrequency == 'Annually'">
+            <label class="col-sm-10 col-md-10 col-lg-10" for="requiredCompletionLength" class="required control-label" style="margin-left: 15px">Required Completion Length</label>
+            <app-tooltip class="col-sm-2 col-md-2 col-lg-2" message='Required Completion Length should be from 1 to 250' style="line-height: 40px; margin-left: -20px"></app-tooltip>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-5 col-md-5 col-lg-5">
+            <div *ngIf="selectedFrequency == 'Weekly'">
+              <!-- <app-input (inputTextSelected)='this.completionLength=$event' [value]='completionLength' maxlength="60"></app-input> -->
+              <app-input appNumberonly [min]= 1 [max]= 5 (inputTextSelected)='this.completionLength=$event' [value]='completionLength' maxlength="4"></app-input>
+            </div>
+            <div *ngIf="selectedFrequency == 'Monthly'">
+              <app-input appNumberonly [min]= 1 [max]= 20 (inputTextSelected)='this.completionLength=$event' [value]='completionLength'
+                maxlength="4"></app-input>
+            </div>
+            <div *ngIf="selectedFrequency == 'Quarterly'">
+              <app-input appNumberonly [min]= 1 [max]= 60 (inputTextSelected)='this.completionLength=$event' [value]='completionLength'
+                maxlength="4"></app-input>
+            </div>
+            <div *ngIf="selectedFrequency == 'Semi - annual'">
+              <app-input appNumberonly [min]= 1 [max]= 125 (inputTextSelected)='this.completionLength=$event' [value]='completionLength'
+                maxlength="4"></app-input>
+            </div>
+            <div *ngIf="selectedFrequency == 'Annually'">
+              <app-input appNumberonly [min]= 1 [max]= 250 (inputTextSelected)='this.completionLength=$event' [value]='completionLength'
+                maxlength="4"></app-input>
+            </div>
+          </div>
+          <div class="col-sm-5 col-md-5 col-lg-5" style="margin-left: 8px !important">
+            <app-input (inputTextSelected)='this.format=$event' [value]='format' [disabled]='disabled' maxlength="10"></app-input>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <div *ngIf="selectedFrequency == 'Daily'">
+        <div style="display:none"></div>
+      </div>
+      <div *ngIf="selectedFrequency !== 'Daily'">      
+
+        <div>
+            <div class="row" *ngIf="selectedFrequency == 'Weekly'">
+              <label class="col-sm-10 col-md-10 col-lg-10" for="relativeStartDay" class="required control-label" style="margin-left: 15px">Relative Start Day</label>
+              <app-tooltip class="col-sm-2 col-md-2 col-lg-2" message='Relative Start Day should be from 1 to 7' style="line-height: 40px; margin-left: -20px"></app-tooltip>
+            </div>
+            <div class="row" *ngIf="selectedFrequency == 'Monthly'">
+                <label class="col-sm-10 col-md-10 col-lg-10" for="relativeStartDay" class="required control-label" style="margin-left: 15px">Relative Start Day</label>
+                <app-tooltip class="col-sm-2 col-md-2 col-lg-2" message='Relative Start Day should be from 1 to 28' style="line-height: 40px; margin-left: -20px"></app-tooltip>
+            </div>
+            <div class="row" *ngIf="selectedFrequency == 'Quarterly'">
+                <label class="col-sm-10 col-md-10 col-lg-10" for="relativeStartDay" class="required control-label" style="margin-left: 15px">Relative Start Day</label>
+                <app-tooltip class="col-sm-2 col-md-2 col-lg-2" message='Relative Start Day should be from 1 to 90' style="line-height: 40px; margin-left: -20px"></app-tooltip>
+            </div>
+            <div class="row" *ngIf="selectedFrequency == 'Semi - annual'">
+                <label class="col-sm-10 col-md-10 col-lg-10" for="relativeStartDay" class="required control-label" style="margin-left: 15px">Relative Start Day</label>
+                <app-tooltip class="col-sm-2 col-md-2 col-lg-2" message='Relative Start Day should be from 1 to 180' style="line-height: 40px; margin-left: -20px"></app-tooltip>
+            </div>
+            <div class="row" *ngIf="selectedFrequency == 'Annually'">
+                <label class="col-sm-10 col-md-10 col-lg-10" for="relativeStartDay" class="required control-label" style="margin-left: 15px">Relative Start Day</label>
+                <app-tooltip class="col-sm-2 col-md-2 col-lg-2" message='Relative Start Day should be from 1 to 360' style="line-height: 40px; margin-left: -20px"></app-tooltip>
+            </div>
+          </div>
+
+
+        <div class="row">
+          <div class="col-sm-10 col-md-10 col-lg-10">
+            <div *ngIf="selectedFrequency == 'Weekly'">
+              <!-- <app-input (inputTextSelected)='this.relativeStartDay=$event' [value]='relativeStartDay' maxlength="60"></app-input> -->
+              <app-input appNumberonly [min]= 1 [max]= 7 (inputTextSelected)='this.relativeStartDay=$event' [value]='relativeStartDay' maxlength="4"></app-input>
+            </div>
+            <div *ngIf="selectedFrequency == 'Monthly'">
+              <app-input appNumberonly [min]= 1 [max]= 28 (inputTextSelected)='this.relativeStartDay=$event' [value]='relativeStartDay'
+                maxlength="4"></app-input>
+            </div>
+            <div *ngIf="selectedFrequency == 'Quarterly'">
+              <app-input appNumberonly [min]= 1 [max]= 90 (inputTextSelected)='this.relativeStartDay=$event' [value]='relativeStartDay'
+                maxlength="4"></app-input>
+            </div>
+            <div *ngIf="selectedFrequency == 'Semi - annual'">
+              <app-input appNumberonly [min]= 1 [max]= 180 (inputTextSelected)='this.relativeStartDay=$event' [value]='relativeStartDay'
+                maxlength="4"></app-input>
+            </div>
+            <div *ngIf="selectedFrequency == 'Annually'">
+              <app-input appNumberonly [min]= 1 [max]= 360 (inputTextSelected)='this.relativeStartDay=$event' [value]='relativeStartDay'
+                maxlength="4"></app-input>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <div *ngIf="selectedFrequency !== 'Daily' && this.isUpdate">
+        <label for="active" class="control-label">Active</label>
+        <div class="row">
+          <div class="col-sm-6 col-md-6 col-lg-6">
+            <div>
+              <app-dropdown [datasource]='active' (selectedItemChange)='this.selectedActive = $event' [selectedItem]='selectedActive'></app-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <label for="emailWarningTime" class="control-label">Email Alert Warning Time</label>
+      <div class="row">
+        <div class="col-sm-2 col-md-2 col-lg-2" style="line-height: 40px;">
+          <span class="infotext">Hour</span>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+          <div>
+            <app-dropdown [datasource]='emailWarningTime' (selectedItemChange)='this.selectedEmailWarningTime = $event' [selectedItem]='selectedEmailWarningTime'></app-dropdown>
+          </div>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+          <div>
+            <app-dropdown [datasource]='emailHoursFormat' (selectedItemChange)='this.selectedEmailHoursFormat = $event' [selectedItem]='selectedEmailHoursFormat'></app-dropdown>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <label for="autoClose" class="control-label">Auto Close</label>
+      <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+          <div>
+            <app-dropdown [datasource]='autoClose' (selectedItemChange)='this.selectedAutoClose = $event' [selectedItem]='selectedAutoClose'></app-dropdown>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <label for="startDate" class="control-label">Start Date</label>
+      <div class="row">
+        <div class="col-sm-10 col-md-10 col-lg-10">
+          <app-calender id="calender" (calenderSelected)='this.activeDate=$event' showIcon='true' yearNavigator='true' monthNavigator='true'
+            yearRange='2000:2030' [inputDate]='activeDate'></app-calender>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <label for="reviewedByManager" class="control-label">Reviewed by Manager?</label>
+      <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+          <div>
+            <app-dropdown [datasource]='reviewedByManager' (selectedItemChange)='this.selectedReviewedByManager = $event' [selectedItem]='selectedReviewedByManager'></app-dropdown>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="row newScheduleButtons">
+  <!-- <app-button label='Add Schedule and Specify Assignments' (click)="createNewSchedule()" [disabled]='disable()' styleClass='button-action'></app-button>
+  <app-button label='Clear All' (click)="resetAll()" styleClass='button-cancel'></app-button> -->
+
+  <div *ngIf="!this.isUpdate" class="col-sm-12 col-md-12 col-lg-12">
+    <app-button label='Add Schedule and Specify Assignments' (click)='createNewSchedule()' [disabled]='disable()' styleClass='button-action'></app-button>
+    <app-button label='Clear All' (click)='resetAll()' styleClass='button-cancel'></app-button>
+  </div>
+  <div *ngIf="this.isUpdate" class="col-sm-12 col-md-12 col-lg-12">
+    <app-button label='Update Schedule' (click)='modifySchedule()' [disabled]='disable()' styleClass='button-action'></app-button>
+    <app-button label='Reset' (click)='this.populateData()' styleClass='button-cancel'></app-button>
+  </div>
+
+</div>

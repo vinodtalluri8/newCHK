@@ -1,0 +1,101 @@
+<div class="panel panel-default" style="margin-left:-3px">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-4px">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+  </div>
+  <p-growl [(value)]="msgs"></p-growl>
+  <div class="row">
+    <label class="labelblueheader">Checklist:{{this.checklistName}}</label>
+  </div>
+  <div class="row">
+    <label class="labelpurpleheader">Schedule:{{this.scheduleTitle}}</label>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 col-md-8 col-lg-8">
+      <label class="labelblackheader">Start Date:{{this.startDate}}</label>
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="statusdropdown">
+        <app-dropdown [datasource]='displayStatus' (selectedItemChange)='fetchData($event)' [selectedItem]='selectedStatus'></app-dropdown>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="displayComments">
+  <div class="row">
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="managerReviewComments" class="required top-padding">Manager Review Comments</label>
+      <div>
+        <app-input-text-area rowSize='5' class="onlinetextarea" (inputTextAreaSelected)='this.managerReviewComments= $event' [value]='managerReviewComments'
+          name='managerReviewComments'></app-input-text-area>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="row gridPadding">
+    <div class="toolbar" *ngIf="onlineChecklistsControlsResults && onlineChecklistsControlsResults.length > 0">
+      <img class="imgAlign pull-right" (click)="vc.exportCSV()" src="./assets/icon-excel-export.png" alt="Export to Excel.png">
+    </div>
+    <p-table #vc [columns]="colHeaders" [value]="onlineChecklistsControlsResults" [responsive]="true" [paginator]="isPaginator"
+      [loading]="loading" [rows]="selectedRows" [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName">
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix">
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
+            {{col.header}}
+            <p-sortIcon *ngIf="col.field !== 'process' " [field]="col.field"></p-sortIcon>
+          </th>
+        </tr>
+        <tr *ngIf="filterable && onlineChecklistsControlsResults && onlineChecklistsControlsResults.length > 0">
+          <th *ngFor="let col of columns" [style.width]="col.width">
+
+            <input *ngIf="col.field !== 'process'" pInputText type="text" placeholder="Filter" (input)="vc.filter($event.target.value, col.field, 'contains')">
+
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+          <td *ngFor="let col of columns" [style.width]="col.width" class="ui-resizable-column">
+            <ng-container *ngIf="col.field == 'process' || col.field == 'docTitle'; else elseTemplate">           
+              <div class="row" *ngIf="col.field == 'process'">
+                <div style="margin-left:15px !important">
+                  <app-button label="View" (click)="onlineViewControl(rowData['taskId'],rowData['displayOrder'],rowData['title'],rowData['link'],rowData['docTitle'])" styleClass="button-grid-action"></app-button>
+                </div>
+              </div>
+              <div class="row" *ngIf="col.field == 'docTitle'">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <a class="hyperlink displaycolor" href="{{rowData['link']}}">{{rowData['docTitle']}}</a>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #elseTemplate>
+              {{rowData[col.field]}}
+            </ng-template>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td [attr.colspan]="columns.length" style="text-align: center">
+            No records found
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorright" let-state>
+        <div class="grid-page-dropdown">
+          <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="row">
+    <div *ngIf="!isPaginator" class="pageAlign">
+      <div class="grid-page-dropdown">
+        <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+      </div>
+    </div>
+  </div>

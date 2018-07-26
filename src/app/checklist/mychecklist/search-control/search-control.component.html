@@ -81,23 +81,24 @@
       </div>
     </div>
 
-    <div class="col-sm-2 col-md-2 col-lg-2">
-      <label for="reviewlength" class="control-label">Review Length</label>
-      <div>
-        <app-dropdown [datasource]='reviewLength' (selectedItemChange)='this.selectedReviewLength = $event' [selectedItem]='selectedReviewLength'></app-dropdown>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label for="reviewlength" class="control-label">Review Length</label>   
+      <div class="row">
+        <div class="col-sm-3 col-md-3 col-lg-3; group" style="padding-right: 0px !important">
+          <div>
+            <app-dropdown [datasource]='reviewLength' (selectedItemChange)='this.selectedReviewLength = $event' [selectedItem]='selectedReviewLength'></app-dropdown>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6; group" style="padding-right: 0px !important">
+          <div>
+            <app-input appNumberonly (inputTextSelected)='this.review=$event' [value]='review' maxlength="60"></app-input>
+          </div>
+        </div>
+  
+        <div class="col-sm-3 col-md-3 col-lg-3" style="padding-right: 0px !important; padding-left: 0px !important; line-height: 40px;">
+          <span class="infotext">Hours</span>
+        </div>
       </div>
-    </div>
-
-    <div class="col-sm-1 col-md-1 col-lg-1" style="padding-right: 0px !important">
-      <label style="visibility: hidden;">Review</label>
-      <div>
-        <app-input appNumberonly (inputTextSelected)='this.review=$event' [value]='review' maxlength="60"></app-input>
-      </div>
-    </div>
-
-    <div class="col-sm-1 col-md-1 col-lg-1" style="padding-right: 0px !important; padding-left: 0px !important; line-height: 28px;">
-        <label style="visibility: hidden;">Review</label>
-        <span class="infotext">Hours</span>
     </div>
 
   </div>
@@ -117,25 +118,25 @@
       </div>
     </div>
 
-    <div class="col-sm-2 col-md-2 col-lg-2">
+    <div class="col-sm-4 col-md-4 col-lg-4">
       <label for="controllength" class="control-label">Control Length</label>
-      <div>
-        <app-dropdown [datasource]='controlLength' (selectedItemChange)='this.selectedControlLength = $event' [selectedItem]='selectedControlLength'></app-dropdown>
+      <div class="row">
+      <div class="col-sm-3 col-md-3 col-lg-3; group" style="padding-right: 0px !important">
+        <div>
+          <app-dropdown [datasource]='controlLength' (selectedItemChange)='this.selectedControlLength = $event' [selectedItem]='selectedControlLength'></app-dropdown>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6; group" style="padding-right: 0px !important">
+        <div>
+          <app-input appNumberonly (inputTextSelected)='this.control=$event' [value]='control' maxlength="60"></app-input>
+        </div>
+      </div>
+
+      <div class="col-sm-3 col-md-3 col-lg-3" style="padding-right: 0px !important; padding-left: 0px !important; line-height: 40px;">
+        <span class="infotext">Hours</span>
+      </div>
       </div>
     </div>
-
-    <div class="col-sm-1 col-md-1 col-lg-1; group" style="padding-right: 0px !important">
-      <label style="visibility: hidden;">Control</label>
-      <div>
-        <app-input appNumberonly (inputTextSelected)='this.control=$event' [value]='control' maxlength="60"></app-input>
-      </div>
-    </div>
-
-    <div class="col-sm-1 col-md-1 col-lg-1" style="padding-right: 0px !important; padding-left: 0px !important; line-height: 28px;">
-      <label style="visibility: hidden;">Control</label>
-      <span class="infotext">Hours</span>
-    </div>
-
   </div>
 
   <div class="row">

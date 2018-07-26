@@ -66,6 +66,8 @@ export class CreateControlComponent implements OnInit {
   inactiveProcedure: string;
   filtererdProcedureVal: SelectItem[];
   matrixList: any = [];
+  displayDisabled: boolean;
+  checklistDisabled: boolean;
 
   constructor(private router: Router, private checklistCommonService: ChecklistCommonService,
     private createControlService: CreateControlService, private location: Location,
@@ -86,6 +88,7 @@ export class CreateControlComponent implements OnInit {
   ngOnInit() {
     this.preloadData();
     this.selectedDisplayOrder = 0;
+    this.checklistDisabled = true;
     this.route.params.subscribe(params => {
       this.header = 'Add New Control';
       this.checklistId = params['checklistId'];
@@ -94,8 +97,11 @@ export class CreateControlComponent implements OnInit {
       this.routePath = params['routePath'];
       this.checklistName = params['checklistName'];
       this.records = params['records'];
+      this.selectedChecklist = this.checklistId;
       if (this.taskId > 0) {
         this.isUpdate = true;
+        this.displayDisabled = true;
+        this.checklistDisabled = false;
         this.header = 'Modify Control';
         this.createControlService.getControlDetails(this.checklistId, this.taskId, this.displayOrderVal)
           .subscribe(data => {

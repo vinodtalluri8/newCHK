@@ -14,11 +14,14 @@ import { ChecklistScheduleService } from '../services/checklist-schedule.service
   styleUrls: ['./checklist-scheduled.component.css']
 })
 export class ChecklistScheduledComponent implements OnInit {
-
+  public routePath: any = 'scheduledGrid';
+  public fromGrid: any;
   dataJson: any;
   itemsPath: MenuItem[];
   home: MenuItem;
 
+  checklistScheduleID: number;
+  result: JSON;
   value: string;
   isPaginator: boolean;
   filterable: boolean;
@@ -47,9 +50,9 @@ export class ChecklistScheduledComponent implements OnInit {
     ];
     /** Initilase the column headers data **/
     this.colHeaders = [
-      { field: 'subTitle', header: 'Schedule', width: '45%' },
-      { field: 'startDate', header: 'Start Date', width: '20%' },
-      { field: 'action', header: 'Action(s)', width: '35%' }
+      { field: 'subTitle', header: 'Schedule', width: '60%' },
+      { field: 'startDate', header: 'Start Date', width: '10%' },
+      { field: 'action', header: 'Action(s)', width: '30%' }
     ];
 
     /** Assign values to variables on page load **/
@@ -65,12 +68,16 @@ export class ChecklistScheduledComponent implements OnInit {
 
   /** Initilase or call methods onInit**/
   ngOnInit() {
+    this.fromGrid = 'Edit Assignment';
     this.loading = false;
     this.selectedName = this.checklistScheduleService.getChecklistByName();
     this.selectedFrequency = this.checklistScheduleService.getChecklistByFrequency();
-  //  this.checklistId = this.checklistScheduleService.getScheduledChecklistById();
-
-    this.checklistScheduled = this.checklistScheduleService.getChecklistSchedule();
+    // this.checklistId = this.checklistScheduleService.getChecklistById();
+    this.result = this.checklistScheduleService.getJsonForScheduleGrid();
+    console.log('result', this.result);
+    this.fetchChecklistScheduledList();
+    console.log('after fetch method');
+   // this.checklistScheduled = this.checklistScheduleService.getChecklistSchedule();
     console.log('grid record inside checklist scheduled comp', this.checklistScheduled);
 
     if (this.messageService.getMessage()) {
@@ -80,8 +87,21 @@ export class ChecklistScheduledComponent implements OnInit {
     // this.msgs.push();
     this.filterable = true;
     this.isPaginator = true;
-    console.log('list', this.checklistScheduled);
   }
+  fetchChecklistScheduledList() {
+    this.checklistScheduleService.scheduledChecklist(this.result).subscribe(data => {
+      this.checklistScheduled = data;
+      console.log('this.checklistScheduled', this.checklistScheduled);
+      }, error => {
+        this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
+      });
+  }
+
+
+    /** To go back to the previous screen**/
+    back() {
+      this.router.navigate([routerConstants.scheduleChecklist]);
+    }
 
   /** To check and enable or disable pagination**/
   checkAndEnablePage(value: number) {
@@ -99,18 +119,23 @@ export class ChecklistScheduledComponent implements OnInit {
   }
 
   navigateNewSchedule() {
-    console.log(' navigateNewSchedule yet to be implemented');
-    this.msgs = [{ severity: 'info', summary: 'Implemention Pending', detail: 'New Schedule yet to be implemented' }];
+   this.router.navigate(['/' + routerConstants.newChecklistSchedule, this.routePath]);
   }
 
-  editAssignments(value) {
-    console.log('editAssignments yet to be implemented');
-    this.msgs = [{ severity: 'info', summary: 'Implemention Pending', detail: 'Edit Assignments yet to be implemented' }];
+  editAssignments(rowData) {
+    // console.log('editAssignments yet to be implemented');
+    // this.msgs = [{ severity: 'info', summary: 'Implemention Pending', detail: 'Edit Assignments yet to be implemented' }];
+    this.checklistScheduleService.setDataForAssignments(rowData);
+    this.router.navigate([routerConstants.onlineChecklistAssignment, this.fromGrid]);
   }
 
-  editSchedule(value) {
-    console.log('editSchedule yet to be implemented');
-    this.msgs = [{ severity: 'info', summary: 'Implemention Pending', detail: 'Edit Schedule yet to be implemented' }];
+  editSchedule(rowData) {
+    // console.log('editSchedule yet to be implemented');
+    // this.msgs = [{ severity: 'info', summary: 'Implemention Pending', detail: 'Edit Schedule yet to be implemented' }];
+    console.log('checklist sch id', rowData['checklistScheduleID']);
+     this.checklistScheduleService.setChecklistByScheduleID(rowData['checklistScheduleID']);
+     this.checklistScheduleID = rowData['checklistScheduleID'];
+    this.router.navigate([routerConstants.editChecklistSchedule, this.routePath,  this.checklistScheduleID]);
   }
 
 }

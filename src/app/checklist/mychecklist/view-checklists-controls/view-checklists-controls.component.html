@@ -45,7 +45,7 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr [pSelectableRow]="rowData">
         <td *ngFor="let col of columns" [style.width]="col.width" class="ui-resizable-column">
-          <ng-container *ngIf="col.field == 'action'|| col.field == 'doctitle'; else elseTemplate">
+          <ng-container *ngIf="col.field == 'action'|| col.field == 'docTitle'; else elseTemplate">
             <div class="row" *ngIf="col.field == 'action'">
               <div class="col-sm-6 col-md-6 col-lg-6 displaycolor" style="padding-right:5px !important">
                 <a class="hyperlink" (click)="modify(rowData['checklistId'],rowData['taskId'],rowData['displayOrder'])">Modify</a>
@@ -54,9 +54,9 @@
                 <a class="hyperlink" (click)="delete(rowData)">Delete</a>
               </div>
             </div>
-            <div class="row" *ngIf="col.field == 'doctitle'">
+            <div class="row" *ngIf="col.field == 'docTitle'">
               <div class="col-sm-12 col-md-12 col-lg-12">
-                <a class="hyperlink" (click)="viewProcedureDoc(rowData['localdir'],rowData['flagactive'])">{{rowData['doctitle']}}</a>
+                <a class="hyperlink" href="{{rowData['link']}}">{{rowData['docTitle']}}</a>
               </div>
             </div>
           </ng-container>
@@ -74,13 +74,17 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="paginatorright" let-state>
+      <div class="grid-page-dropdown">
       <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+      </div>
     </ng-template>
   </p-table>
 </div>
 <div class="row">
-  <div *ngIf="!isPaginator">
+  <div *ngIf="!isPaginator" class="pageAlign">
+    <div class="grid-page-dropdown">
     <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+    </div>
   </div>
 </div>
 <div>

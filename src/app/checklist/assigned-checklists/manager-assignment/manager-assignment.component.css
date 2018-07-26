@@ -1,0 +1,18 @@
+label.required:after {
+    content: " *";
+    color: red;
+}
+.buttonPadding{
+    padding-left: 115px;
+}
+
+.checklistDisplay{
+    margin-left:-40px; 
+    color:red;
+}
+
+.controlDisplay{
+    margin-left:-40px; 
+    color:blue;
+    margin-top: -20px;
+}

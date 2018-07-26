@@ -15,21 +15,21 @@
   </div>
 
   <div class="col.sm-12 col-md-12 col-lg-12 padding-zero" *ngIf="msgs.length > 0">
-      <p-growl [(value)]="msgs"></p-growl>
-    </div>
+    <p-growl [(value)]="msgs"></p-growl>
+  </div>
 
   <div class="row">
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label for="checklistNameContains" class="control-label">Checklist Name Contains</label>
       <div>
-        <app-input  maxlength="60"></app-input>
+        <app-input (inputTextSelected)='this.checklistNameContains=$event' [value]='checklistNameContains' maxlength="60"></app-input>
       </div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label for="scheduleNameContains" class="control-label">Schedule Name Contains</label>
       <div>
-        <app-input maxlength="60"></app-input>
+        <app-input  (inputTextSelected)='this.scheduleNameContains=$event' [value]='scheduleNameContains' maxlength="60"></app-input>
       </div>
     </div>
 
@@ -101,9 +101,8 @@
         <app-dropdown [datasource]='managerReviewComplete' (selectedItemChange)='this.selectedManagerReviewComplete = $event' [selectedItem]='selectedManagerReviewComplete'></app-dropdown>
       </div>
     </div>
-    <!-- <div class="row"> -->
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label class="control-label">Startdate</label>
+      <label class="control-label">Start Date</label>
       <div>
         <div id="startDate">
           <label for="from" class="control-label">From</label>
@@ -121,9 +120,11 @@
       </div>
 
       <div class="note">
-        <small><i>NOTE: Use these fields to find In Progress, Completed and Closed checklists that were started within a specific date
-          range. (These fields do not apply to the scheduled checklists. The search will always return any scheduled checklists
-          that match the other criteria.) </i></small>
+        <small>
+          <em>NOTE: Use these fields to find In Progress, Completed and Closed checklists that were started within a specific
+            date range. (These fields do not apply to the scheduled checklists. The search will always return any scheduled
+            checklists that match the other criteria.) </em>
+        </small>
       </div>
     </div>
 
@@ -131,10 +132,6 @@
 
   <div class="row">
     <app-button id="selectChecklist" label='Search' (click)="selectChecklist()" styleClass='button-action'></app-button>
-
+    <app-button id="clearAllChecklist" label='Clear All' (click)="preLoadValue()" styleClass='button-cancel'></app-button>
   </div>
-
-  <!-- </div> -->
-
-
 </div>

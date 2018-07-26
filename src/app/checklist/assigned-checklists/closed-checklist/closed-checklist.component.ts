@@ -37,5 +37,4 @@ export class ClosedChecklistComponent implements OnInit {
       }
     );
   }
-
 }

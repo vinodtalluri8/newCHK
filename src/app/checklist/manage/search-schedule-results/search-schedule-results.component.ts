@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MenuItem, SelectItem } from 'primeng/api';
 import { Message } from 'primeng/components/common/api';
 import { routerConstants } from '../../../core/constants/routerConstants';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from '../../services/message.service';
 import { ChecklistScheduleService } from '../services/checklist-schedule.service';
 
@@ -12,6 +12,7 @@ import { ChecklistScheduleService } from '../services/checklist-schedule.service
   styleUrls: ['./search-schedule-results.component.css']
 })
 export class SearchScheduleResultsComponent implements OnInit {
+  public routePath: any = 'scheduleResults';
 
   value: string;
   isPaginator: boolean;
@@ -29,16 +30,16 @@ export class SearchScheduleResultsComponent implements OnInit {
   checklistscheduledResults: any;
   dataJson: any;
 
-  constructor( private router: Router, private messageService: MessageService,
+  constructor(private route: ActivatedRoute, private router: Router, private messageService: MessageService,
   private checklistScheduleService: ChecklistScheduleService ) {
 
     /** Initilase the column headers data **/
     this.colHeaders = [
-      { field: 'checklistName', header: 'Checklist', width: '20%' },
-      { field: 'checklistDepartment', header: 'Department', width: '15%' },
-      { field: 'description', header: 'Description', width: '40%' },
+      { field: 'checklistName', header: 'Checklist', width: '25%' },
+      { field: 'checklistDepartment', header: 'Department', width: '12%' },
+      { field: 'description', header: 'Description', width: '45%' },
       { field: 'checklistFrequency', header: 'Frequency', width: '10%' },
-      { field: 'schedule', header: 'Schedule', width: '15%' }
+      { field: 'schedule', header: 'Schedule', width: '8%' }
     ];
     /** Assign values to variables on page load **/
     this.isPaginator = true;
@@ -68,13 +69,14 @@ export class SearchScheduleResultsComponent implements OnInit {
 
     this.checklistScheduleService.setChecklistByName(record['checklistName']);
     this.checklistScheduleService.setChecklistByFrequency(record['checklistFrequency']);
+    this.checklistScheduleService.setChecklistById(record['checklistId']);
     this.checklistId = record['checklistId'];
     console.log('checklist inside schedule method', this.checklistId);
 
     this.dataJson = {
       'checklistID': this.checklistId
     };
-
+    this.checklistScheduleService.setJsonForScheduleGrid(this.dataJson);
     this.checklistScheduleService.scheduledChecklist(this.dataJson).subscribe(data => {
     this.checklistscheduledResults = data;
     if (this.checklistscheduledResults.length > 0) {
@@ -84,7 +86,7 @@ export class SearchScheduleResultsComponent implements OnInit {
       this.router.navigate([routerConstants.checklistScheduled]);
     } else {
       console.log('empty');
-      this.msgs = [{ severity: 'info', summary: 'Implementation Pending', detail: 'Create New Schedule is yet to be implemented' }];
+      this.router.navigate(['/' + routerConstants.newChecklistSchedule, this.routePath]);
           }
     },
     error => {

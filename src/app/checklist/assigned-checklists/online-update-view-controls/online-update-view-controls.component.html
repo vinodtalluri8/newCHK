@@ -1,0 +1,99 @@
+<div class="panel panel-default" style="margin-left: -3px">
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -8px">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+  </div>
+
+  <p-growl [(value)]="msgs"></p-growl>
+  <div class="row">
+    <label class="labelblueheader">Checklist:{{this.checklistName}}</label>
+  </div>
+  <div class="row">
+    <label class="labelpurpleheader">Schedule:{{this.scheduleTitle}}</label>
+  </div>
+  <div class="row">
+    <label class="labelblackheader">{{this.controlTitle}}</label>
+  </div>
+
+  <div class="panel-body section-padding">
+
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="icm" class="required control-label top-padding"> ICM </label>
+        <div>
+          <app-input (inputTextSelected)='this.icm=$event' [value]='icm' maxlength="60" [disabled]='disabled'></app-input>
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="evidence" class="control-label top-padding">Evidence Required</label>
+        <div>
+          <app-dropdown [datasource]='evidence' (selectedItemChange)='this.selectedEvidence = $event' [selectedItem]='selectedEvidence' [disabled]='disabled'></app-dropdown>
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="procedure" class="required control-label top-padding">Procedure</label>
+        <div>
+          <a class="hyperlink displaycolor" href="{{this.procedureLink}}">{{this.procedureTitle}}</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="issue" class="control-label top-padding">Issue to be resolved</label>
+        <div>
+          <app-dropdown [datasource]='issue' (selectedItemChange)='this.selectedIssue = $event' [selectedItem]='selectedIssue' [disabled]='disabled'></app-dropdown>
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="escalation" class="control-label top-padding">Escalation Required</label>
+        <div>
+          <app-dropdown [datasource]='escalation' (selectedItemChange)='this.selectedEscalation = $event' [selectedItem]='selectedEscalation' [disabled]='disabled'></app-dropdown>
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="status" class="control-label top-padding">Status</label>
+        <div>
+          <app-dropdown [datasource]='status' (selectedItemChange)='this.selectedStatus = $event' [selectedItem]='selectedStatus' [disabled]='disabled'></app-dropdown>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="description" class="required control-label top-padding"> Description </label>
+        <div>
+          <app-input-text-area rowSize='5' (inputTextAreaSelected)='this.description= $event' [value]='description' name='description'></app-input-text-area>
+        </div>
+      </div>
+
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="comments" class="required control-label top-padding"> Comments </label>
+        <div>
+          <app-input-text-area rowSize='5' (inputTextAreaSelected)='this.comments= $event' [value]='comments' name='comments'></app-input-text-area>
+        </div>
+      </div>
+    </div>
+
+    <div class="row onlineViewButtons">
+
+      <div class="col-sm-12 col-md-12 col-lg-12">
+        <app-button label='Ok' (click)='back()' styleClass='button-action'></app-button>
+        <app-button label='Attachments' (click)="addAttachments()" styleClass='button-action'></app-button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
