@@ -17,7 +17,7 @@ export declare class UIChart implements AfterViewInit, OnDestroy {
     initChart(): void;
     getCanvas(): any;
     getBase64Image(): any;
-    generateLegend(): void;
+    generateLegend(): any;
     refresh(): void;
     reinit(): void;
     ngOnDestroy(): void;

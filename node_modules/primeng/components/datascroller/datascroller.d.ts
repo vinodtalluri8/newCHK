@@ -24,7 +24,6 @@ export declare class DataScroller implements OnInit, AfterViewInit, OnDestroy {
     itemTemplate: TemplateRef<any>;
     dataToRender: any[];
     first: number;
-    contentElement: HTMLDivElement;
     inlineScrollListener: any;
     windowScrollListener: any;
     loaderClickListener: any;

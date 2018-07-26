@@ -1,7 +1,7 @@
 import { AfterViewInit, AfterViewChecked, OnDestroy, ElementRef } from '@angular/core';
 import { DomHandler } from '../dom/domhandler';
 import { TerminalService } from './terminalservice';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 export declare class Terminal implements AfterViewInit, AfterViewChecked, OnDestroy {
     el: ElementRef;
     domHandler: DomHandler;

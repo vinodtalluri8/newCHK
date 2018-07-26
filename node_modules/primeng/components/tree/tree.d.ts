@@ -1,7 +1,7 @@
 import { AfterContentInit, OnDestroy, EventEmitter, OnInit, QueryList, TemplateRef, ElementRef } from '@angular/core';
 import { TreeNode } from '../common/treenode';
 import { TreeDragDropService } from '../common/treedragdropservice';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { BlockableUI } from '../common/blockableui';
 export declare class UITreeNode implements OnInit {
     tree: Tree;

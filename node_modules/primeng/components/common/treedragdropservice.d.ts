@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { TreeNodeDragEvent } from './treenodedragevent';
 export declare class TreeDragDropService {
     private dragStartSource;

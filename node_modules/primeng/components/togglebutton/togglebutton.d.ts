@@ -19,7 +19,6 @@ export declare class ToggleButton implements ControlValueAccessor, AfterViewInit
     onModelChange: Function;
     onModelTouched: Function;
     ngAfterViewInit(): void;
-    getIconClass(): string;
     toggle(event: Event): void;
     onFocus(): void;
     onBlur(): void;

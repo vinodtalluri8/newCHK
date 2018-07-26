@@ -5,6 +5,7 @@ export declare class Draggable implements AfterViewInit, OnDestroy {
     domHandler: DomHandler;
     zone: NgZone;
     scope: string;
+    pDraggableDisabled: boolean;
     dragEffect: string;
     dragHandle: string;
     onDragStart: EventEmitter<any>;
@@ -33,6 +34,7 @@ export declare class Droppable implements AfterViewInit, OnDestroy {
     domHandler: DomHandler;
     zone: NgZone;
     scope: string | string[];
+    pDroppableDisabled: boolean;
     dropEffect: string;
     onDragEnter: EventEmitter<any>;
     onDragLeave: EventEmitter<any>;

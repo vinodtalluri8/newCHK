@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Confirmation } from './confirmation';
 export declare class ConfirmationService {
     private requireConfirmationSource;

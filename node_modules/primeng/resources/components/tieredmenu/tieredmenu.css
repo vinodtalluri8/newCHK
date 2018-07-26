@@ -5,7 +5,6 @@
 
 .ui-tieredmenu.ui-tieredmenu-dynamic {
     position: absolute;
-    display: none;
 }
 
 .ui-tieredmenu .ui-menu-separator {
@@ -30,6 +29,10 @@
     display: block;
     position: relative;
     text-decoration: none;
+}
+
+.ui-tieredmenu .ui-menuitem-icon {
+    margin-right: .25em;
 }
 
 .ui-tieredmenu .ui-menuitem {

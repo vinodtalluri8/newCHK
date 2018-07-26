@@ -61,7 +61,7 @@ export declare class Schedule implements DoCheck, OnDestroy, OnInit, OnChanges, 
     initialized: boolean;
     stopNgOnChangesPropagation: boolean;
     differ: any;
-    schedule: any;
+    calendar: any;
     config: any;
     constructor(el: ElementRef, differs: IterableDiffers);
     ngOnInit(): void;
@@ -77,7 +77,7 @@ export declare class Schedule implements DoCheck, OnDestroy, OnInit, OnChanges, 
     nextYear(): void;
     today(): void;
     incrementDate(duration: any): void;
-    changeView(viewName: string): void;
+    changeView(viewName: string, dateOrRange: any): void;
     getDate(): any;
     updateEvent(event: any): void;
     _findEvent(id: string): any;

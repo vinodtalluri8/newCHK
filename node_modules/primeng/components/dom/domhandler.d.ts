@@ -50,4 +50,5 @@ export declare class DomHandler {
         browser: any;
         version: any;
     };
+    isInteger(value: any): boolean;
 }

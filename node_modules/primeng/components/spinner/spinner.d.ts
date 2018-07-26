@@ -36,6 +36,7 @@ export declare class Spinner implements OnInit, ControlValueAccessor {
     focus: boolean;
     filled: boolean;
     negativeSeparator: string;
+    decimalSeparatorRegEx: RegExp;
     inputfieldViewChild: ElementRef;
     constructor(el: ElementRef, domHandler: DomHandler);
     ngOnInit(): void;
@@ -51,6 +52,7 @@ export declare class Spinner implements OnInit, ControlValueAccessor {
     onInputKeydown(event: KeyboardEvent): void;
     onInputKeyPress(event: KeyboardEvent): void;
     onInputKeyup(event: KeyboardEvent): void;
+    shouldFormat(value: any): boolean;
     onInputBlur(event: any): void;
     onInputFocus(event: any): void;
     parseValue(val: string): number;

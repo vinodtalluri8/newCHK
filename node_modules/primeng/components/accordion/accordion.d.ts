@@ -1,7 +1,7 @@
 import { ElementRef, AfterContentInit, OnDestroy, EventEmitter, QueryList, ChangeDetectorRef } from '@angular/core';
 import { Header } from '../common/shared';
 import { BlockableUI } from '../common/blockableui';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 export declare class AccordionTab implements OnDestroy {
     accordion: Accordion;
     header: string;

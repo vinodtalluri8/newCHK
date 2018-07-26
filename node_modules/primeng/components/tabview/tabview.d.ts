@@ -44,10 +44,8 @@ export declare class TabView implements AfterContentInit, BlockableUI {
     initialized: boolean;
     tabs: TabPanel[];
     _activeIndex: number;
-    _lazy: boolean;
     preventActiveIndexPropagation: boolean;
     constructor(el: ElementRef);
-    lazy: boolean;
     ngAfterContentInit(): void;
     initTabs(): void;
     open(event: Event, tab: TabPanel): void;
