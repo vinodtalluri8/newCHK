@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {AssignedChecklistService} from '../services/assigned-checklist.service';
+import { appConstants } from '../../../core/constants/appConstants';
 
 @Component({
   selector: 'app-inprogress-checklist',
@@ -8,7 +9,7 @@ import {AssignedChecklistService} from '../services/assigned-checklist.service';
 })
 export class InprogressChecklistComponent implements OnInit {
   colHeaders: any[];
-  loginid = 'bhat_v';
+  // loginid = 'bhat_v';
   inprogressChecklistResults;
   @Output() inprogressDataLength = new EventEmitter();
 
@@ -29,7 +30,7 @@ export class InprogressChecklistComponent implements OnInit {
     /** To get the grid values for the inprogress checlists
      * @returns inprogressChecklistResults
      */
-    this.assignedChecklistService.getInProgressChecklists(this.loginid).subscribe(
+    this.assignedChecklistService.getInProgressChecklists(appConstants.loginId).subscribe(
       (data) => {
         this.inprogressChecklistResults = data;
         this.inprogressDataLength.emit(this.inprogressChecklistResults.length);

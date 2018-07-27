@@ -3,14 +3,14 @@
     <div class="ui-g-8 form-group modalForm checklistDisplay">
       <div class="ui-g-12 paddingForm">
         <label for="Control">
-          <small>{{childChecklistName}}</small>
+          <small style="font-size: 13px;font-weight: bold;">Checklist: {{childChecklistName}}</small>
         </label>
       </div>
     </div>
     <div class="ui-g-12 form-group modalForm controlDisplay">
       <div class="ui-g-12 paddingForm">
         <label for="Control">
-          <small>{{childScheduleName}}</small>
+          <small style="font-size: 13px;font-weight: bold;">Schedule: {{childScheduleName}}</small>
         </label>
       </div>
     </div>
@@ -26,7 +26,7 @@
     </div>
     <div class="ui-g-12 form-group modalForm">
       <div class="ui-g-2 paddingForm">
-        <label for="manager" class="required control-label">Manager</label>
+        <label for="manager" class="required control-label">Reviewer</label>
       </div>
       <div class="ui-g-10 paddingForm">
         <app-dropdown [datasource]='manager' (selectedItemChange)='checkActiveManager($event , "manager")' [selectedItem]='selectedManager'></app-dropdown>
@@ -34,7 +34,7 @@
     </div>
     <div class="ui-g-12 form-group modalForm">
       <div class="ui-g-2 paddingForm">
-        <label for="backupmanager" class="required control-label">Backup Manager</label>
+        <label for="backupmanager" class="required control-label">Backup Reviewer</label>
       </div>
       <div class="ui-g-10 paddingForm">
         <app-dropdown [datasource]='backupManager' (selectedItemChange)='checkActiveManager($event , "backupManager")' [selectedItem]='selectedBackupManager'></app-dropdown>

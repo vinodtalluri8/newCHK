@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AssignedChecklistService } from '../services/assigned-checklist.service';
+import { appConstants } from '../../../core/constants/appConstants';
 @Component({
   selector: 'app-scheduled-checklist',
   templateUrl: './scheduled-checklist.component.html',
@@ -7,7 +8,7 @@ import { AssignedChecklistService } from '../services/assigned-checklist.service
 })
 export class ScheduledChecklistComponent implements OnInit {
   colHeaders: any[];
-  loginid = 'bhat_v';
+  // loginid = 'bhat_v';
   scheduledChecklistResults;
   @Output() scheduledDataLength = new EventEmitter();
   // @Input() scheduledDataLength: Number;
@@ -29,7 +30,7 @@ export class ScheduledChecklistComponent implements OnInit {
      * @returns scheduledChecklistResults
      */
     console.log('inside component');
-    this.assignedChecklistService.getScheduledChecklists(this.loginid).subscribe(
+    this.assignedChecklistService.getScheduledChecklists(appConstants.loginId).subscribe(
       (data) => {
         this.scheduledChecklistResults = data;
         if (this.scheduledChecklistResults.length > 0) {

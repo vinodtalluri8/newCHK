@@ -240,6 +240,7 @@ export class CreateControlComponent implements OnInit {
 
   /** This method will navigate back to checklist main screen **/
   back() {
+    this.resetAll();
     this.location.back();
   }
 

@@ -266,11 +266,11 @@
   <app-button label='Clear All' (click)="resetAll()" styleClass='button-cancel'></app-button> -->
 
   <div *ngIf="!this.isUpdate" class="col-sm-12 col-md-12 col-lg-12">
-    <app-button label='Add Schedule and Specify Assignments' (click)='createNewSchedule()' [disabled]='disable()' styleClass='button-action'></app-button>
-    <app-button label='Clear All' (click)='resetAll()' styleClass='button-cancel'></app-button>
+    <app-button label='Save' (click)='createNewSchedule()' [disabled]='disable()' styleClass='button-action'></app-button>
+    <app-button label='Cancel' (click)='resetAll()' styleClass='button-cancel'></app-button>
   </div>
   <div *ngIf="this.isUpdate" class="col-sm-12 col-md-12 col-lg-12">
-    <app-button label='Update Schedule' (click)='modifySchedule()' [disabled]='disable()' styleClass='button-action'></app-button>
+    <app-button label='Update' (click)='modifySchedule()' [disabled]='disable()' styleClass='button-action'></app-button>
     <app-button label='Reset' (click)='this.populateData()' styleClass='button-cancel'></app-button>
   </div>
 

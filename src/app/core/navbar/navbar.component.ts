@@ -49,11 +49,11 @@ export class NavbarComponent implements OnInit {
         route: 'checklists/addchecklist'
 
       }, {
-        displayName: 'Search Checklist',
+        displayName: 'Search Checklists',
         route: 'checklists/searchchecklist'
 
       }, {
-        displayName: 'Search Control',
+        displayName: 'Search Controls',
         route: 'checklists/searchcontrol'
 
       }, {

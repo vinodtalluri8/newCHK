@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { AssignedChecklistService } from '../services/assigned-checklist.service';
+import { appConstants } from '../../../core/constants/appConstants';
 
 @Component({
   selector: 'app-followup-checklist',
@@ -8,7 +9,7 @@ import { AssignedChecklistService } from '../services/assigned-checklist.service
 })
 export class FollowupChecklistComponent implements OnInit {
   colHeaders: any[];
-  loginid = 'bhat_v';
+// loginid = 'bhat_v';
   followupChecklistResults;
   @Output() followupDataLength = new EventEmitter();
 
@@ -31,7 +32,7 @@ export class FollowupChecklistComponent implements OnInit {
     /** To get the grid values for the followup checlists
     * @returns followupChecklistResults
     */
-    this.assignedChecklistService.getFollowUpChecklists(this.loginid).subscribe(
+    this.assignedChecklistService.getFollowUpChecklists(appConstants.loginId).subscribe(
       (data) => {
         this.followupChecklistResults = data;
         this.followupDataLength.emit(this.followupChecklistResults.length);

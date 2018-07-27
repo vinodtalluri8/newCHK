@@ -59,7 +59,7 @@ export class SearchOnlineChecklistComponent implements OnInit {
     /** To initialise breadcrumb data */
     this.itemsPath = [
       { label: 'Checklists', routerLink: [''] },
-      { label: 'Search Online Checklist' }];
+      { label: 'Search Online Checklists' }];
   }
 
   /** To Initialize the field with Yes or No on start  */

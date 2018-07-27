@@ -68,18 +68,20 @@ export class AssignmentComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.fromGrid = params['fromGrid'];
-      console.log(this.fromGrid);
+      this.param = this.fromGrid;
+      console.log('Value of fromGrid', this.fromGrid);
+      console.log('Value of fromGrid', this.param);
     });
     this.fetchValues();
     this.getAssignmentData();
     this.breadcrumb();
     /** Code for column header based on read or Edit mode
         Edit mode has button to modify the data and view mode will only display the data **/
-    if (this.param === 'New Schedule' || this.param === 'Edit Assignment') {
+    if (this.param === 'New Schedule' || this.param === 'Edit Assignment' || this.param === 'Pending') {
       this.colHeader = [
         { field: 'employeeFullName', header: 'Employee', width: '24%' },
-        { field: 'managerFullName', header: 'Manager', width: '24%' },
-        { field: 'backupManagerFullName', header: 'Backup Manager', width: '23%' },
+        { field: 'managerFullName', header: 'Reviewer', width: '24%' },
+        { field: 'backupManagerFullName', header: 'Backup Reviewer', width: '23%' },
         { field: 'checklistEdit', header: 'Edit', width: '15%' },
         { field: 'checklistDelete', header: 'Delete', width: '12%' }
       ];
@@ -87,8 +89,8 @@ export class AssignmentComponent implements OnInit {
     } else if (this.param === 'In Progress' || this.param === 'Closed' || this.param === 'Complete') {
       this.colHeader = [
         { field: 'employeeFullName', header: 'Employee', width: '33%' },
-        { field: 'managerFullName', header: 'Manager', width: '33%' },
-        { field: 'backupManagerFullName', header: 'Backup Manager', width: '34%' }
+        { field: 'managerFullName', header: 'Reviewer', width: '33%' },
+        { field: 'backupManagerFullName', header: 'Backup Reviewer', width: '34%' }
       ];
       this.value = false;
     }
@@ -128,21 +130,24 @@ export class AssignmentComponent implements OnInit {
   fetchValues() {
     if (this.fromGrid === 'grid') {
       this.displayData = this.onlineChecklistService.getRowData();
-      this.param = this.displayData['status'];
+      console.log(this.displayData['status']);
       this.checklistName = this.displayData['checklistName'];
       this.checklistSchedule = this.displayData['subTitle'];
       this.scheduleId = this.displayData['checklistScheduleID'];
+      this.param = this.displayData['status'];
     } else if (this.param === 'Edit Assignment') {
+      console.log('Inside fetchvalue edit assignment');
       this.displayData = this.checklistScheduleService.getDataForAssignments();
-      this.param = this.displayData['status'];
+      console.log(this.displayData);
       this.checklistName = this.displayData['checklistName'];
       this.checklistSchedule = this.displayData['subTitle'];
       this.scheduleId = this.displayData['checklistScheduleID'];
+      this.param = this.fromGrid;
 
     } else {
       // this.checklistName = this.checklistScheduleService.getChecklistByName();
-      this.displayData = this.checklistScheduleService.getDataForAssignments();
-      console.log('Assignement component', this.displayData);
+      this.displayData = this.newEditScheduleService.getJsonAssignment();
+      console.log('new schedule', this.displayData);
       this.checklistName = this.displayData['checklistName'];
       this.checklistSchedule = this.displayData['subTitle'];
       this.scheduleId = this.displayData['checklistScheduleID'];
@@ -205,7 +210,7 @@ export class AssignmentComponent implements OnInit {
     };
     this.msgs = [];
     this.confirmationService.confirm({
-      message: 'Are your sure you want to delete the record?',
+      message: 'Are you sure you want to delete the record?',
       header: 'Delete Confirmation',
       icon: 'fa fa-trash',
       accept: () => {

@@ -1,7 +1,14 @@
 /**  CSS Styling for the add checklist page **/
 
-.paddingTopClass {
+.addCheckListButtons {
+    position: absolute !important;
+    /* background-color: #f5f5f5; */
+    width: 100%;
+    margin-left: -63px;
     padding-top: 10px;
+    padding-left: 30px;
+    /* top: 190px; */
+    /* margin-top: 10px; */
 }
 
 .paddingButtons {
@@ -18,20 +25,6 @@ label.required:after {
     color: red;
 }
 
-.panel-title {
-    color: #7e2d40
-}
-
-app-button {
-    padding-left: 20px;
-}
-
-.control-label {
-    padding-left: 16px;
-    float: left;
-    padding-right: 10px;
-}
-
 .title-input {
     width: 16em;
 }
@@ -40,18 +33,36 @@ app-button {
     color: black;
     margin-left: -1.7em;
     font-weight: initial;
+    cursor: pointer;
 }
 
-.addCheckListButtons {
-    position: absolute !important;
-    /* background-color: #f5f5f5; */
-    width: 100%;
-    margin-left: -63px;
-    padding-top: 10px;
-    padding-left: 30px;
-    /* top: 190px; */
-    /* margin-top: 10px; */
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444444;
+    font-style: normal;
+    text-align: left;
+    padding-top: 15px !important;
+    padding-bottom: 0px !important;
 }
+
+.section-padding {
+    padding-top: 0px;
+}
+
+.panel-title h3 {
+    font-size: 24px;
+}
+
+app-button {
+    padding-left: 20px;
+}
+
+/* .control-label {
+    padding-left: 16px;
+    float: left;
+    padding-right: 10px;
+} */
 
 app-input-text-area {
     width: 100%;
@@ -65,33 +76,24 @@ app-calender {
     width: 100%;
 }
 
-label {
-    font-size: 14px;
-    font-weight: bold;
-    color: #444444;
-    ;
-    font-style: normal;
-    text-align: left;
+/* .paddingTopClass {
     padding-top: 10px;
-    padding-bottom: 5px;
+}
+
+.panel-title {
+    color: #7e2d40
 }
 
 .no-padding-left {
     padding-left: 0px !important;
 }
 
-.section-padding {
-    padding-top: 9px;
-}
-
 .paddingDataClass {
     padding-bottom: 15px!important;
     margin-left: 1px;
-}
+} */
 
-.panel-title h3 {
-    font-size: 24px;
-}
+
 
 #depFreq, #group {
     padding-left: 4em;

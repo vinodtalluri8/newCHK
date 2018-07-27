@@ -44,7 +44,6 @@ import { UpdateChecklistStatusComponent } from './checklist/assigned-checklists/
 const routes: Routes = [
   { path: '', redirectTo: 'assigned/viewassigned', pathMatch: 'full' },
   { path: 'mychecklist', component: MychecklistComponent },
-  { path: 'updatecheckliststatus', component: UpdateChecklistStatusComponent },
   {
     path: 'checklists', children: [
       { path: 'addchecklist', component: AddCheckListComponent },
@@ -85,6 +84,7 @@ const routes: Routes = [
       { path: 'viewControl', component: OnlineUpdateViewControlsComponent },
       { path: 'results/:statusVal', component: SearchOnlineChecklistResultComponent },
       { path: 'results', component: SearchOnlineChecklistResultComponent },
+      { path: 'updatecheckliststatus', component: UpdateChecklistStatusComponent }
     ]
   }
 ];

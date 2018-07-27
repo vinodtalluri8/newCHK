@@ -90,11 +90,16 @@
       </ng-template>
 
       <ng-template pTemplate="paginatorright" let-state>
+        <div class="grid-page-dropdown">   
           <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
-      </ng-template>
+        </div>
+        </ng-template>
 </p-table>
+
+    <div *ngIf="!isPaginator" class="pageAlign">
+        <div class="grid-page-dropdown">
+            <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+        </div>
+    </div>
+    <p-confirmDialog appendTo="body"></p-confirmDialog>
 </div>
-<div *ngIf="!isPaginator">
-  <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
-</div>
-<p-confirmDialog appendTo="body"></p-confirmDialog>

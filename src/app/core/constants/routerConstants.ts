@@ -29,5 +29,6 @@ export const routerConstants = {
     editChecklistSchedule: 'managed/' + 'editchecklistschedule',
     ModifyManagerAssignment: searchOnlineChecklist + 'employeeassignments/' + 'modifymanagerassignment',
     searchonlinechecklistControls: searchOnlineChecklist  + 'checklistControls',
+    updateChecklistStatus: searchOnlineChecklist + 'updatecheckliststatus'
 
 };

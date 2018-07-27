@@ -37,14 +37,14 @@
           </p-footer>
         </app-listbox>
         <div class="row addManagersButtons">
-          <app-button (click)="add(selectedAddChecklistManager)" label="Add Manager" styleClass='button-action'></app-button>
+          <app-button (click)="add(selectedAddChecklistManager)" label="Add Reviewer" styleClass='button-action'></app-button>
         </div>
       </div>
 
       <div class="offset-sm-2 offset-md-2 offset-lg-2"></div>
 
       <div class="col-sm-4 col-md-4 col-lg-4" style="border: 1px grey; padding-bottom: 15px;">
-        <label for="title" class="control-label top-padding"> Online Checklist Manager </label>
+        <label for="title" class="control-label top-padding"> Online Checklist Reviewer </label>
         <app-listbox [datasource]="managers" [selectedItem]="selectedManager" [style]="{'width':'90.5%'}" [liststyle]="{'max-height':'250px'}" (selectedItemChange) = "this.selectedManager = $event">
           <p-footer appendTo= "listFooter" >
             <ng-container *ngIf="selectedManager; else elseTemplate">
@@ -57,7 +57,7 @@
         </app-listbox>
 
         <div class="row deleteManagersButtons">
-          <app-button (click)="delete(selectedManager)" label="Delete Manager" styleClass='button-action'></app-button>
+          <app-button (click)="delete(selectedManager)" label="Delete Reviewer" styleClass='button-action'></app-button>
         </div>
       </div>
     </div>

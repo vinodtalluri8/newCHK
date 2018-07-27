@@ -128,6 +128,7 @@ export class AddCheckListComponent implements OnInit {
 
   /** This method will navigate back to keycontrol screen **/
   back() {
+    this.resetAll();
     this.location.back();
   }
 

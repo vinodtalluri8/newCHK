@@ -10,9 +10,9 @@
         <fa class="arrow-color" style="font-size: 17px;" name="chevron-left" size='0.5x' (click)='back()'> </fa>{{checklistName}}</h3>
     </div>
     <div class="col-sm-7 col-md-5 col-lg-6 align-right">
-        <app-button (click)='navigateOrder()' label='Order' styleClass='button-outline'></app-button>
-      <app-button (click)='navigateAddExistingControl()' label='Add Existing Control' styleClass='button-outline'></app-button>
       <app-button (click)="navigateAddNewControl()" label='Add New Control' styleClass='button-outline'></app-button>
+      <app-button (click)='navigateAddExistingControl()' label='Add Existing Control' styleClass='button-outline'></app-button>
+      <app-button (click)='navigateOrder()' label='Order' styleClass='button-outline'></app-button>
     </div>
   </div>
   <p-growl [(value)]="msgs"></p-growl>
@@ -21,8 +21,8 @@
   <div class="toolbar" *ngIf="viewChecklistsControlsResults && viewChecklistsControlsResults.length > 0">
     <img class="imgAlign pull-right" (click)="vc.exportCSV()" src="./assets/icon-excel-export.png" alt="Export to Excel.png">
   </div>
-  <p-table #vc [columns]="colHeaders" [value]="viewChecklistsControlsResults" [responsive]="true" [paginator]="isPaginator" [loading]="loading"
-    [rows]="selectedRows" [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName" >
+  <p-table #vc [columns]="colHeaders" [value]="viewChecklistsControlsResults" [responsive]="true" [paginator]="isPaginator"
+    [loading]="loading" [rows]="selectedRows" [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName">
     <ng-template pTemplate="caption">
       <div class="ui-helper-clearfix">
       </div>
@@ -75,7 +75,7 @@
     </ng-template>
     <ng-template pTemplate="paginatorright" let-state>
       <div class="grid-page-dropdown">
-      <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+        <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
       </div>
     </ng-template>
   </p-table>
@@ -83,17 +83,17 @@
 <div class="row">
   <div *ngIf="!isPaginator" class="pageAlign">
     <div class="grid-page-dropdown">
-    <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+      <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
     </div>
   </div>
 </div>
 <div>
   <p-confirmDialog appendTo="body"></p-confirmDialog>
   <div *ngIf="displayDialog">
-  <p-dialog [header]="dialogHeader" appendTo="body" [closable]='false' [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
-    [modal]="true" [width]="650">    
-    <app-control-associate-edit [childChecklistName] ="checklistName" [childChecklistId] ="checklistId" [displayRecordsLength]="records" (closeControlAssociateEdit)='this.refresh($event)'></app-control-associate-edit>
-   </p-dialog>
+    <p-dialog [header]="dialogHeader" appendTo="body" [closable]='false' [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
+      [modal]="true" [width]="650">
+      <app-control-associate-edit [childChecklistName]="checklistName" [childChecklistId]="checklistId" [displayRecordsLength]="records"
+        (closeControlAssociateEdit)='this.refresh($event)'></app-control-associate-edit>
+    </p-dialog>
   </div>
 </div>
-

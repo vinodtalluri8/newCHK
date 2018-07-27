@@ -6,6 +6,7 @@ export const environment = {
   production: false,
     // serverUrl : 'http://168.66.39.47:8080/'
       serverUrl : 'http://bjavaappd1:8530/'
+    // serverUrl : 'http://diva-jbdev.mfs.com/'
 };
 
 /*

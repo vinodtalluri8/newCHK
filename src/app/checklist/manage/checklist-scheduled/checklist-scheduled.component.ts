@@ -46,7 +46,7 @@ export class ChecklistScheduledComponent implements OnInit {
     /** Initilase the breadcrumbs navigation data **/
     this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
     { label: 'Schedule Checklist', routerLink: ['/' + routerConstants.scheduleChecklist] },
-    { label: 'Checklist Scheduled' }
+    { label: 'Checklist Schedule' }
     ];
     /** Initilase the column headers data **/
     this.colHeaders = [

@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AssignedChecklistService } from '../services/assigned-checklist.service';
+import { appConstants } from '../../../core/constants/appConstants';
 
 @Component({
   selector: 'app-closed-checklist',
@@ -8,7 +9,7 @@ import { AssignedChecklistService } from '../services/assigned-checklist.service
 })
 export class ClosedChecklistComponent implements OnInit {
   colHeaders: any[];
-  loginid = 'bhat_v';
+  // loginid = 'bhat_v';
   closedChecklistResults;
   @Output() closedDataLength = new EventEmitter();
 
@@ -30,7 +31,7 @@ export class ClosedChecklistComponent implements OnInit {
     /** To get the grid values for the closed checlists
     * @returns closedChecklistResults
     */
-    this.assignedChecklistService.getClosedChecklists(this.loginid).subscribe(
+    this.assignedChecklistService.getClosedChecklists(appConstants.loginId).subscribe(
       (data) => {
         this.closedChecklistResults = data;
         this.closedDataLength.emit(this.closedChecklistResults.length);

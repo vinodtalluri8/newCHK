@@ -2,6 +2,8 @@ import { Component, OnInit ,  Output, Input, EventEmitter} from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { SelectItem, Message } from 'primeng/api';
 import { AssignedChecklistService } from '../services/assigned-checklist.service';
+import { ChecklistManagersService } from '../../manage/services/checklist-managers.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-add-checklist-manager',
@@ -17,8 +19,10 @@ export class AddChecklistManagerComponent implements OnInit {
   @Output() closeAddChecklistManager = new EventEmitter();
   dataJson: any;
   activeEmployeesJson: any[] = [];
+  savedRecord;
 
-  constructor( private assignedChecklist: AssignedChecklistService) {
+  constructor( private assignedChecklist: AssignedChecklistService, private checklistManagersService: ChecklistManagersService,
+    private messageService: MessageService) {
     this.addChecklistManagerForm = new FormGroup({
       activeEmployees: new FormControl('')
     });
@@ -72,7 +76,8 @@ export class AddChecklistManagerComponent implements OnInit {
   generateActiveEmployeesJson() {
     for (let i = 0; i < this.selectedActiveEmployees.length; i++) {
       this.activeEmployeesJson.push({
-        'activeEmployees': this.selectedActiveEmployees[i]
+        'loginId': this.selectedActiveEmployees[i],
+        'fullName': this.selectedActiveEmployees[i]
       });
     }
   }
@@ -81,9 +86,17 @@ export class AddChecklistManagerComponent implements OnInit {
   addChecklistManager() {
     if (!this.disable()) {
     this.generateActiveEmployeesJson();
+    console.log(this.activeEmployeesJson);
     this.dataJson = {
-      'activeEmployees': this.activeEmployeesJson
+      divaSystemValueBeanList : this.activeEmployeesJson
     };
+    this.checklistManagersService.addChecklistManager(this.dataJson).subscribe(data => {
+        this.savedRecord = data;
+        this.resetAll();
+        this.messageService.clearMessage();
+        this.messageService.sendMessage({ severity: 'success', detail: 'Record Added Successfully' });
+    });
+
   }
    }
 

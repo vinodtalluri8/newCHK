@@ -34,9 +34,9 @@
   </div>
   <div class="row gridPadding">
     <div class="toolbar" *ngIf="onlineChecklistsControlsResults && onlineChecklistsControlsResults.length > 0">
-      <img class="imgAlign pull-right" (click)="vc.exportCSV()" src="./assets/icon-excel-export.png" alt="Export to Excel.png">
+      <img class="imgAlign pull-right" (click)="oc.exportCSV()" src="./assets/icon-excel-export.png" alt="Export to Excel.png">
     </div>
-    <p-table #vc [columns]="colHeaders" [value]="onlineChecklistsControlsResults" [responsive]="true" [paginator]="isPaginator"
+    <p-table #oc [columns]="colHeaders" [value]="onlineChecklistsControlsResults" [responsive]="true" [paginator]="isPaginator"
       [loading]="loading" [rows]="selectedRows" [alwaysShowPaginator]="false" [exportFilename]="this.exportFileName">
       <ng-template pTemplate="caption">
         <div class="ui-helper-clearfix">
@@ -52,7 +52,7 @@
         <tr *ngIf="filterable && onlineChecklistsControlsResults && onlineChecklistsControlsResults.length > 0">
           <th *ngFor="let col of columns" [style.width]="col.width">
 
-            <input *ngIf="col.field !== 'process'" pInputText type="text" placeholder="Filter" (input)="vc.filter($event.target.value, col.field, 'contains')">
+            <input *ngIf="col.field !== 'process'" pInputText type="text" placeholder="Filter" (input)="oc.filter($event.target.value, col.field, 'contains')">
 
           </th>
         </tr>

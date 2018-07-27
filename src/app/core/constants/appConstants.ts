@@ -5,6 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 // let allOption : any[];
 
 export const appConstants = {
+    loginId: 'dubey_a',
 
     getHeaderOptions: {
         headers: new HttpHeaders({

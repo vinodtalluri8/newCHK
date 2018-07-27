@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AssignedChecklistService } from '../services/assigned-checklist.service';
+import { appConstants } from '../../../core/constants/appConstants';
 
 @Component({
   selector: 'app-manager-checklists',
@@ -7,7 +8,7 @@ import { AssignedChecklistService } from '../services/assigned-checklist.service
   styleUrls: ['./manager-checklists.component.css']
 })
 export class ManagerChecklistsComponent implements OnInit {
-  loginid = 'bhat_v';
+  // loginid = 'bhat_v';
   managerChecklistResults;
   @Output() managerDataLength = new EventEmitter();
   colHeaders: any[];
@@ -29,7 +30,7 @@ export class ManagerChecklistsComponent implements OnInit {
     /** To get the grid values for the awaiting checlists
      * @returns awaitingChecklistResults
      */
-    this.assignedChecklistService.geManagerChecklists(this.loginid).subscribe(
+    this.assignedChecklistService.geManagerChecklists(appConstants.loginId).subscribe(
       (data) => {
         this.managerChecklistResults = data;
         this.managerDataLength.emit(this.managerChecklistResults.length);

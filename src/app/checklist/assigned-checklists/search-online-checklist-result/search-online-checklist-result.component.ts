@@ -63,7 +63,7 @@ export class SearchOnlineChecklistResultComponent implements OnInit {
     this.home = { icon: 'fa fa-home' };
     /** Initilase the breadcrumbs navigation data */
     this.itemsPath = [{ label: 'Checklists', routerLink: [''] },
-    { label: 'Search Online Checklist', routerLink: ['/' + routerConstants.searchOnlineChecklistt] },
+    { label: 'Search Online Checklists', routerLink: ['/' + routerConstants.searchOnlineChecklistt] },
     { label: 'Search Results' }
     ];
 

@@ -1,7 +1,7 @@
 <div class="panel panel-default" style="margin-left: -3px">
 
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -8px">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -11px">
       <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
     </div>
   </div>
@@ -73,7 +73,7 @@
       <div class="col-sm-4 col-md-4 col-lg-4">
         <label for="description" class="required control-label top-padding"> Description </label>
         <div>
-          <app-input-text-area rowSize='5' (inputTextAreaSelected)='this.description= $event' [value]='description' name='description'></app-input-text-area>
+          <app-input-text-area rowSize='5' (inputTextAreaSelected)='this.description= $event' [value]='description' name='description' [disabled]='disabled'></app-input-text-area>
         </div>
       </div>
 
@@ -81,7 +81,7 @@
       <div class="col-sm-4 col-md-4 col-lg-4">
         <label for="comments" class="required control-label top-padding"> Comments </label>
         <div>
-          <app-input-text-area rowSize='5' (inputTextAreaSelected)='this.comments= $event' [value]='comments' name='comments'></app-input-text-area>
+          <app-input-text-area rowSize='5' (inputTextAreaSelected)='this.comments= $event' [value]='comments' name='comments' [disabled]='disabled'></app-input-text-area>
         </div>
       </div>
     </div>

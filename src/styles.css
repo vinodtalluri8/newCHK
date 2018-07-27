@@ -395,3 +395,44 @@ span.pi.pi-arrow-up.ui-table-reorder-indicator-down.ng-star-inserted {
 span.pi.pi-arrow-down.ui-table-reorder-indicator-up.ng-star-inserted {
     display: none;
 }
+
+<<<<<<< HEAD
+.ui-multiselect-filter-container .ui-multiselect-filter-icon {
+    position: absolute;
+    top: .25em;
+    left: .125em;
+    padding-left: 92%;
+}
+
+span.ui-listbox-filter-icon.pi.pi-search {
+    padding-left: 102%;
+}
+
+span.ui-listbox-filter-icon.pi.pi-search {
+    padding-left: 102%;
+}
+
+app-online-update-view-controls textarea .ui-inputtext {
+    border-bottom-color: black!important;
+}
+
+.ui-state-disabled, .ui-widget:disabled {
+    opacity: 0.35;
+    filter: Alpha(Opacity=35);
+    background-image: none;
+    cursor: default !important;
+    border-color: black!important;
+}
+
+
+app-view-checklists-controls .ui-button {
+    height: 40px;
+    min-width: 0px;
+   
+}
+
+
+em.fa.fa-bars.ui-table-reorderablerow-handle.ng-star-inserted {
+    cursor: move;
+}
+

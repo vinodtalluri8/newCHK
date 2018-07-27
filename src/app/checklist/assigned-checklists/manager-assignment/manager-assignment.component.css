@@ -8,11 +8,11 @@ label.required:after {
 
 .checklistDisplay{
     margin-left:-40px; 
-    color:red;
+    color:blue;
 }
 
 .controlDisplay{
     margin-left:-40px; 
-    color:blue;
+    color:purple;
     margin-top: -20px;
 }
