@@ -57,12 +57,7 @@ export class AssignmentComponent implements OnInit {
     private checklistScheduleService: ChecklistScheduleService, private newEditScheduleService: NewEditScheduleService) {
 
     this.home = { icon: 'fa fa-home' };
-    /** Initilase the breadcrumbs navigation data **/
-    // this.itemsPath = [{ label: 'Checklists', routerLink: [''] },
-    // { label: 'Search Online Checklist', routerLink: [routerConstants.searchOnlineChecklistt] },
-    // { label: 'Search Results', routerLink: [routerConstants.searchonlinechecklistResult] },
-    // { label: 'Employee Assignments' }
-    // ];
+
   }
 
   ngOnInit() {
@@ -77,7 +72,7 @@ export class AssignmentComponent implements OnInit {
     this.breadcrumb();
     /** Code for column header based on read or Edit mode
         Edit mode has button to modify the data and view mode will only display the data **/
-    if (this.param === 'New Schedule' || this.param === 'Edit Assignment' || this.param === 'Pending') {
+    if (this.param === 'New Schedule' || this.param === 'Edit Assignment' || this.param === 'Scheduled') {
       this.colHeader = [
         { field: 'employeeFullName', header: 'Employee', width: '24%' },
         { field: 'managerFullName', header: 'Reviewer', width: '24%' },
@@ -95,23 +90,17 @@ export class AssignmentComponent implements OnInit {
       this.value = false;
     }
   }
+  /** to generate dynamic values in breadcrumb. */
   breadcrumb() {
-    if (this.param === 'New Schedule') {
-      this.itemsPath = [{ label: 'Checklist', routerLink: [routerConstants.defaultRoute] },
-      { label: 'Schedule Checklist', routerLink: ['/' + routerConstants.scheduleChecklist] },
-      { label: 'Checklist Schedule', routerLink: ['/' + routerConstants.checklistScheduled] },
-      { label: 'New Checklist Schedule', routerLink: ['/' + routerConstants.newChecklistSchedule] },
-      { label: 'Employee Assignments' }
-      ];
-    } else if (this.param === 'Edit Assignment') {
-      this.itemsPath = [{ label: 'Checklist', routerLink: [routerConstants.defaultRoute] },
+    if (this.param === 'New Schedule' || this.param === 'Edit Assignment') {
+      this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
       { label: 'Schedule Checklist', routerLink: ['/' + routerConstants.scheduleChecklist] },
       { label: 'Checklist Schedule', routerLink: ['/' + routerConstants.checklistScheduled] },
       { label: 'Employee Assignments' }
       ];
     } else {
-      this.itemsPath = [{ label: 'Checklists', routerLink: [''] },
-      { label: 'Search Online Checklist', routerLink: ['/' + routerConstants.searchOnlineChecklistt] },
+      this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+      { label: 'Search Online Checklists', routerLink: ['/' + routerConstants.searchOnlineChecklistt] },
       { label: 'Search Results', routerLink: ['/' + routerConstants.searchonlinechecklistResult] },
       { label: 'Employee Assignments' }
       ];
@@ -127,6 +116,7 @@ export class AssignmentComponent implements OnInit {
       this.messageService.clearMessage();
     }
   }
+  /** to fetch values in grid by calling services based on the screen from which it enters */
   fetchValues() {
     if (this.fromGrid === 'grid') {
       this.displayData = this.onlineChecklistService.getRowData();
@@ -135,11 +125,19 @@ export class AssignmentComponent implements OnInit {
       this.checklistSchedule = this.displayData['subTitle'];
       this.scheduleId = this.displayData['checklistScheduleID'];
       this.param = this.displayData['status'];
+      /** value of status is NULL in schedule grid JSON setting param to Schdeuled to open assignment
+       * button in edit mode.
+      */
+      if ( this.param === null) {
+        this.param = 'Scheduled';
+      }
     } else if (this.param === 'Edit Assignment') {
       console.log('Inside fetchvalue edit assignment');
       this.displayData = this.checklistScheduleService.getDataForAssignments();
       console.log(this.displayData);
-      this.checklistName = this.displayData['checklistName'];
+      this.checklistName = this.checklistScheduleService.getChecklistByName();
+      // this.checklistName = this.displayData['checklistName'];
+
       this.checklistSchedule = this.displayData['subTitle'];
       this.scheduleId = this.displayData['checklistScheduleID'];
       this.param = this.fromGrid;
@@ -169,7 +167,7 @@ export class AssignmentComponent implements OnInit {
     console.log(this.modifyManagerData, ' in assignment');
     this.displayDialog = true;
     this.screenName = 'modify';
-    this.dialogHeader = 'Modify Manager Assignments';
+    this.dialogHeader = 'Edit Reviewer Assignments';
   }
   /*
      *Add manager assignment
@@ -184,7 +182,7 @@ export class AssignmentComponent implements OnInit {
   */
   addNewChecklistManager() {
     this.addNewChecklistManagerDialog = true;
-    this.dialogHeader = 'Add New Checklist Manager(s)';
+    this.dialogHeader = 'Add New Checklist Reviewer(s)';
   }
 
   /*
@@ -210,8 +208,8 @@ export class AssignmentComponent implements OnInit {
     };
     this.msgs = [];
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the record?',
-      header: 'Delete Confirmation',
+      message: 'Are you sure you want to delete?',
+      header: 'Delete',
       icon: 'fa fa-trash',
       accept: () => {
         this.assignedChecklistService.deleteAssignments(this.dataJson).subscribe(data => {
@@ -224,9 +222,9 @@ export class AssignmentComponent implements OnInit {
           this.msgs = [{ severity: 'error', detail: 'Cannot delete an assignment' }];
         });
       },
-      reject: () => {
-        this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
-      }
+      // reject: () => {
+      //   this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
+      // }
     });
   }
   done() {

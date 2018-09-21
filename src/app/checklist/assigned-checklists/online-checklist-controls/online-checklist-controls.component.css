@@ -1,5 +1,5 @@
 .labelblueheader{
-    color: #205492 !important;
+    color:blue !important;
     padding-left:24px;
     font-size: 14px;
     font-family: Arial, Helvetica, sans-serif !important;
@@ -40,10 +40,18 @@ label {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px !important;
     width: 38%;
-    margin-left: 250px;
+    margin-left: 278px;
     
 }
 
 a.displaycolor{
     color: rgb(21, 49, 126)!important;
+}
+
+.updateStatusButtons{
+    margin-left: 4px !important;
+    margin-top : 15px;
+    display: inline-block;
+    position: absolute;
+    
 }

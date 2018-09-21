@@ -5,11 +5,10 @@ import { BaseServiceService } from '../../mychecklist/services/base-service.serv
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
-import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class SearchOnlineChecklistResultService extends BaseServiceService {
-  private searchOnlineChecklistResultserverURL = environment.serverUrl + 'DIVA-ChecklistService/searchOnlineChecklists';
+  private searchOnlineChecklistResultserverURL = this.serverUrl + this.checklistServiceUrl + 'searchOnlineChecklists';
 
   public searchCriteria;
 
@@ -21,7 +20,7 @@ export class SearchOnlineChecklistResultService extends BaseServiceService {
    }
    getSearchOnlineChecklistResult() {
     return this.httpClient
-      .post(this.searchOnlineChecklistResultserverURL, this.searchCriteria).map((data) => {
+      .post(this.searchOnlineChecklistResultserverURL, this.searchCriteria, appConstants.postHeaderOptions).map((data) => {
         console.log('in component', data);
         return data;
         }).catch(this.handleError);

@@ -5,8 +5,12 @@
 export const environment = {
   production: false,
     // serverUrl : 'http://168.66.39.47:8080/'
-      serverUrl : 'http://bjavaappd1:8530/'
+    //  serverUrl : 'http://bjavaappd2:8530/',
+    //  serverUrl : 'http://168.66.39.58:8080/',
     // serverUrl : 'http://diva-jbdev.mfs.com/'
+    // serverUrl : 'http://bjavaappt1:8140/',
+    // commonServiceURL : 'DIVA-CommonService/',
+    // checklistServiceUrl : 'DIVA-ChecklistService/'
 };
 
 /*

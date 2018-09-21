@@ -1,32 +1,29 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { appConstants } from '../../core/constants/appConstants';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-
 import { SelectItem } from 'primeng/api';
-import { environment } from '../../../environments/environment';
 import { BaseServiceService } from '../mychecklist/services/base-service.service';
 import 'rxjs/add/observable/throw';
 const allOption = { label: 'All', value: 'A' };
 
 @Injectable()
 export class ChecklistCommonService extends BaseServiceService {
-  private listDepartmentsURL = environment.serverUrl + 'DIVA-CommonService/checklist/departmentList';
-  private getAssigneeURL = environment.serverUrl + 'DIVA-CommonService/checklist/employeeList';
-  private getBackupURL = environment.serverUrl + 'DIVA-CommonService/checklist/employeeList';
-  private getEvaluationURL = environment.serverUrl + 'DIVA-CommonService/checklist/getEvaluationList';
-  private getReviewerURL = environment.serverUrl + 'DIVA-CommonService/checklist/employeeList';
-  private frequencyserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/getFrequencyList';
-  private primaryserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/employeeList';
-  private riskserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/getRiskList';
-  private statusserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/getStatusList';
-  private groupserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/groupList';
-  private departmentserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/departmentList';
-  private onlineserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/getOnlineList';
-  private controlserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/allControls';
-  private userDefaultserverURL = environment.serverUrl + 'DIVA-CommonService/checklist/userDefaultGroup';
+  private listDepartmentsURL = this.serverUrl + this.commonServiceURL + 'checklist/departmentList';
+  private getAssigneeURL = this.serverUrl + this.commonServiceURL + 'checklist/employeeList';
+  private getBackupURL = this.serverUrl + this.commonServiceURL + 'checklist/employeeList';
+  private getEvaluationURL = this.serverUrl + this.commonServiceURL + 'checklist/getEvaluationList';
+  private getReviewerURL = this.serverUrl + this.commonServiceURL + 'checklist/employeeList';
+  private frequencyserverURL = this.serverUrl + this.commonServiceURL + 'checklist/getFrequencyList';
+  private primaryserverURL = this.serverUrl + this.commonServiceURL + 'checklist/employeeList';
+  private riskserverURL = this.serverUrl + this.commonServiceURL + 'checklist/getRiskList';
+  private statusserverURL = this.serverUrl + this.commonServiceURL + 'checklist/getStatusList';
+  private groupserverURL = this.serverUrl + this.commonServiceURL + 'checklist/groupList';
+  private departmentserverURL = this.serverUrl + this.commonServiceURL + 'checklist/departmentList';
+  private onlineserverURL = this.serverUrl + this.commonServiceURL + 'checklist/getOnlineList';
+  private controlserverURL = this.serverUrl + this.commonServiceURL + 'checklist/allControls';
+  private userDefaultserverURL = this.serverUrl + this.commonServiceURL + 'checklist/userDefaultGroup';
 
 
   constructor(private httpClient: HttpClient) {
@@ -37,7 +34,8 @@ export class ChecklistCommonService extends BaseServiceService {
    * @returns user group
   **/
   getDefaultGroup() {
-    appConstants.getHeaderOptions.params = new HttpParams().set('loginId', 'Chuprin_a');
+     appConstants.getHeaderOptions.params = new HttpParams().set('loginId', appConstants.loginId );
+    // appConstants.getHeaderOptions.params = new HttpParams().set('loginId', 'Chuprin_a');
     return this.httpClient
       .get(this.userDefaultserverURL, appConstants.getHeaderOptions).map((defaultgroup: SelectItem[]) => {
         const defaultgroupList: any = [];
@@ -201,7 +199,8 @@ export class ChecklistCommonService extends BaseServiceService {
    * @returns groupsList
    * **/
   getGroup(value?) {
-    appConstants.getHeaderOptions.params = new HttpParams().set('loginId', 'Chuprin_a');
+     appConstants.getHeaderOptions.params = new HttpParams().set('loginId', appConstants.loginId);
+    // appConstants.getHeaderOptions.params = new HttpParams().set('loginId', 'Chuprin_a' );
     return this.httpClient
       .get(this.groupserverURL, appConstants.getHeaderOptions).map((groups: SelectItem[]) => {
         const groupsList: any = [];

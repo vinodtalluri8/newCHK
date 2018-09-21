@@ -6,6 +6,7 @@ import { routerConstants } from '../../../core/constants/routerConstants';
 import { OnlineChecklistService } from '../services/online-checklist.service';
 import { MessageService } from '../../services/message.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { appConstants } from '../../../core/constants/appConstants';
 
 @Component({
   selector: 'app-comments-checklist',
@@ -26,9 +27,13 @@ export class CommentsChecklistComponent implements OnInit {
   dataJson: any;
   checklistInstanceId: number;
   fetchCommentsData: any;
+  routePath: string;
 
   constructor(private location: Location, private onlineChecklistService: OnlineChecklistService,
-    private messageService: MessageService, private route: ActivatedRoute) {
+    private messageService: MessageService, private route: ActivatedRoute, private router: Router) {
+    this.route.params.subscribe(params => {
+      this.routePath = params['routePath'];
+    });
   }
 
   ngOnInit() {
@@ -39,6 +44,7 @@ export class CommentsChecklistComponent implements OnInit {
       this.displayFrequency = this.fetchCommentsData['frequency'];
       this.checklistName = this.fetchCommentsData['checklistName'];
       this.displayStartDate = this.fetchCommentsData['startDate'];
+      this.additionalComments = this.fetchCommentsData['additionalComments'];
     }
     this.home = { icon: 'fa fa-home' };
     this.header = 'Add Additional Comments';
@@ -47,21 +53,35 @@ export class CommentsChecklistComponent implements OnInit {
 
   /** This method will navigate back to search online results **/
   back() {
-    this.location.back();
+    if (this.routePath === 'searchonline') {
+      this.router.navigate([routerConstants.searchonlinechecklistResult]);
+    }
+    if (this.routePath === 'myonline') {
+      this.router.navigate([routerConstants.defaultRoute]);
+    }
   }
 
   /** This method will reset all values to default **/
   resetAll() {
     this.additionalComments = '';
+    this.back();
   }
 
   /*method for breadcrumbs*/
   breadcrumbs() {
-    this.itemsPath = [{ label: 'Checklists' },
-    { label: 'Search Online Checklist', routerLink: ['/' + routerConstants.searchOnlineChecklistt] },
-    { label: 'Search Results', routerLink: ['/' + routerConstants.searchonlinechecklistResult] },
-    { label: 'Additional Comments' }
-    ];
+    if (this.routePath === 'searchonline') {
+      this.itemsPath = [{ label: 'Checklists' },
+      { label: 'Search Online Checklist', routerLink: ['/' + routerConstants.searchOnlineChecklistt] },
+      { label: 'Search Results', routerLink: ['/' + routerConstants.searchonlinechecklistResult] },
+      { label: 'Additional Comments' }
+      ];
+    }
+    if (this.routePath === 'myonline') {
+      this.itemsPath = [
+        { label: 'My Assigned Checklists', routerLink: ['/' + routerConstants.defaultRoute] },
+        { label: 'Additional Comments' }
+      ];
+    }
   }
 
   /*This method will add additional comments to controls*/
@@ -69,7 +89,7 @@ export class CommentsChecklistComponent implements OnInit {
     this.msgs = [];
     this.dataJson = {
       'checklistInstanceID': this.checklistInstanceId,
-      'modifyUser': 'divatest_sa1',
+      'modifyUser': appConstants.loginId,
       'additionalComment': this.additionalComments,
     };
     this.onlineChecklistService.addAdditionalComments(this.dataJson)
@@ -78,7 +98,7 @@ export class CommentsChecklistComponent implements OnInit {
         this.messageService.clearMessage();
         this.messageService.sendMessage({
           severity: 'success',
-          detail: 'Added Comments Successfully'
+          detail: 'Comments added successfully'
         });
         this.resetAll();
         this.back();

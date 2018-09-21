@@ -1,6 +1,6 @@
 <!--   add check list screen display  -->
 <div class="row">
-  <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -8px;">
+  <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -14px;">
       <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
   </div>
 </div>
@@ -39,7 +39,6 @@
       </div>
 
       <div class="col-sm-4 col-md-4 col-lg-4" id="depFreq">
-        <!-- <div class="row paddingTopClass" id="department"> -->
         <label class="required control-label">Department</label>
         <div>
           <app-dropdown [datasource]='departments' (selectedItemChange)='this.selectedDepartments = $event' [selectedItem]='selectedDepartments'></app-dropdown>
@@ -56,7 +55,7 @@
     <div class="row addCheckListButtons">
       <div *ngIf="!this.isUpdate"class="col-sm-8 col-md-8 col-lg-8">
           <app-button label='Save' (click)='saveChecklist()' [disabled]='disable()' styleClass='button-action'></app-button>
-          <app-button label='Cancel' (click)='back()' styleClass='button-cancel'></app-button>
+          <app-button label='Cancel' (click)='resetAll()' styleClass='button-cancel'></app-button>
       </div>
       <div *ngIf="this.isUpdate"class="col-sm-8 col-md-8 col-lg-8">
         <app-button label='Update' (click)='modifyChecklist()' [disabled]='disable()' styleClass='button-action'></app-button>

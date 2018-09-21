@@ -49,6 +49,8 @@ export class ControlsComponent implements OnInit {
   home: MenuItem;
   msgs: Message[] = [];
 
+  isSingleClick: boolean;
+
   constructor(private router: Router,
     private checklistCommonService: ChecklistCommonService,
     private searchControlService: SearchControlService, private messageService: MessageService) {
@@ -132,12 +134,12 @@ export class ControlsComponent implements OnInit {
         this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
       });
     /** to get  assignee dropdown */
-   /* this.checklistCommonService.getAssignee('display').subscribe(
-      (data) => {
-        this.anyAssigned = data;
-      }, error => {
-        this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
-      });*/
+    /* this.checklistCommonService.getAssignee('display').subscribe(
+       (data) => {
+         this.anyAssigned = data;
+       }, error => {
+         this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
+       });*/
     /** to get  backup dropdown */
     /*this.checklistCommonService.getBackup('display').subscribe(
       (data) => {
@@ -206,6 +208,8 @@ export class ControlsComponent implements OnInit {
     this.control = null;
   }
 
+
+
   /** This method will send the inputs
    * for displaying the search results for search control screen **/
   searchControl() {
@@ -228,8 +232,5 @@ export class ControlsComponent implements OnInit {
     };
     this.searchControlService.setSearchCriteria(this.dataJson);
     this.router.navigate([routerConstants.searchControlResults]);
-
   }
-
-
 }

@@ -129,7 +129,7 @@ export class SearchChecklistResultsComponent implements OnInit  {
     this.msgs = [];
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete?',
-      header: 'Delete Confirmation',
+      header: 'Delete',
       icon: 'fa fa-trash',
       accept: () => {
         this.searchChecklistService.deleteChecklist(record).subscribe(data => {
@@ -141,9 +141,9 @@ export class SearchChecklistResultsComponent implements OnInit  {
           this.msgs = [{ severity: 'error', detail: 'Cannot delete a scheduled online checklist' }];
         });
       },
-      reject: () => {
-        this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
-      }
+      // reject: () => {
+      //   this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
+      // }
     });
     // this.msgs.push({severity: 'info', summary: 'Implementation Pending', detail: 'Delete yet to be Implemented'});
   }

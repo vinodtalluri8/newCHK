@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
 import { appConstants } from '../../../core/constants/appConstants';
 import { SelectItem } from 'primeng/api';
 import { BaseServiceService } from '../../mychecklist/services/base-service.service';
@@ -17,9 +16,9 @@ export class ChecklistScheduleService extends BaseServiceService {
   private checklistId: number;
   private checklistscheduleID: number;
 
-  private scheduleChecklistUrl = environment.serverUrl + 'DIVA-ChecklistService/getScheduleChecklistList';
-  private scheduleServerURL =  environment.serverUrl + 'DIVA-ChecklistService/getScheduledList';
-  private frequencyserverURL = environment.serverUrl + 'DIVA-CommonService/scheduleChecklist/getFrequencyList';
+  private scheduleChecklistUrl = this.serverUrl +  this.checklistServiceUrl + 'getScheduleChecklistList';
+  private scheduleServerURL =  this.serverUrl + this.checklistServiceUrl + 'getScheduledList';
+  private frequencyserverURL = this.serverUrl + this.commonServiceURL + 'scheduleChecklist/getFrequencyList';
 
   setResultScheduleCriteria(scheduleChecklistOnline) {
     this.scheduleChecklistOnline = scheduleChecklistOnline;

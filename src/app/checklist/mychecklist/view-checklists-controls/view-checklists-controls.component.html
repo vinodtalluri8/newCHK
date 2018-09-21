@@ -1,6 +1,6 @@
 <div class="panel panel-default" style="margin-left:-3px">
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-4px">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-10px">
       <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
     </div>
   </div>
@@ -46,6 +46,7 @@
       <tr [pSelectableRow]="rowData">
         <td *ngFor="let col of columns" [style.width]="col.width" class="ui-resizable-column">
           <ng-container *ngIf="col.field == 'action'|| col.field == 'docTitle'; else elseTemplate">
+              <div [ngStyle]="{'color':isActive(rowData['status']) ? '#205492' : 'black' }">
             <div class="row" *ngIf="col.field == 'action'">
               <div class="col-sm-6 col-md-6 col-lg-6 displaycolor" style="padding-right:5px !important">
                 <a class="hyperlink" (click)="modify(rowData['checklistId'],rowData['taskId'],rowData['displayOrder'])">Modify</a>
@@ -55,13 +56,16 @@
               </div>
             </div>
             <div class="row" *ngIf="col.field == 'docTitle'">
-              <div class="col-sm-12 col-md-12 col-lg-12">
-                <a class="hyperlink" href="{{rowData['link']}}">{{rowData['docTitle']}}</a>
+              <div class="col-sm-12 col-md-12 col-lg-12 procdisplaycolor">
+                <a class="hyperlink" (click)="procedure(rowData['link'])">{{rowData['docTitle']}}</a>
               </div>
+            </div>
             </div>
           </ng-container>
           <ng-template #elseTemplate>
+              <div [ngStyle]="{'color':isActive(rowData['status']) ? '#205492' : 'black' }">
             {{rowData[col.field]}}
+            </div>
           </ng-template>
         </td>
       </tr>
@@ -87,8 +91,7 @@
     </div>
   </div>
 </div>
-<div>
-  <p-confirmDialog appendTo="body"></p-confirmDialog>
+<div>  
   <div *ngIf="displayDialog">
     <p-dialog [header]="dialogHeader" appendTo="body" [closable]='false' [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
       [modal]="true" [width]="650">
@@ -96,4 +99,5 @@
         (closeControlAssociateEdit)='this.refresh($event)'></app-control-associate-edit>
     </p-dialog>
   </div>
+  <p-confirmDialog></p-confirmDialog>
 </div>

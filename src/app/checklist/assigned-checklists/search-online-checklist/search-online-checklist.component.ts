@@ -49,6 +49,7 @@ export class SearchOnlineChecklistComponent implements OnInit {
   displayDialog: boolean;
   msgs: Message[] = [];
   public statusVal: any;
+  diffDate: number;
 
   /**  giving default values for the page*/
   constructor(private httpClient: HttpClient, private router: Router, private checklistCommonService: ChecklistCommonService,
@@ -112,6 +113,8 @@ export class SearchOnlineChecklistComponent implements OnInit {
   }
 
   preLoadValue() {
+    this.checklistNameContains = '';
+    this.scheduleNameContains = '';
     this.selectedFrequency = initialValue;
     this.selectedStatus = initialValue;
     this.selectedEmployee = initialValue;
@@ -122,16 +125,30 @@ export class SearchOnlineChecklistComponent implements OnInit {
     this.selectedStatus = initialValue;
     this.selectedManagerReviewRequired = initialValue;
     this.selectedManagerReviewComplete = initialValue;
+     this.toDate = new Date();
+     this.fromDate = new Date();
   }
 
   /** on clicking search button setting Json and navigation will happen */
   selectChecklist() {
+    // const endDateArray = this.toDate.split('/');
+    // const endDate = new Date(endDateArray[2], endDateArray[0], endDateArray[1]);
+    // const startDateArray = this.fromDate.split('/');
+   //  const startDate = new Date(startDateArray[2], startDateArray[0], startDateArray[1]);
+    this.diffDate = Math.round((new Date(this.toDate).getTime() - new Date(this.fromDate).getTime()) / (1000 * 60 * 60 * 24));
+    if (this.diffDate > 90) {
+      this.msgs = [{ severity: 'error', summary: 'Invalid Date(s): ', detail: 'To Date should be within 90 days of From Date' }];
+      return;
+    } else if (this.diffDate < 0) {
+      this.msgs = [{ severity: 'error', summary: 'Invalid Date(s): ', detail: 'To Date should be greater than From Date' }];
+      return;
+    }
     this.dataJson = {
-      'employeeLoginId': 'divatest_sa1',
+      'employeeLoginId': appConstants.loginId ,
       'scheduleChecklistName': this.scheduleNameContains ? this.scheduleNameContains : '',
       'status': this.selectedStatus,
-      'startDate': this.fromDate,
-      'endDate': this.toDate,
+      'startDate': typeof this.fromDate === 'string' ? this.fromDate : this.fromDate.toLocaleDateString(),
+      'endDate': typeof this.toDate === 'string' ? this.toDate : this.toDate.toLocaleDateString(),
       'employee': this.selectedEmployee,
       'manager': this.selectedManager,
       'backupManager': this.selectedbackupManager,

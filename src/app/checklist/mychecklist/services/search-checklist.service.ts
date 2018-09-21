@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
 import { appConstants } from '../../../core/constants/appConstants';
 import { BaseServiceService } from '../services/base-service.service';
 import 'rxjs/add/observable/throw';
@@ -23,7 +22,7 @@ export class SearchChecklistService extends BaseServiceService {
    * @returns results
    */
   getSearchChecklistData(data: JSON) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/getDisplayChecklist';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'getDisplayChecklist';
     this.searchCriteria = data;
     return this.httpClient.post(this.url,
       data, appConstants.postHeaderOptions).map((results) => {
@@ -38,7 +37,7 @@ export class SearchChecklistService extends BaseServiceService {
   /* This method will get the data of department dropdown based on the group selected by passing the
     application name and the system code as input parameters*/
   deleteChecklist(value) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/deleteChecklist';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'deleteChecklist';
     const inputJson = {
       'checklistId' : value
     };

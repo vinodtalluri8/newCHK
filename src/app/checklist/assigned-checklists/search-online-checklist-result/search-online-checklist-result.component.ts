@@ -9,6 +9,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { appConstants } from '../../../core/constants/appConstants';
 import { MessageService } from '../../services/message.service';
+import { Location } from '@angular/common';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -21,7 +22,6 @@ import 'rxjs/add/observable/throw';
 export class SearchOnlineChecklistResultComponent implements OnInit {
   public routePath:  any =  'searchOnlineResults';
   public fromGrid: any;
-  searchOnlineChecklistResult: any = [];
   itemsPath: MenuItem[];
   home: MenuItem;
   colHeaderSchedule: any[];
@@ -35,17 +35,9 @@ export class SearchOnlineChecklistResultComponent implements OnInit {
   SOCRManagerReview: any = [];
   colHeaderCloseCompleted: any = [];
   SOCRClosedCompleted: any = [];
-  routeJson: any;
-  cName: string;
-  cSchedule: string;
-  cFrequency: string;
-  cReview: string;
-  cDueDate: string;
   mode: string;
-  searchOnlineChecklistResultserverURL: any;
   inputJson: any;
   msgs: Message[] = [];
-  searchOnlineData: any;
 
   isPaginator: boolean;
   filterable: boolean;
@@ -55,11 +47,14 @@ export class SearchOnlineChecklistResultComponent implements OnInit {
   statusVal: string;
   onlineDataJson: any;
   onlineCommentsJson: any;
+  isView: boolean;
+  isUpdate: boolean;
 
 
   constructor(private httpClient: HttpClient, private assignedChecklistService: AssignedChecklistService,
     private onlineChecklistService: OnlineChecklistService, private router: Router,
-    private searchOnlineChecklistResultService: SearchOnlineChecklistResultService, private route: ActivatedRoute) {
+    private searchOnlineChecklistResultService: SearchOnlineChecklistResultService,
+    private location: Location, private route: ActivatedRoute) {
     this.home = { icon: 'fa fa-home' };
     /** Initilase the breadcrumbs navigation data */
     this.itemsPath = [{ label: 'Checklists', routerLink: [''] },
@@ -105,27 +100,27 @@ export class SearchOnlineChecklistResultComponent implements OnInit {
     /** setting column header for Manager Review grid */
     this.colHeaderManagerReview = [
       { field: 'checklistName', header: 'Checklist', width: '22%' },
-      { field: 'subTitle', header: 'Schedule', width: '26%' },
+      { field: 'subTitle', header: 'Schedule', width: '25%' },
       { field: 'frequency', header: 'Frequency', width: '8%' },
       { field: 'modifyManagerReviewDate', header: 'Last Rev', width: '7%' },
       { field: 'endDate', header: 'End Date', width: '7%' },
       { field: 'comment', header: 'Empl Comment', width: '10%' },
-      { field: 'reviewComment', header: 'Rev Cmnt', width: '7%' },
+      { field: 'reviewComment', header: 'Rev Cmnt', width: '9%' },
       { field: 'intendedCompletionDate', header: 'Due Date', width: '7%' },
-      { field: 'checklistReview', header: 'Review', width: '6%' }
+      { field: 'checklistReview', header: 'Review', width: '5%' }
     ];
 
     /** setting column header for Closed/Completed grid */
     this.colHeaderCloseCompleted = [
-      { field: 'checklistName', header: 'Checklist', width: '19%' },
-      { field: 'subTitle', header: 'Schedule', width: '15%' },
+      { field: 'checklistName', header: 'Checklist', width: '17%' },
+      { field: 'subTitle', header: 'Schedule', width: '14%' },
       { field: 'frequency', header: 'Frequency', width: '8%' },
-      { field: 'startDate', header: 'Start Date', width: '7%' },
+      { field: 'startDate', header: 'Start Date', width: '8%' },
       { field: 'endDate', header: 'End Date', width: '7%' },
       { field: 'status', header: 'Status', width: '6%' },
       { field: 'checklistAssignments', header: 'Assignments', width: '9%' },
       { field: 'intendedCompletionDate', header: 'Due Date', width: '7%' },
-      { field: 'modifyUser', header: 'Last To Modify', width: '9%' },
+      { field: 'modifyUser', header: 'Last To Modify', width: '10%' },
       { field: 'checklistComments', header: 'Comments', width: '8%' },
       { field: 'checklistView', header: 'View', width: '5%' }
     ];
@@ -159,7 +154,12 @@ export class SearchOnlineChecklistResultComponent implements OnInit {
 
   loadData() {
     this.searchOnlineChecklistResultService.getSearchOnlineChecklistResult().subscribe(data => {
-      this.SOCR = data['pending'];
+      if (data['pending'].length > 0) {
+        this.SOCR = data['pending'];
+      } else {
+        this.SOCR = data['scheduled'];
+            }
+      // this.SOCR = data['pending'];
       this.SOCRInProgress = data['inProgress'];
       this.SOCRFollowUp = data['employeeFollowUp'];
       this.SOCRManagerReview = data['managerReview'];
@@ -188,31 +188,50 @@ export class SearchOnlineChecklistResultComponent implements OnInit {
 
   }
   /**Method to add additional comments*/
-  addAdditionalComments(recordChecklistId, recordFrequency, recordChecklistName, recordStartDate) {
+  addAdditionalComments(recordChecklistId, recordFrequency, recordChecklistName, recordStartDate, recordComments) {
+    this.routePath = 'searchonline';
     this.onlineCommentsJson = {
       'checklistInstanceID': recordChecklistId,
       'frequency': recordFrequency,
       'checklistName': recordChecklistName,
-      'startDate': recordStartDate
+      'startDate': recordStartDate,
+      'additionalComments': recordComments
     };
     this.onlineChecklistService.setCommentsJson(this.onlineCommentsJson);
-    this.router.navigate(['/searchonlinechecklist/comments']);
+    this.router.navigate([routerConstants.comments, this.routePath]);
   }
 
   /**Method to view checklist controls*/
-  onlineChecklistControls(recordChecklistID, recordComment, recordChecklistName, recordSubtitle, recordStartDate) {
+  onlineChecklistControls(recordChecklistID, recordComment, recordChecklistName, recordSubtitle
+    , recordStartDate, recordFrequency, recordEndDate) {
+    this.routePath = 'searchonline';
+    this.isView = true;
+    this.isUpdate = false;
     this.onlineDataJson = {
       'checklistInstanceID': recordChecklistID,
       'reviewComments': recordComment,
       'checklistName': recordChecklistName,
       'scheduleTitle': recordSubtitle,
-      'startDate': recordStartDate
+      'startDate': recordStartDate,
+      'frequency': recordFrequency,
+      'closedDate': recordEndDate,
+      'isView': this.isView,
+      'isUpdate': this.isUpdate
     };
     this.onlineChecklistService.setChecklistJson(this.onlineDataJson);
-    this.router.navigate(['/searchonlinechecklist/checklistControls']);
+    this.router.navigate([routerConstants.searchonlinechecklistControls, this.routePath]);
   }
   editSchedule(rowData) {
-    this.router.navigate([routerConstants.newChecklistSchedule, this.routePath]);
+    console.log('route path', this.routePath);
+    console.log('sche id', rowData['checklistScheduleID']);
+    this.router.navigate([routerConstants.editChecklistSchedule, this.routePath, rowData['checklistScheduleID']]);
   }
+  backScreen() {
+    this.location.back();
+    }
+
+    isPastDue(intendedDate) {
+      return (Date.parse(intendedDate) < Date.now()) && new Date(intendedDate).toLocaleDateString() !== new Date().toLocaleDateString();
+    }
 }
 

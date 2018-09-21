@@ -21,15 +21,20 @@
       </div>
     </div>
   </div>
+  <div  *ngIf="isClosed" class="row">
+      <div class="col-sm-8 col-md-8 col-lg-8">
+      <label class="labelblackheader">Closed/Completed Date:{{this.closedDate}}</label>
+  </div>
+</div>
   <div *ngIf="displayComments">
-  <div class="row">
-    <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="managerReviewComments" class="required top-padding">Manager Review Comments</label>
-      <div>
-        <app-input-text-area rowSize='5' class="onlinetextarea" (inputTextAreaSelected)='this.managerReviewComments= $event' [value]='managerReviewComments'
-          name='managerReviewComments'></app-input-text-area>
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label for="managerReviewComments" class="required top-padding">Manager Review Comments</label>
+        <div>
+          <app-input-text-area rowSize='5' class="onlinetextarea" (inputTextAreaSelected)='this.managerReviewComments= $event' [value]='managerReviewComments'
+            name='managerReviewComments' [disabled]='disabled'></app-input-text-area>
+        </div>
       </div>
-    </div>
     </div>
   </div>
   <div class="row gridPadding">
@@ -60,20 +65,37 @@
       <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
           <td *ngFor="let col of columns" [style.width]="col.width" class="ui-resizable-column">
-            <ng-container *ngIf="col.field == 'process' || col.field == 'docTitle'; else elseTemplate">           
+            <ng-container *ngIf="col.field == 'process' || col.field == 'complete' ||  col.field == 'docTitle'; else elseTemplate">
               <div class="row" *ngIf="col.field == 'process'">
-                <div style="margin-left:15px !important">
-                  <app-button label="View" (click)="onlineViewControl(rowData['taskId'],rowData['displayOrder'],rowData['title'],rowData['link'],rowData['docTitle'])" styleClass="button-grid-action"></app-button>
+                <div *ngIf="!this.isUpdate" style="margin-left:15px !important">
+                  <app-button label="View" (click)="onlineViewControl(rowData['taskId'],rowData['displayOrder'],rowData['title'],rowData['link'],rowData['docTitle'])"
+                    styleClass="button-grid-action"></app-button>
                 </div>
+                <div *ngIf="this.isUpdate" style="margin-left:22px !important">
+                  <app-button label="Update" (click)="onlineViewControl(rowData['taskId'],rowData['displayOrder'],rowData['title'],rowData['link'],rowData['docTitle'])"
+                    styleClass="button-grid-action"></app-button>
+                </div>
+              </div>
+              <div *ngIf="col.field == 'complete'" style="margin-left:8px !important">
+                <app-button label="Complete" (click)="completeControl(rowData['taskId'],rowData['displayOrder'])" styleClass="button-grid-action"></app-button>
               </div>
               <div class="row" *ngIf="col.field == 'docTitle'">
                 <div class="col-sm-12 col-md-12 col-lg-12">
-                  <a class="hyperlink displaycolor" href="{{rowData['link']}}">{{rowData['docTitle']}}</a>
+                  <a class="hyperlink displaycolor" href="{{rowData['link']}}" target="_blank">{{rowData['docTitle']}}</a>
                 </div>
               </div>
             </ng-container>
+            <ng-container *ngIf="col.field == 'gridItem' || col.field == 'flagFollowUp' || col.field == 'flagEscalate' || col.field == 'attachments'">
+              <div>
+                {{rowData[col.field]=='Y'? 'Yes' : 'No'}}
+              </div>
+            </ng-container>
             <ng-template #elseTemplate>
-              {{rowData[col.field]}}
+              <ng-container *ngIf="!(col.field == 'gridItem' || col.field == 'flagFollowUp' || col.field == 'flagEscalate' || col.field == 'attachments')">
+                <div>
+                  {{rowData[col.field]}}
+                </div>
+              </ng-container>
             </ng-template>
           </td>
         </tr>
@@ -97,5 +119,32 @@
       <div class="grid-page-dropdown">
         <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
       </div>
+    </div>
+  </div>
+
+  <div class="row updateStatusButtons">
+    <div *ngIf="screenName === 'moip'">
+      <app-button label='Update Checklist Status' (click)='updateStatus()' styleClass='button-action'></app-button>
+    </div>
+    <div *ngIf="isReview === 'review'">
+      <app-button label='Review Checklist Status' (click)='updateStatus()' styleClass='button-action'></app-button>
+    </div>
+  </div>
+
+  <div>
+    <div *ngIf="updateStatusDialog">
+      <p-confirmDialog appendTo="body"></p-confirmDialog>
+      <p-dialog [header]="dialogHeader" appendTo="body" [closable]='false' [(visible)]="updateStatusDialog" [responsive]="true"
+        showEffect="fade" [modal]="true" [width]="650" [height]="500">
+        <app-update-checklist-status [childChecklistName]="checklistName" [frequency]="frequency" [startDate]="startDate" (closeUpdateStatus)='this.refresh($event)'></app-update-checklist-status>
+      </p-dialog>
+    </div>
+    <div *ngIf="reviewStatusDialog">
+      <p-confirmDialog appendTo="body"></p-confirmDialog>
+      <p-dialog [header]="dialogHeader" appendTo="body" [closable]='false' [(visible)]="reviewStatusDialog" [responsive]="true"
+        showEffect="fade" [modal]="true" [width]="650" [height]="400">
+        <app-update-checklist-status [childChecklistName]="checklistName" [frequency]="frequency" [startDate]="startDate" [reviewCheck]="reviewCheck"
+          (closeUpdateStatus)='this.refresh($event)'></app-update-checklist-status>
+      </p-dialog>
     </div>
   </div>

@@ -52,7 +52,7 @@ export class MychecklistComponent implements OnInit {
   }
 
   updateChecklistStatus() {
-    this.router.navigate(['../updatecheckliststatus']);
+    this.router.navigate(['../searchonlinechecklist/updatecheckliststatus']);
   }
 
   refresh(event) {

@@ -6,6 +6,7 @@ import { AssignedChecklistService } from '../assigned-checklists/services/assign
 import { routerConstants } from '../../core/constants/routerConstants';
 import { DataGrid } from 'primeng/primeng';
 import {  Location  } from '@angular/common';
+import { MessageService } from '../services/message.service';
 @Component({
   selector: 'app-assigned-checklists',
   templateUrl: './assigned-checklists.component.html',
@@ -23,7 +24,8 @@ export class AssignedChecklistsComponent implements OnInit {
   dataDisplay = false;
   dataLength: number[] = [];
 
-  constructor(private assignedChecklistService: AssignedChecklistService, private location: Location) {
+  constructor(private assignedChecklistService: AssignedChecklistService, private location: Location,
+    private messageService: MessageService) {
     /** Initilase the breadcrumbs navigation data **/
     this.home = { icon: 'fa fa-home' };
     this.itemsPath = [{ label: 'My Assigned Checklists' },
@@ -32,6 +34,10 @@ export class AssignedChecklistsComponent implements OnInit {
 
   ngOnInit() {
     // this.scheduledDisplay = this.assignedChecklistService.getScheduledResultsdata();
+    if (this.messageService.getMessage()) {
+      this.msgs = [this.messageService.getMessage()];
+      this.messageService.clearMessage();
+    }
 
   }
   showOrHide(scheduledDataDisplay, $event, grid) {

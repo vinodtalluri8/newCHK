@@ -60,7 +60,7 @@ export class ChecklistScheduledComponent implements OnInit {
     this.filterable = true;
     this.exportFileName = 'Checklists Scheduled';
     this.selectedRows = 15;
-    this.loading = false;
+    this.loading = true;
     this.displayRows = [{ label: '15', value: 15 },
     { label: '20', value: 20 }, { label: '30', value: 30 },
     { label: '50', value: 50 }, { label: '100', value: 100 }];
@@ -69,7 +69,6 @@ export class ChecklistScheduledComponent implements OnInit {
   /** Initilase or call methods onInit**/
   ngOnInit() {
     this.fromGrid = 'Edit Assignment';
-    this.loading = false;
     this.selectedName = this.checklistScheduleService.getChecklistByName();
     this.selectedFrequency = this.checklistScheduleService.getChecklistByFrequency();
     // this.checklistId = this.checklistScheduleService.getChecklistById();
@@ -91,6 +90,7 @@ export class ChecklistScheduledComponent implements OnInit {
   fetchChecklistScheduledList() {
     this.checklistScheduleService.scheduledChecklist(this.result).subscribe(data => {
       this.checklistScheduled = data;
+      this.loading = false;
       console.log('this.checklistScheduled', this.checklistScheduled);
       }, error => {
         this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
@@ -126,6 +126,7 @@ export class ChecklistScheduledComponent implements OnInit {
     // console.log('editAssignments yet to be implemented');
     // this.msgs = [{ severity: 'info', summary: 'Implemention Pending', detail: 'Edit Assignments yet to be implemented' }];
     this.checklistScheduleService.setDataForAssignments(rowData);
+    console.log('rowdata', rowData);
     this.router.navigate([routerConstants.onlineChecklistAssignment, this.fromGrid]);
   }
 

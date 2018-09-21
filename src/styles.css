@@ -396,7 +396,6 @@ span.pi.pi-arrow-down.ui-table-reorder-indicator-up.ng-star-inserted {
     display: none;
 }
 
-<<<<<<< HEAD
 .ui-multiselect-filter-container .ui-multiselect-filter-icon {
     position: absolute;
     top: .25em;
@@ -404,12 +403,12 @@ span.pi.pi-arrow-down.ui-table-reorder-indicator-up.ng-star-inserted {
     padding-left: 92%;
 }
 
-span.ui-listbox-filter-icon.pi.pi-search {
+/* span.ui-listbox-filter-icon.pi.pi-search {
     padding-left: 102%;
-}
+} */
 
 span.ui-listbox-filter-icon.pi.pi-search {
-    padding-left: 102%;
+    padding-left: 1%;
 }
 
 app-online-update-view-controls textarea .ui-inputtext {
@@ -424,15 +423,108 @@ app-online-update-view-controls textarea .ui-inputtext {
     border-color: black!important;
 }
 
+app-attachments .button-attachment {
+    background-color: #205492 !important;
+    border: solid 1px #205492 !important;
+    color: #ffffff;
+    font-weight: bold;
+    min-width: 120px;
+    height: 39px;
+    margin-left:15px;
+    margin-top: 25px;
+    padding: 3px !important;
+}
 
 app-view-checklists-controls .ui-button {
     height: 40px;
     min-width: 0px;
    
 }
-
-
 em.fa.fa-bars.ui-table-reorderablerow-handle.ng-star-inserted {
     cursor: move;
 }
 
+app-update-checklist-status .ui-g-12 {
+    padding: 0.2em;
+}
+
+
+app-navbar .mat-button.mat-primary, .mat-icon-button.mat-primary, .mat-stroked-button.mat-primary {
+    color:#222222 !important; 
+ }
+ /* a.article, a.article:hover {
+    background: #555 !important;
+  } */
+
+app-attachments app-button p-button button{
+    margin-top: 20px;
+}
+
+app-attachments p-fileupload{
+    margin-left: -122px;
+}
+
+.ui-datepicker-group.ui-widget-content.ng-tns-c15-11.ng-star-inserted {
+    min-width: 120% !important;
+}
+
+app-attachments app-button p-button {
+    display: inline-block;
+    margin-top: 4px;
+    margin-left: -200px;
+}
+app-online-update-view-controls .ui-state-disabled, .ui-widget:disabled {
+    opacity: 0.55  !important;
+}
+app-online-update-view-controls .ui-inputtext[_ngcontent-c13] {
+    border-bottom-color: default !important;
+}
+
+app-assignment .gridPadding {
+    padding-top: 10px;
+    padding-left: 18px;
+    padding-right: 15px;
+}
+app-new-checklist-schedule app-tooltip .ui-tooltip-text {
+    font-size: 5px;
+}
+
+app-attachments button.button-grid-action.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only{
+    margin-left: 200px;
+    margin-top: 1px;
+    height: auto;
+    min-width: 10%;
+    background-color: #205492 !important;
+    border: solid 1px #205492 !important;
+}
+
+.ui-overflow-hidden {
+    position: relative !important;
+}
+
+app-online-checklist-controls .ui-state-disabled, .ui-widget:disabled {
+    opacity: 0.55  !important;
+}
+
+.ui-widget-header .ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default {
+    display: none;
+}
+
+app-manager-checklists .ui-button-text-icon-left .ui-button-text {
+    padding: .25em 1em .25em 2.1em;
+    margin-right: 23px;
+}
+
+app-manager-checklists .ui-dialog-footer {
+    padding: 1em;
+    border-width: 1px 0 0 0;
+    text-align: center;
+  }
+app-add-checklist-manager .ui-widget {
+    box-sizing: border-box;
+    cursor: default;
+}
+
+.ui-paginator .ui-paginator-page {
+    width: 1.9em !important;
+}

@@ -4,9 +4,15 @@
             <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
         </div>
     </div>
-    <h3 class="panel-title" style="font-size: 24px; padding-left:3px">Search Online Checklists</h3>
+
+    <div class="col-sm-12 col-md-12 col-lg-12" style="padding-left:3px">
+        <h3 class="panel-title" style="font-size: 24px;">
+            <fa class="arrow-color" style="font-size: 17px;" name="chevron-left" size='0.5x' (click)='backScreen()'> </fa>Search Online Checklists</h3>
+    </div>
 </div>
+<div class="col.sm-12 col-md-12 col-lg-12 padding-zero" *ngIf="msgs.length > 0">
 <p-growl [(value)]="msgs"></p-growl>
+</div>
 <p-accordion [multiple]="true">
     <!-- Schedule Grid -->
     <p-accordionTab header="Scheduled ({{SOCR.length > 0 ? SOCR.length : 0 }})" [selected]="SOCR.length > 0">
@@ -21,7 +27,7 @@
                     <tr>
                         <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
                             {{col.header}}
-                            <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+                            <p-sortIcon *ngIf="!(col.field === 'checklistAssignments' || col.field === 'checklistProcess')" [field]="col.field"></p-sortIcon>
                         </th>
                     </tr>
                     <tr *ngIf="filterable && SOCR && SOCR.length > 0">
@@ -39,7 +45,7 @@
                             <ng-container *ngIf="col.field == 'checklistAssignments'|| col.field == 'checklistProcess'|| col.field == 'managerReview'; else elseTemplate">
                                 <div class="row" *ngIf="col.field == 'checklistAssignments'">
                                     <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
-                                        <app-button (click)="editAssignment(rowData)" label="Assignment" styleClass="button-grid-action"></app-button>
+                                        <app-button (click)="editAssignment(rowData)" label="Assignments" styleClass="button-grid-action"></app-button>
                                     </div>
                                 </div>
 
@@ -87,7 +93,7 @@
                     <tr>
                         <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
                             {{col.header}}
-                            <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+                            <p-sortIcon *ngIf="!(col.field === 'checklistAssignments' || col.field === 'checklistView')" [field]="col.field"></p-sortIcon>
                         </th>
                     </tr>
                     <tr *ngIf="filterable && colHeaderInProgress && colHeaderInProgress.length > 0">
@@ -102,26 +108,35 @@
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
                     <tr [pSelectableRow]="rowData">
                         <td *ngFor="let col of columns" [style.width]="col.width">
-                            <ng-container *ngIf="col.field == 'checklistAssignments'|| col.field == 'checklistView'|| col.field == 'managerReview'; else elseTemplate">
+                            <ng-container *ngIf="col.field == 'checklistAssignments'|| col.field == 'checklistView'|| col.field == 'managerReview' || col.field == 'intendedCompletionDate'; else elseTemplate">
                                 <div class="row" *ngIf="col.field == 'checklistAssignments'">
                                     <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
-                                        <app-button (click)="viewAssignment(rowData)" label="Assignment" styleClass="button-grid-action"></app-button>
+                                        <app-button (click)="viewAssignment(rowData)" label="Assignments" styleClass="button-grid-action"></app-button>
                                     </div>
                                 </div>
 
                                 <div class="row" *ngIf="col.field == 'checklistView'">
                                     <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
-                                        <app-button (click)="onlineChecklistControls(rowData['checklistInstanceID'],rowData['reviewComment'],rowData['checklistName'],rowData['subTitle'],rowData['startDate'])"
+                                        <app-button (click)="onlineChecklistControls(rowData['checklistInstanceID'],rowData['reviewComment'],rowData['checklistName'],rowData['subTitle'],rowData['startDate'],rowData['frequency'],rowData['endDate'])"
                                             label="View Checklist" styleClass="button-grid-action"></app-button>
                                     </div>
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="col.field == 'managerReview'">
-                                {{rowData[col.field]=='Y'? 'Yes' : 'No'}}
+                                <div [ngStyle]="{'color':isPastDue(rowData['intendedCompletionDate']) ? '#205492' : 'black' }">
+                                    {{rowData[col.field]=='Y'? 'Yes' : 'No'}}
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="col.field == 'intendedCompletionDate'">
+                                <div [ngStyle]="{'color':isPastDue(rowData['intendedCompletionDate']) ? '#205492' : 'black' }">
+                                    {{rowData[col.field]}}
+                                </div>
                             </ng-container>
 
                             <ng-template #elseTemplate>
-                                {{rowData[col.field]}}
+                                <div [ngStyle]="{'color':isPastDue(rowData['intendedCompletionDate']) ? '#205492' : 'black' }">
+                                    {{rowData[col.field]}}
+                                </div>
                             </ng-template>
                         </td>
                     </tr>
@@ -154,7 +169,7 @@
                     <tr>
                         <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
                             {{col.header}}
-                            <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+                            <p-sortIcon *ngIf="col.field !== 'checklistProcess' " [field]="col.field"></p-sortIcon>
                         </th>
                     </tr>
                     <tr *ngIf="filterable && colHeaderInProgress && colHeaderInProgress.length > 0">
@@ -172,7 +187,7 @@
                             <ng-container *ngIf="col.field == 'checklistProcess'; else elseTemplate">
                                 <div class="row" *ngIf="col.field == 'checklistProcess'">
                                     <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
-                                        <app-button (click)="onlineChecklistControls(rowData['checklistInstanceID'],rowData['reviewComment'],rowData['checklistName'],rowData['subTitle'],rowData['startDate'])"
+                                        <app-button (click)="onlineChecklistControls(rowData['checklistInstanceID'],rowData['reviewComment'],rowData['checklistName'],rowData['subTitle'],rowData['startDate'],rowData['frequency'])"
                                             label="View" styleClass="button-grid-action"></app-button>
                                     </div>
                                 </div>
@@ -199,7 +214,7 @@
     </p-accordionTab>
     <br>
 
-    <!-- Manaer Review Grid -->
+    <!-- Manager Review Grid -->
     <p-accordionTab header="Manager Review ({{SOCRManagerReview.length > 0 ? SOCRManagerReview.length : 0}})" [selected]="SOCRManagerReview.length > 0">
 
         <div class="row gridPadding">
@@ -213,7 +228,7 @@
                     <tr>
                         <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
                             {{col.header}}
-                            <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+                            <p-sortIcon *ngIf="col.field !== 'checklistReview' " [field]="col.field"></p-sortIcon>
                         </th>
                     </tr>
                     <tr *ngIf="filterable && SOCRManagerReview && SOCRManagerReview.length > 0">
@@ -231,7 +246,7 @@
                             <ng-container *ngIf="col.field == 'checklistReview'; else elseTemplate">
                                 <div class="row" *ngIf="col.field == 'checklistReview'">
                                     <div class="col-sm-12 col-md-12 col-lg-12 center">
-                                        <app-button (click)="onlineChecklistControls(rowData['checklistInstanceID'],rowData['reviewComment'],rowData['checklistName'],rowData['subTitle'],rowData['startDate'])"
+                                        <app-button (click)="onlineChecklistControls(rowData['checklistInstanceID'],rowData['reviewComment'],rowData['checklistName'],rowData['subTitle'],rowData['startDate'],rowData['frequency'])"
                                             label="View" styleClass="button-grid-action"></app-button>
                                     </div>
                                 </div>
@@ -270,7 +285,8 @@
                     <tr>
                         <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
                             {{col.header}}
-                            <p-sortIcon *ngIf="col.field !== 'action' " [field]="col.field"></p-sortIcon>
+                            <p-sortIcon *ngIf="!(col.field === 'checklistAssignments' || col.field === 'checklistComments' || col.field === 'checklistView')"
+                                [field]="col.field"></p-sortIcon>
                         </th>
                     </tr>
                     <tr *ngIf="filterable && SOCRClosedCompleted && SOCRClosedCompleted.length > 0">
@@ -288,39 +304,40 @@
                             <ng-container *ngIf="col.field == 'checklistAssignments' || col.field == 'checklistComments' || col.field == 'checklistView'; else elseTemplate">
                                 <div class="row" *ngIf="col.field == 'checklistAssignments'">
                                     <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
-                                        <app-button (click)="viewAssignment(rowData['checklistName'],rowData['checklistschedule']
-                                )" label="Assignments" styleClass="button-grid-action"></app-button>
-                            </div>
-                        </div>
-                        <div class="row" *ngIf="col.field == 'checklistComments'">
-                            <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
-                                <app-button (click)="addAdditionalComments(rowData['checklistInstanceID'],rowData['frequency'],rowData['checklistName'],rowData['startDate'])" label="Comments" styleClass="button-grid-action"></app-button>
-                            </div>
-                        </div>
-                        <div class="row" *ngIf="col.field == 'checklistView'">
-                            <div class="col-sm-12 col-md-12 col-lg-12 displaycolor">
-                                <app-button (click)="onlineChecklistControls(rowData['checklistInstanceID'],rowData['reviewComment'],rowData['checklistName'],rowData['subTitle'],rowData['startDate'])" label="View" styleClass="button-grid-action"></app-button>
-                            </div>
-                        </div>
-                    </ng-container>
+                                        <app-button (click)="viewAssignment(rowData)" label="Assignments" styleClass="button-grid-action"></app-button>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="col.field == 'checklistComments'">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 displaycolor center">
+                                        <app-button (click)="addAdditionalComments(rowData['checklistInstanceID'],rowData['frequency'],rowData['checklistName'],rowData['startDate'],rowData['additionalComment'])"
+                                            label="Comments" styleClass="button-grid-action"></app-button>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="col.field == 'checklistView'">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 displaycolor">
+                                        <app-button (click)="onlineChecklistControls(rowData['checklistInstanceID'],rowData['reviewComment'],rowData['checklistName'],rowData['subTitle'],rowData['startDate'],rowData['frequency'])"
+                                            label="View" styleClass="button-grid-action"></app-button>
+                                    </div>
+                                </div>
+                            </ng-container>
 
-                    <ng-template #elseTemplate>
-                        {{rowData[col.field]}}
-                    </ng-template>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage"  let-columns>
-            <tr>
-                <td [attr.colspan]="columns.length"  style="text-align: center">
-                    No records found
-                    </td>
-            </tr>
-            </ng-template>
+                            <ng-template #elseTemplate>
+                                {{rowData[col.field]}}
+                            </ng-template>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage"  let-columns>
+                    <tr>
+                        <td [attr.colspan]="columns.length"  style="text-align: center">
+                            No records found
+                        </td>
+                    </tr>
+                </ng-template>
 
-    </p-table>
+            </p-table>
 
         </div>
     </p-accordionTab>
 </p-accordion>
-<p-confirmDialog appendTo="body"></p-confirmDialog>
+<p-confirmDialog></p-confirmDialog>

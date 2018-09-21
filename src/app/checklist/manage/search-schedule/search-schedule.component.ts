@@ -54,7 +54,7 @@ export class SearchScheduleComponent implements OnInit {
     /** to get default group */
     this.checklistCommonService.getDefaultGroup().subscribe(
       (data) => {
-        this.defaultgroup = data[0]['departmentName'];
+        this.defaultgroup = data[0] ? data[0]['departmentName'] : '';
         this.onChangeGroup(this.defaultgroup);
       }, error => {
         this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];

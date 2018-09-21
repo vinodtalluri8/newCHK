@@ -32,7 +32,7 @@ export class ChecklistManagerComponent implements OnInit {
   /** To initialise breadcrumb data */
     this.itemsPath = [
       { label: 'Checklist', routerLink: [routerConstants.defaultRoute] },
-      { label: 'Manage Checklist Managers' }];
+      { label: 'Manage Checklist Reviewers' }];
    }
 
  /** to call methods on init */
@@ -97,7 +97,7 @@ export class ChecklistManagerComponent implements OnInit {
     this.msgs = [];
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete?',
-      header: 'Delete Confirmation',
+      header: 'Delete',
       icon: 'fa fa-trash',
       accept: () => {
         this.checklistManagersService.deleteChecklistManager(selectedManager.value).subscribe(data => {
@@ -107,11 +107,8 @@ export class ChecklistManagerComponent implements OnInit {
             this.msgs = [{ severity: 'success', detail: 'Record Deleted Successfully' }];
             this.selectedManager = null;
         }, error => {
-          this.msgs = [{ severity: 'error', detail: 'Cannot delete checklist manager' }];
+          this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }]; //  detail: 'Cannot delete checklist manager'
         });
-      },
-      reject: () => {
-        this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
       }
     });
     // this.msgs.push({severity: 'info', summary: 'Implementation Pending', detail: 'Delete yet to be Implemented'});

@@ -95,20 +95,31 @@ export class OrderComponent implements OnInit {
   */
   breadcrumbs() {
     if (this.routePath === 'Controls') {
-      this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
+      this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
       { label: 'Search Controls', routerLink: ['/' + routerConstants.searchControl] },
       { label: 'Search Control Results', routerLink: ['/' + routerConstants.searchControlResults] },
-      { label: 'Checklist Controls', routerLink: ['/' + routerConstants.viewchecklistControl] },
+      { label: 'Checklist Controls',
+       routerLink: ['/' + routerConstants.viewchecklistControl, this.routePath, this.checklistId, this.checklistName] },
       { label: 'Order' }
       ];
     }
     if (this.routePath === 'Checklists') {
-      this.itemsPath = [{ label: 'Checklists', routerLink: ['/mychecklist'] },
+      this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
       { label: 'Search Checklist', routerLink: ['/' + routerConstants.searchChecklist] },
       { label: 'Search Checklist Results', routerLink: ['/' + routerConstants.searchChecklistResults] },
-      { label: 'Checklist Controls', routerLink: ['/' + routerConstants.viewchecklistControl] },
+      { label: 'Checklist Controls',
+       routerLink: ['/' + routerConstants.viewchecklistControl, this.routePath, this.checklistId, this.checklistName] },
       { label: 'Order' }
       ];
+    }
+    if (this.routePath === 'Reports') {
+        this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+        { label: 'Reports', routerLink: ['/' + routerConstants.reports] },
+        { label: 'Report Results', routerLink: ['/' + routerConstants.displayreports] },
+        { label: 'Checklist Controls',
+         routerLink: ['/' + routerConstants.viewchecklistControl, this.routePath, this.checklistId, this.checklistName] },
+        { label: 'Order' }
+        ];
     }
   }
  /*

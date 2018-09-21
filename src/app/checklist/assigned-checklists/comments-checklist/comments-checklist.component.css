@@ -1,5 +1,5 @@
 .labelblueheader{
-    color: #205492 !important;
+    color:blue !important;
     padding-left:17px;
     font-size: 14px;
     font-family: Arial, Helvetica, sans-serif !important;
@@ -13,6 +13,12 @@
     font-family: Arial, Helvetica, sans-serif !important;
 }
 
+.labelblackheader{
+    color: #1b1d1f;
+    padding-left:17px;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
 .commentsButtons{
     margin-left: -15px;
     margin-top : 10px;
@@ -27,4 +33,13 @@ label {
     color: #444444;
     font-style: normal;
     text-align: left;
+}
+
+.arrow-color {
+    color: black;
+    font-weight: initial;
+    cursor: pointer;
+    font-size: 17px;
+    padding-right: 6px;
+    margin-left:2px;
 }

@@ -23,7 +23,7 @@ export class NewChecklistScheduleComponent implements OnInit {
   savedRecord: any;
   saved: boolean;
   disabled: boolean;
-
+  jsonGrid: any;
   dataJson: any;
   itemsPath: MenuItem[];
   home: MenuItem;
@@ -55,6 +55,7 @@ export class NewChecklistScheduleComponent implements OnInit {
   public fromGrid: any;
   public selectedName: string;
   public selectedFrequency: string;
+  public statusVal: string;
 
   constructor(private route: ActivatedRoute, private router: Router, private messageService: MessageService,
     private checklistScheduleService: ChecklistScheduleService, private newEditScheduleService: NewEditScheduleService,
@@ -123,8 +124,9 @@ export class NewChecklistScheduleComponent implements OnInit {
           console.log('after calling modified service in ts', this.updateRecord);
         });
       }
+      this.statusVal = 'A';
     });
-        this.breadcrumbs();
+    this.breadcrumbs();
     if (!this.isUpdate && this.selectedFrequency === 'Daily') {
       this.selectedRequiredCompletionLength = '11';
     }
@@ -161,6 +163,7 @@ export class NewChecklistScheduleComponent implements OnInit {
     if (this.selectedFrequency === 'Daily') {
       this.selectedRequiredCompletionLength = '11';
     }
+    console.log(this.selectedEmailWarningTime);
   }
 
   breadcrumbs() {
@@ -195,8 +198,8 @@ export class NewChecklistScheduleComponent implements OnInit {
 
     if (this.routePath === 'searchOnlineResults' && this.isUpdate) {
       this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
-      { label: 'Search Online Checklist', routerLink: [routerConstants.searchOnlineChecklistt] },
-      { label: 'Search Results', routerLink: [routerConstants.searchonlinechecklistResult] },
+      { label: 'Search Online Checklist', routerLink: ['/' + routerConstants.searchOnlineChecklistt] },
+      { label: 'Search Results', routerLink: ['/' + routerConstants.searchonlinechecklistResult] },
       { label: 'Modify Checklist Schedule' }
       ];
     }
@@ -221,18 +224,18 @@ export class NewChecklistScheduleComponent implements OnInit {
         };
       } else {
         this.dataJson = {
-         'checklistID': this.checklistId,
-         'subTitle': this.schedule,
-         'reqCompletionLength': this.completionLength,
-         'codeReqCompLengthInd': this.format,
-         'emailAlertHour': this.selectedEmailWarningTime,
-         'emailAlertAmPmInd': this.selectedEmailHoursFormat,
-         'startDate': this.activeDate,
-         'autoClose': this.selectedAutoClose,
-         'managerReview': this.selectedReviewedByManager,
-         'startDay': this.relativeStartDay
-      };
-    }
+          'checklistID': this.checklistId,
+          'subTitle': this.schedule,
+          'reqCompletionLength': this.completionLength,
+          'codeReqCompLengthInd': this.format,
+          'emailAlertHour': this.selectedEmailWarningTime,
+          'emailAlertAmPmInd': this.selectedEmailHoursFormat,
+          'startDate': this.activeDate,
+          'autoClose': this.selectedAutoClose,
+          'managerReview': this.selectedReviewedByManager,
+          'startDay': this.relativeStartDay
+        };
+      }
       // check whether you require this!
       // this.newEditScheduleService.setResultScheduleCriteria(this.dataJson);
       console.log('inside create new schedule method');
@@ -256,7 +259,7 @@ export class NewChecklistScheduleComponent implements OnInit {
         this.router.navigate([routerConstants.onlineChecklistAssignment, this.fromGrid]);
         console.log('routing to next page');
       }, error => {
-        this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error.message }];
+        this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
       });
     }
   }
@@ -288,7 +291,7 @@ export class NewChecklistScheduleComponent implements OnInit {
       }
     } else {
       if (!this.schedule || this.schedule.trim().length === 0 || !this.relativeStartDay ||
-         !this.completionLength ) {
+        !this.completionLength) {
         return true;
       } else if (this.isUpdate) {
         return !this.isModified();
@@ -300,7 +303,9 @@ export class NewChecklistScheduleComponent implements OnInit {
 
   populateData() {
     console.log('inside populateData method');
-
+    this.checklistId = this.updateRecord['checklistID'] ? this.updateRecord['checklistID'] : '';
+    this.selectedName = this.updateRecord['checklistName'] ? this.updateRecord['checklistName'] : '';
+    this.selectedFrequency = this.updateRecord['frequency'] ? this.updateRecord['frequency'] : '';
     this.schedule = this.updateRecord['subTitle'] ? this.updateRecord['subTitle'] : '';
     this.selectedRequiredCompletionLength = this.updateRecord['reqCompletionHour'] ?
       this.updateRecord['reqCompletionHour'] : '';
@@ -315,6 +320,7 @@ export class NewChecklistScheduleComponent implements OnInit {
     this.completionLength = this.updateRecord['reqCompletionLength'] ? this.updateRecord['reqCompletionLength'] : '';
     this.relativeStartDay = this.updateRecord['startDay'] ? this.updateRecord['startDay'] : '';
     this.selectedActive = this.updateRecord['flagActive'] ? this.updateRecord['flagActive'] : '';
+    console.log(this.checklistId, this.selectedEmailWarningTime);
   }
 
   /** To check fields modified or not  **/
@@ -390,20 +396,23 @@ export class NewChecklistScheduleComponent implements OnInit {
           'flagActive': this.selectedActive
         };
       }
-    }
-    console.log('data json for update schedule', this.dataJson);
-    this.newEditScheduleService.updateChecklistSchedule(this.dataJson).subscribe(data => {
-      this.modifiedChecklistScheduleData = data;
-      console.log('after update schedule', this.modifiedChecklistScheduleData);
-      this.messageService.clearMessage();
-      this.messageService.sendMessage({ severity: 'success', detail: 'Record Updated Successfully' });
-      this.resetAll();
-      this.back();
-      // route to whatever page you should go.
+      console.log('data json for update schedule', this.dataJson);
+      this.newEditScheduleService.updateChecklistSchedule(this.dataJson).subscribe(data => {
+        this.modifiedChecklistScheduleData = data;
+        console.log('after update schedule', this.modifiedChecklistScheduleData);
+        this.messageService.clearMessage();
+        this.messageService.sendMessage({ severity: 'success', detail: 'Record Updated Successfully' });
+        this.jsonGrid = {
+          'checklistID': this.checklistId
+        };
+        this.checklistScheduleService.setJsonForScheduleGrid(this.jsonGrid);
+        this.resetAll();
+        this.back();
 
-    }, error => {
-      this.msgs = [{ severity: 'error', detail: 'Cannot modify this schedule' }];
-    });
+      }, error => {
+        this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
+      });
+    }
   }
 
 }

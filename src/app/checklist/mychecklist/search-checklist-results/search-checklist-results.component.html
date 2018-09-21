@@ -1,6 +1,6 @@
 <div class="panel panel-default" style="margin-left:-3px">
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-4px">
+        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-10px">
             <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
         </div>
     </div>
@@ -46,10 +46,10 @@
                     <ng-container *ngIf="col.field == 'action'|| col.field == 'checklistName'; else elseTemplate">
                         <div class="row" *ngIf="col.field == 'action'">
                             <div class="col-sm-5 col-md-5 col-lg-5 displaycolor">
-                                <a class="hyperlink" (click)="delete(rowData['checklistId'])">Delete</a>
+                                <a class="hyperlink" (click)="modify(rowData)">Modify</a>
                             </div>
                             <div class="col-sm-5 col-md-5 col-lg-5 displaycolor">
-                                <a class="hyperlink" (click)="modify(rowData)">Modify</a>
+                                <a class="hyperlink" (click)="delete(rowData['checklistId'])">Delete</a>
                             </div>
                         </div>
 
@@ -85,4 +85,4 @@
         <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
     </div>
 </div>
-<p-confirmDialog appendTo="body"></p-confirmDialog>
+<p-confirmDialog></p-confirmDialog>

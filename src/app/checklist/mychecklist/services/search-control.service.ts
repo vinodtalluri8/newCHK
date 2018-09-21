@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders, HttpParams, } from '@angular/common/http';
 import { appConstants } from '../../../core/constants/appConstants';
-import { environment } from '../../../../environments/environment';
 import { BaseServiceService } from './base-service.service';
 import 'rxjs/add/observable/throw';
 
@@ -11,7 +10,7 @@ import 'rxjs/add/observable/throw';
 export class SearchControlService extends BaseServiceService {
 
   public searchCriteria;
-  private url = environment.serverUrl + 'DIVA-ChecklistService/getDisplayControlChecklist';
+  private url = this.serverUrl + this.checklistServiceUrl + 'getDisplayControlChecklist';
 
   setSearchCriteria(searchCriteria) {
     this.searchCriteria = searchCriteria;

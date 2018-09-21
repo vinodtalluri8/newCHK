@@ -1,0 +1,14 @@
+.hyperlink {
+    color: #205492 !important;
+ }
+.padding-grid {
+    padding-left: 1em !important;
+    padding-right: 1em !important;
+}
+.arrow-color {
+    color: black;
+    font-weight: initial;
+    cursor: pointer;
+    font-size: 17px;
+    padding-right: 6px
+}

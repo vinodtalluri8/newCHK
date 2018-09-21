@@ -3,7 +3,7 @@
 <div class="panel panel-default" style="padding-left: 3px">
 
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -10px;">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -15px;">
       <app-breadcrumbs [items]='itemsPath' [home]='home' ></app-breadcrumbs>
     </div>
   </div>
@@ -91,7 +91,7 @@
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6; group" style="padding-right: 0px !important">
           <div>
-            <app-input appNumberonly (inputTextSelected)='this.review=$event' [value]='review' maxlength="60"></app-input>
+            <app-input appDecimalNumber (inputTextSelected)='this.review=$event' [value]='review' maxlength="60"></app-input>
           </div>
         </div>
   
@@ -128,7 +128,7 @@
       </div>
       <div class="col-sm-6 col-md-6 col-lg-6; group" style="padding-right: 0px !important">
         <div>
-          <app-input appNumberonly (inputTextSelected)='this.control=$event' [value]='control' maxlength="60"></app-input>
+          <app-input appDecimalNumber (inputTextSelected)='this.control=$event' [value]='control' maxlength="60"></app-input>
         </div>
       </div>
 

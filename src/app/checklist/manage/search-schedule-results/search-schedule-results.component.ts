@@ -45,7 +45,7 @@ export class SearchScheduleResultsComponent implements OnInit {
     this.isPaginator = true;
     this.filterable = true;
     this.selectedRows = 15;
-    this.loading = false;
+    this.loading = true;
     this.displayRows = [{ label: '15', value: 15 },
     { label: '20', value: 20 }, { label: '30', value: 30 },
     { label: '50', value: 50 }, { label: '100', value: 100 }];
@@ -61,8 +61,12 @@ export class SearchScheduleResultsComponent implements OnInit {
     // this.msgs.push();
     this.filterable = true;
     this.isPaginator = true;
-
     console.log('list', this.scheduleChecklistResults);
+    this.loadingPage();
+  }
+
+  loadingPage() {
+    this.loading = false;
   }
   /* to schedule record */
   schedule(record) {

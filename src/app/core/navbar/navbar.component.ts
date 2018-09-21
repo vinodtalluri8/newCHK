@@ -11,27 +11,17 @@ import { Navitems } from 'diva-shared-apps/components/interfaces/navitems';
 export class NavbarComponent implements OnInit {
   navItems: Navitems[] = [{
     displayName: 'My Assigned Checklists',
-    children: [
-      {
-        displayName: 'View My Assigned Checklists',
-        route: 'assigned/viewassigned'
-
-      }]
+    route: 'assigned/viewassigned'
   },
   {
     displayName: 'Search Online Checklists',
-    children: [
-      {
-        displayName: 'Search Online Checklists',
-        route: 'searchonlinechecklist'
-
-      }]
+    route: 'searchonlinechecklist'
   },
   {
     displayName: 'Manage Checklists',
     children: [
       {
-        displayName: 'Add/Delete Checklist Managers',
+        displayName: 'Add/Delete Checklist Reviewers',
         route: 'managed/checklistmanager'
 
       }, {

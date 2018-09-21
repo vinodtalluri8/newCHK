@@ -1,21 +1,26 @@
-.labelheader{
-    color: #205492 !important;
-    padding-left:17px;
-    font-size: 14px;
+.labelblueheader{
+    color:blue !important;
+    margin-left:5px; 
+    font-family: Arial, Helvetica, sans-serif !important;
 }
 
-.labelvalue{
-    color: #1b1d1f;
-    font-size: 14px;
+
+.labelpurpleheader{
+    color: purple !important;
+    margin-left:5px; 
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.labelblackheader{
+    color: black;
+    margin-left:5px; 
     font-family: Arial, Helvetica, sans-serif !important;
 }
 
 .commentsButtons{
-    margin-left: -15px;
-    margin-top : 10px;
+    margin-left: 105px;
     display: inline-block;
-    position: absolute;
-    
+    position: absolute;    
 }
 
 label {
@@ -25,3 +30,17 @@ label {
     font-style: normal;
     text-align: left;
 }
+
+.checklistDisplay{
+    margin-left:-40px; 
+    color:blue;
+}
+
+.help-block {
+   margin-right: 0px !important;   
+}
+
+/* .ui-dialog.ui-widget .ui-dialog-content {
+    padding-bottom: 10.2em !important;
+
+} */

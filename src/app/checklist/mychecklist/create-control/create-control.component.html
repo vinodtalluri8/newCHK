@@ -1,7 +1,7 @@
 <div class="panel panel-default" style="margin-left: -3px">
 
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -8px">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: -10px">
       <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
     </div>
   </div>
@@ -24,7 +24,7 @@
 
     <div class="row">
       <div class="col-sm-4 col-md-4 col-lg-4">
-        <label for="title" class="required control-label top-padding"> Control Title </label>
+        <label for="controlTitle" class="required control-label top-padding"> Control Title </label>
         <div>
           <app-input (inputTextSelected)='this.controlTitle=$event' [value]='controlTitle' maxlength="60"></app-input>
         </div>
@@ -98,7 +98,7 @@
       <div class="col-sm-3 col-md-3 col-lg-3; group" style="padding-right: 0px !important">
         <label style="visibility: visible;" class="required control-label top-padding">Review Length</label>
         <div>
-          <app-input appNumberonly (inputTextSelected)='this.review=$event' [value]='review' maxlength="60"></app-input>
+          <app-input appDecimalNumber (inputTextSelected)='this.review=$event' [value]='review' maxlength="60"></app-input>
         </div>
       </div>
 
@@ -111,7 +111,7 @@
 
     <div class="row">
       <div class="col-sm-4 col-md-4 col-lg-4">
-        <label for="title" class="control-label top-padding">Evidence Required</label>
+        <label for="evidenceRequired" class="control-label top-padding">Evidence Required</label>
         <div>
           <app-dropdown [datasource]='evidenceRequired' (selectedItemChange)='this.selectedEvidenceRequired = $event' [selectedItem]='selectedEvidenceRequired'></app-dropdown>
         </div>
@@ -127,7 +127,7 @@
       <div class="col-sm-3 col-md-3 col-lg-3; group" style="padding-right: 0px !important">
         <label style="visibility: visible;" class="required control-label top-padding">Control Length</label>
         <div>
-          <app-input appNumberonly (inputTextSelected)='this.control=$event' [value]='control' maxlength="60"></app-input>
+          <app-input appDecimalNumber (inputTextSelected)='this.control=$event' [value]='control' maxlength="60"></app-input>
         </div>
       </div>
 
@@ -155,7 +155,7 @@
         <app-button label='Cancel' (click)='back()' styleClass='button-cancel'></app-button>
       </div>
       <div *ngIf="this.isUpdate" class="col-sm-12 col-md-12 col-lg-12">
-        <app-button label='Update' (click)='modifyControl()' [disabled]='disable()' styleClass='button-action'></app-button>
+        <app-button id='controlUpdateBtn' #controlUpdateBtn label='Update' (click)='modifyControl($event)' [disabled]='disable()' styleClass='button-action'></app-button>
         <app-button label='Reset' (click)='this.populateData()' styleClass='button-cancel'></app-button>
       </div>
     </div>
@@ -163,4 +163,8 @@
   </div>
 
 </div>
-<p-confirmDialog appendTo="body"></p-confirmDialog>
+<p-confirmDialog></p-confirmDialog>
+
+<div *ngIf="this.matrixList">
+<p-confirmDialog></p-confirmDialog>
+</div>

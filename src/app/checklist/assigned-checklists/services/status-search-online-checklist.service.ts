@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { appConstants } from '../../../core/constants/appConstants';
 import { BaseServiceService } from '../../mychecklist/services/base-service.service';
-import { environment } from '../../../../environments/environment';
 import { MenuItem, SelectItem, Message } from 'primeng/api';
 const allOption = { label: 'All', value: 'A' };
 
 @Injectable()
 export class StatusSearchOnlineChecklistService extends BaseServiceService {
-  private onlineChecklistStatusserverURL = environment.serverUrl + '/DIVA-CommonService/searchOnlineChecklist/getStatusList';
+  private onlineChecklistStatusserverURL = this.serverUrl + this.commonServiceURL + 'searchOnlineChecklist/getStatusList';
   constructor(private httpClient: HttpClient) {
     super();
   }

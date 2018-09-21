@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders, HttpParams, } from '@angular/common/http';
 import { appConstants } from '../../../core/constants/appConstants';
-import { environment } from '../../../../environments/environment';
 import { BaseServiceService } from './base-service.service';
 
 
@@ -10,10 +9,14 @@ import { BaseServiceService } from './base-service.service';
 export class ViewChecklistsControlsService extends BaseServiceService {
 
   public viewSearchCriteria;
-  private url = environment.serverUrl + 'DIVA-ChecklistService/getChecklistLinkData';
+  private reportSearchCriteria;
+  private url = this.serverUrl + this.checklistServiceUrl + 'getChecklistLinkData';
 
   setViewSearchCriteria(viewSearchCriteria) {
     this.viewSearchCriteria = viewSearchCriteria;
+  }
+  setReportSearchCriteria(reportSearchCriteria) {
+    this.reportSearchCriteria = reportSearchCriteria;
   }
 
   constructor(private httpClient: HttpClient) {
@@ -23,9 +26,11 @@ export class ViewChecklistsControlsService extends BaseServiceService {
 
   /** This method will POST the data for fetch checklists**/
   fetchViewCheckLists(routepath) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/getChecklistLinkData';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'getChecklistLinkData';
     if (routepath === 'Controls') {
       this.viewSearchCriteria['status'] = 'A';
+    } else if (routepath === 'Reports') {
+      this.viewSearchCriteria = this.reportSearchCriteria;
     }
     return this.httpClient.post(this.url, this.viewSearchCriteria, appConstants.postHeaderOptions).
       map((viewResults) => {
@@ -41,14 +46,14 @@ export class ViewChecklistsControlsService extends BaseServiceService {
   /* This method will delete the control*/
   deleteControl(inputJson) {
     console.log('inputjson', inputJson);
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/deleteControlData/';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'deleteControlData/';
 
     return this.httpClient.post(this.url, inputJson, appConstants.postHeaderOptions).map((res: Response) => res).catch(this.handleError);
   }
 
   reorder(reorderJson) {
     console.log('reorderJson', reorderJson);
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/controlReOrder/';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'controlReOrder/';
 
     return this.httpClient.post(this.url, reorderJson, appConstants.postHeaderOptions).map((res: Response) => res).catch(this.handleError);
   }

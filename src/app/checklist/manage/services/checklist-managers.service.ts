@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
 import { appConstants } from '../../../core/constants/appConstants';
 import { SelectItem } from 'primeng/api';
 import { BaseServiceService } from '../../mychecklist/services/base-service.service';
@@ -13,8 +12,9 @@ export class ChecklistManagersService extends BaseServiceService {
 
   private addManagerUrl;
   private deleteManagerUrl;
-  private addDropdownUrl = environment.serverUrl + 'DIVA-CommonService/checklist/getActiveUsersNotManagers';
-  private deleteDropdownUrl =  environment.serverUrl + 'DIVA-CommonService/checklist/getAllManagers';
+  private addDropdownUrl = this.serverUrl + this.commonServiceURL + 'checklist/getActiveUsersNotManagers';
+  private deleteDropdownUrl =  this.serverUrl + this.commonServiceURL + 'checklist/getAllManagers';
+  private addManagerUrlForAssign;
 
   constructor(private httpClient: HttpClient) {
     super();
@@ -56,7 +56,7 @@ export class ChecklistManagersService extends BaseServiceService {
   addChecklistManager(data: any) {
     // appConstants.postHeaderOptions.params = new HttpParams();
     console.log('inside add service n value passed is', data);
-    this.addManagerUrl =  environment.serverUrl + 'DIVA-ChecklistService/adminAddManager';
+    this.addManagerUrl =  this.serverUrl + this.checklistServiceUrl + 'adminAddManager';
     const inputJson = {
       'valueChar1': data['loginId'],
       'description': data['fullName']
@@ -69,7 +69,7 @@ export class ChecklistManagersService extends BaseServiceService {
   /** This method will delete the selected manager in delete checklist manager screen in backend **/
   deleteChecklistManager(value) {
     console.log('inside delete service n value passed is', value);
-    this.deleteManagerUrl =  environment.serverUrl + 'DIVA-ChecklistService/adminDeleteManager';
+    this.deleteManagerUrl =  this.serverUrl + this.checklistServiceUrl + 'adminDeleteManager';
     const inputJson = {
       'valueChar1' : value['loginId']
     };
@@ -82,6 +82,15 @@ export class ChecklistManagersService extends BaseServiceService {
   }
   refreshDeleteList() {
     return this.getDeleteManagerList();
+  }
+
+  /** This method is a multiselect which will add selected employee as  checklist manager for assignments **/
+
+  addChecklistManagerForAssign(data: any) {
+    // appConstants.postHeaderOptions.params = new HttpParams();
+    this.addManagerUrlForAssign =  this.serverUrl + this.checklistServiceUrl + 'addManagerForAssign';
+    return this.httpClient.post(this.addManagerUrlForAssign,
+      data, appConstants.postHeaderOptions).map((res: Response) => res).catch(this.handleError);
   }
 
 }

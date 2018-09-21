@@ -57,7 +57,7 @@
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="manager" class="control-label">Manager</label>
+      <label for="manager" class="control-label">Reviewer</label>
       <div>
         <app-dropdown [datasource]='employee' (selectedItemChange)='this.selectedManager = $event' [selectedItem]='selectedManager'></app-dropdown>
       </div>
@@ -66,7 +66,7 @@
 
   <div class="row">
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label for="backupManager" class="control-label">Backup Manager</label>
+      <label for="backupManager" class="control-label">Backup Reviewer</label>
       <div>
         <app-dropdown [datasource]='employee' (selectedItemChange)='this.selectedbackupManager = $event' [selectedItem]='selectedbackupManager'></app-dropdown>
       </div>
@@ -107,14 +107,14 @@
         <div id="startDate">
           <label for="from" class="control-label">From</label>
 
-          <app-calender id="calenderFrom" (calenderSelected)='this.fromDate=$event' showIcon='true' yearNavigator='true' monthNavigator='true'
-            yearRange='2000:2030' [inputDate]='fromDate'></app-calender>
+          <app-calender id="calenderFrom" [inputDate] = 'this.fromDate' (calenderSelected)='this.fromDate=$event' showIcon='true' yearNavigator='true' monthNavigator='true'
+            yearRange='2000:2030'></app-calender>
         </div>
         <div id="endDate">
           <label for="to" class="control-label">To</label>
 
           <app-calender id="calenderTo" (calenderSelected)='this.toDate=$event' showIcon='true' yearNavigator='true' monthNavigator='true'
-            yearRange='2000:2030' [inputDate]='toDate'></app-calender>
+            yearRange='2000:2030' [inputDate]='this.toDate'></app-calender>
         </div>
 
       </div>

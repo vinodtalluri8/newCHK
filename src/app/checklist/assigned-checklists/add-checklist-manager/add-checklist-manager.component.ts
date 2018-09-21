@@ -33,7 +33,7 @@ export class AddChecklistManagerComponent implements OnInit {
   }
 
   preloadData() {
-    this.assignedChecklist.getActiveEmployees().subscribe(data => {
+    this.assignedChecklist.getActiveEmployeeForChecklist().subscribe(data => {
       this.activeEmployees = data;
           }, error => {
       this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
@@ -75,28 +75,34 @@ export class AddChecklistManagerComponent implements OnInit {
      /* This method will generate JSOn for ActiveEmployees */
   generateActiveEmployeesJson() {
     for (let i = 0; i < this.selectedActiveEmployees.length; i++) {
+      console.log(this.selectedActiveEmployees, 'this.selectedActiveEmployees');
+      console.log('this.selectedActiveEmployees[i]', this.selectedActiveEmployees[i]['loginId']);
       this.activeEmployeesJson.push({
-        'loginId': this.selectedActiveEmployees[i],
-        'fullName': this.selectedActiveEmployees[i]
+        'valueChar1': this.selectedActiveEmployees[i]['loginId'],
+        'description': this.selectedActiveEmployees[i]['fullName']
       });
     }
   }
 
-   /* This method add the data for active employees */
+   /* This method add the to add employees as managers */
   addChecklistManager() {
     if (!this.disable()) {
     this.generateActiveEmployeesJson();
-    console.log(this.activeEmployeesJson);
+    console.log(this.activeEmployeesJson, ' in component');
     this.dataJson = {
-      divaSystemValueBeanList : this.activeEmployeesJson
+      'divaSystemValueBeanList' : this.activeEmployeesJson
     };
-    this.checklistManagersService.addChecklistManager(this.dataJson).subscribe(data => {
+
+    this.checklistManagersService.addChecklistManagerForAssign(this.dataJson).subscribe(data => {
         this.savedRecord = data;
         this.resetAll();
         this.messageService.clearMessage();
         this.messageService.sendMessage({ severity: 'success', detail: 'Record Added Successfully' });
+        this.back();
+        this.closeAddChecklistManager.emit(false);
+    }, error => {
+      this.msgs = [{ severity: 'error', summary: 'Error Message', detail: error }];
     });
-
   }
    }
 

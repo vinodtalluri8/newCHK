@@ -75,6 +75,9 @@ import { OnlineUpdateViewControlsComponent } from './assigned-checklists/online-
 import { AssignmentServiceService } from './assigned-checklists/services/assignment-service.service';
 import { StatusSearchOnlineChecklistService} from './assigned-checklists/services/status-search-online-checklist.service';
 import { UpdateChecklistStatusComponent } from './assigned-checklists/update-checklist-status/update-checklist-status.component';
+import { AttachmentsComponent } from './assigned-checklists/attachments/attachments.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import { DecimalNumberDirective } from './interfaces/decimal-number.directive';
 
 
 @NgModule({
@@ -96,7 +99,8 @@ import { UpdateChecklistStatusComponent } from './assigned-checklists/update-che
     GrowlModule,
     ToolbarModule,
     DialogModule,
-    ListboxModule
+    ListboxModule,
+    FileUploadModule
   ],
   declarations: [MychecklistComponent, AddCheckListComponent, SearchchecklistComponent,
     AssignedChecklistsComponent, SearchChecklistResultsComponent, SearchControlResultsComponent,
@@ -107,8 +111,8 @@ import { UpdateChecklistStatusComponent } from './assigned-checklists/update-che
     SearchScheduleResultsComponent, SearchOnlineChecklistComponent, ChecklistManagerComponent,
     SearchScheduleComponent, ManagerChecklistsComponent, ChecklistScheduledComponent,
     OrderComponent, SearchOnlineChecklistResultComponent, AssignmentComponent, NewChecklistScheduleComponent, CommentsChecklistComponent,
-    ManagerAssignmentComponent,
-    AddChecklistManagerComponent, OnlineChecklistControlsComponent, OnlineUpdateViewControlsComponent, UpdateChecklistStatusComponent],
+    ManagerAssignmentComponent, AddChecklistManagerComponent, OnlineChecklistControlsComponent,
+    OnlineUpdateViewControlsComponent, UpdateChecklistStatusComponent, AttachmentsComponent, DecimalNumberDirective],
 
 
   providers : [SearchControlService, ChecklistCommonService , AddchecklistService, SearchChecklistService, AddControlService,

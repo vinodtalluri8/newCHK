@@ -41,6 +41,8 @@ export class AddCheckListComponent implements OnInit {
   updateRecord: any;
   header: string;
   @Output() checklistEvent = new EventEmitter();
+  FrequencyExists: boolean;
+
   @ViewChild(SearchChecklistResultsComponent) searchList: SearchChecklistResultsComponent;
   constructor(private checklistCommonService: ChecklistCommonService,
     private addchecklistService: AddchecklistService, private router: Router, private location: Location,
@@ -49,22 +51,24 @@ export class AddCheckListComponent implements OnInit {
     this.home = { icon: 'fa fa-home' };
 
     this.itemsPath = [
-      { label: 'Checklists', routerLink: [routerConstants.defaultRoute]},
+      { label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
       { label: 'Add Checklist' }];
 
-    this.selectedGroup = 'GIST';
+
+      this.selectedGroup = 'GIST';
+
   }
 
   /** method to call data on page on load **/
   ngOnInit() {
     this.header = 'Add Checklist';
-    this.preloadData();
-    this.route.params.subscribe(params => {
+    this.selectedGroup = 'GIST';
+       this.route.params.subscribe(params => {
       this.checklistId = params['id'];
       if (this.checklistId > 0) {
         this.addchecklistService.getDataByChecklistId(this.checklistId).subscribe(data => {
           this.updateRecord = data;
-          this.isUpdate = true;
+                   this.isUpdate = true;
           this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
           { label: 'Search Checklist', routerLink: ['/' + routerConstants.searchChecklist] },
           { label: 'Search Checklist Results', routerLink: ['/' + routerConstants.searchChecklistResults] },
@@ -73,19 +77,43 @@ export class AddCheckListComponent implements OnInit {
           // this.updateRecord = this.addchecklistService.getDataByChecklistId(this.checklistId);
           console.log('updateRecord', this.updateRecord);
           this.populateValues();
+        }, error => {
+          this.messageService.clearMessage();
+          this.messageService.sendMessage({ severity: 'error', detail: 'Some error ocurred while getting checklist details for modify' });
+          this.back();
         });
       }
 
     });
+    this.preloadData();
   }
 
   populateValues() {
-    this.name = this.updateRecord['checklistName'] ? this.updateRecord['checklistName'] : '';
+      this.name = this.updateRecord['checklistName'] ? this.updateRecord['checklistName'] : '';
     this.description = this.updateRecord['description'] ? this.updateRecord['description'] : '';
-    this.selectedGroup = this.updateRecord['checklistGroup'] ? this.updateRecord['checklistGroup'] : '';
     this.selectedDepartments = this.updateRecord['checklistDepartment'] ? this.updateRecord['checklistDepartment'] : '';
-    this.selectedFrequency = this.updateRecord['checklistFrequency'] ? this.updateRecord['checklistFrequency'] : '';
-  }
+    this.selectedGroup = this.updateRecord['checklistGroup'] ? this.updateRecord['checklistGroup'] : '';
+    this.checklistCommonService.getDepartment(this.selectedGroup, 'add').subscribe(data => {
+      this.departments = data;
+    });
+    /** to check wether the frequency selected exists
+   * in frequency dropdown or not  */
+  this.checklistCommonService.getFrequency('add').subscribe(data => {
+    this.frequency = data;
+    this.frequency.forEach((value) => {
+      if (value['value'] === this.updateRecord['checklistFrequency']) {
+        this.FrequencyExists = true;
+        this.selectedFrequency = this.updateRecord['checklistFrequency'] ? this.updateRecord['checklistFrequency'] : '';
+      }
+    });
+    if (!this.FrequencyExists) {
+      this.selectedFrequency = '';
+      this.msgs = [{ severity: 'error', detail: 'Please Select Frequency' }];
+
+    }
+  });
+
+    }
   /** Populate all the required dropdown values during the screen load **/
   preloadData() {
 
@@ -118,8 +146,12 @@ export class AddCheckListComponent implements OnInit {
 
       return true;
 
-    } else if (this.isUpdate) {
+    } else if (this.isUpdate && (!this.selectedFrequency || this.selectedFrequency.trim().length === 0)
+      && (!this.selectedGroup || this.selectedGroup.trim().length === 0)
+      && (!this.selectedDepartments || this.selectedDepartments.trim().length === 0)) {
       console.log('isDirty', this.isDirty());
+      return !this.isDirty();
+    } else if (this.isUpdate) {
       return !this.isDirty();
     } else {
       return false;
@@ -163,7 +195,7 @@ export class AddCheckListComponent implements OnInit {
         'department': this.selectedDepartments,
         'checklistGroup': this.selectedGroup,
       };
-      this.addchecklistService.updateSystemValue(this.dataJson ).subscribe(data => {
+      this.addchecklistService.updateSystemValue(this.dataJson).subscribe(data => {
         this.savedRecord = data;
         this.messageService.clearMessage();
         this.messageService.sendMessage({ severity: 'success', detail: 'Record Updated Successfully' });

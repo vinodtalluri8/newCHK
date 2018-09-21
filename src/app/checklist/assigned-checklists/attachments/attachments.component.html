@@ -1,0 +1,111 @@
+<div class="panel panel-default" style="margin-left:1px">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left:-5px">
+      <app-breadcrumbs [items]='itemsPath' [home]='home'></app-breadcrumbs>
+    </div>
+    <h3 class="panel-title" style="font-size: 24px; padding-left:5px">
+      <fa class="arrow-color" style="font-size: 17px;" name="chevron-left" size='0.5x' (click)='back()'> </fa>Control Attachments</h3>
+  </div>
+  <p-growl [(value)]="msgs"></p-growl>
+  <div class="row">
+    <label class="labelblueheader">Checklist:{{this.checklistName}}</label>
+  </div>
+  <div class="row">
+    <label class="labelpurpleheader">Schedule:{{this.scheduleTitle}}</label>
+  </div>
+  <div class="row">
+    <label class="labelblackheader">{{this.controlTitle}}</label>
+  </div>
+  <p-growl [(value)]="msgs"></p-growl>
+  <div class="row gridPadding">
+    <p-table #ac [columns]="colHeaders" [value]="onlineAttachmentsResults" [responsive]="true" [paginator]="isPaginator" [rows]="selectedRows"
+      [alwaysShowPaginator]="false">
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix">
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
+            {{col.header}}
+            <p-sortIcon *ngIf="col.field !== 'delete' " [field]="col.field"></p-sortIcon>
+          </th>
+        </tr>
+        <tr *ngIf="filterable && onlineAttachmentsResults && onlineAttachmentsResults.length > 0">
+          <th *ngFor="let col of columns" [style.width]="col.width">
+            <input *ngIf="col.field !== 'delete'" pInputText type="text" placeholder="Filter" (input)="ac.filter($event.target.value, col.field, 'contains')">
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+          <td *ngFor="let col of columns" [style.width]="col.width" class="ui-resizable-column">
+            <ng-container *ngIf="col.field == 'delete' ; else elseTemplate">
+              <div class="row" *ngIf="col.field == 'delete' && this.isUpdate">
+                <div style="margin-left:15px !important">
+                  <app-button label="Delete" (click)="deleteAttachments(rowData['fileName'])" styleClass="button-grid-action button-delete"></app-button>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="col.field == 'fileName'">
+              <div>
+              <a class="hyperlink" href="{{rowData['fileName']}}" target="_blank" [ngStyle]="{'color':getAttachment(rowData['fileName']) ? '#205492' : 'black' }">
+                  {{this.attachedFileName}}
+              </a>
+            </div>
+          </ng-container>
+          <div *ngIf="col.field != 'fileName'">
+            <ng-template #elseTemplate>
+              {{rowData[col.field]}}
+            </ng-template>
+          </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td [attr.colspan]="columns.length" style="text-align: center">
+            No records found
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorright" let-state>
+        <div class="grid-page-dropdown">
+          <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="row">
+    <div *ngIf="!isPaginator" class="pageAlign">
+      <div class="grid-page-dropdown">
+        <app-dropdown [datasource]='displayRows' (selectedItemChange)='checkAndEnablePage($event)' [selectedItem]='selectedRows'></app-dropdown>
+      </div>
+    </div>
+  </div>
+  <div class="row"></div>
+  <div class="row"></div>
+  <div *ngIf="this.isUpdate">
+    <div class="row">
+      <div class="col-sm-6 col-md-6 col-lg-6">
+        <label class="labelAttachment">Add Attachments</label>
+      </div>
+      <div class="col-sm-2 col-md-2 col-lg-2">
+        <p-fileUpload mode="basic" name="attachments" url="./Proj_Stuffs" (onUpload)="onUpload($event)" accept="" maxFileSize="1000000"
+          chooseLabel="Browse" styleClass="button-attachment">
+        </p-fileUpload>
+      </div>
+      <div class="col-sm-2 col-md-2 col-lg-2">
+        <app-button label='Cancel' (click)='back()' styleClass='button-cancel'></app-button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row"></div>
+<div class="row"></div>
+<div *ngIf="!this.isUpdate">
+  <div class="row">
+    <app-button label='OK' (click)='back()' styleClass='button-cancel'></app-button>
+  </div>
+</div>
+<p-confirmDialog></p-confirmDialog>

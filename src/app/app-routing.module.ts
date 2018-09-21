@@ -40,6 +40,8 @@ import {
 
 import { CommentsChecklistComponent } from './checklist/assigned-checklists/comments-checklist/comments-checklist.component';
 import { UpdateChecklistStatusComponent } from './checklist/assigned-checklists/update-checklist-status/update-checklist-status.component';
+import { AttachmentsComponent } from './checklist/assigned-checklists/attachments/attachments.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'assigned/viewassigned', pathMatch: 'full' },
@@ -79,19 +81,22 @@ const routes: Routes = [
       { path: '', component: SearchOnlineChecklistComponent },
       // { path: 'results/assignment/:fromGrid', component: AssignmentComponent },
       { path: 'assignments/:fromGrid', component: AssignmentComponent },
-      { path: 'comments/:checklistInstanceId', component: CommentsChecklistComponent },
+      { path: 'comments/:routePath', component: CommentsChecklistComponent },
       { path: 'checklistControls', component: OnlineChecklistControlsComponent },
       { path: 'viewControl', component: OnlineUpdateViewControlsComponent },
+      { path: 'viewControl/:routePath', component: OnlineUpdateViewControlsComponent },
       { path: 'results/:statusVal', component: SearchOnlineChecklistResultComponent },
       { path: 'results', component: SearchOnlineChecklistResultComponent },
-      { path: 'updatecheckliststatus', component: UpdateChecklistStatusComponent }
+      { path: 'updatecheckliststatus', component: UpdateChecklistStatusComponent },
+      { path: 'attachments/:routePath', component: AttachmentsComponent},
+      { path: 'checklistControls/:routePath', component: OnlineChecklistControlsComponent },
     ]
   }
 ];
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { useHash: true }),
     ChecklistModule
   ],
   exports: [RouterModule, ChecklistModule],

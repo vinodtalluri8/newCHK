@@ -1,5 +1,7 @@
 <form [formGroup]="addChecklistManagerForm">
-  <div class="ui-g ui-fluid" style="padding-left: 10px;">
+
+  <div class="ui-g ui-fluid" style="padding-left: 10px; margin-top:38px; margin-bottom:18px;">
+
 
 
     <p-growl [(value)]="msgs"></p-growl>
@@ -13,7 +15,7 @@
       
       
         <div class="ui-g-10 paddingForm">
-          <app-multiselect [dataSource]='activeEmployees' (selectedMultiSelect)='changeActiveEmployees($event)' [selectedItems]='selectedActiveEmployees'></app-multiselect>
+          <app-multiselect [dataSource]='activeEmployees' (selectedMultiSelect)='changeActiveEmployees($event)' [selectedItems]='selectedActiveEmployees' displayvaluefield ='fullName' ></app-multiselect>
         </div>
      
 

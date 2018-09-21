@@ -51,7 +51,7 @@ export class ControlAssociateEditComponent implements OnInit, AfterViewInit {
   /** This method is used to  set the  displayRecordsLength got as input */
   @Input()
   set displayRecordsLength(displayRecordsLength: number) {
-    this.displayOrder.push({ label: '0', value: 0 });
+    this.displayOrder.push({ label: '1', value: 0 });
     if (displayRecordsLength > 0) {
       this.populateDisplayOrderDropDown(displayRecordsLength);
     }
@@ -63,8 +63,8 @@ export class ControlAssociateEditComponent implements OnInit, AfterViewInit {
 
   /** This method is used to  populate the display order drop down based on the length  */
   populateDisplayOrderDropDown(displayRecordsLength) {
-    for (let i = 1; i <= displayRecordsLength; i++) {
-      this.displayOrder.push({ label: i.toString(), value: i });
+    for (let i = 2, j = 1; j <= displayRecordsLength; i++, j++) {
+      this.displayOrder.push({ label: i.toString(), value: j });
     }
     this.selectedDisplayOrder = 0;
   }

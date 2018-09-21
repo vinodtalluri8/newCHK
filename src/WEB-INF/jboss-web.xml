@@ -1,0 +1,3 @@
+<jboss-web>
+<context-root>/WS_DIVA_CHECKLIST_NR_WAR</context-root>
+</jboss-web>

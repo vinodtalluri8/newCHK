@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
 import { appConstants } from '../../../core/constants/appConstants';
 import { BaseServiceService } from '../../mychecklist/services/base-service.service';
 import { SelectItem } from 'primeng/api';
@@ -10,10 +9,10 @@ const allOption = { label: 'All', value: 'A' };
 @Injectable()
 export class AssignedChecklistService extends BaseServiceService {
 
-  private getUserListURL = environment.serverUrl + 'DIVA-CommonService/checklist/getUserList';
-  private url = 'http://168.66.39.47:8080/DIVA-ChecklistService/myOnlineScheduledChecklists';
+  private getUserListURL = this.serverUrl + this.commonServiceURL + 'checklist/getUserList';
+  private url: any; // 'http://168.66.39.47:8080/DIVA-ChecklistService/myOnlineScheduledChecklists';
   private urlMock = 'data/addControls-mock.json';
-  private frequencyserverURL = environment.serverUrl + 'DIVA-CommonService/scheduleChecklist/getFrequencyList';
+  private frequencyserverURL = this.serverUrl + this.commonServiceURL + 'scheduleChecklist/getFrequencyList';
 
   constructor(private httpClient: HttpClient) {
     super();
@@ -22,7 +21,7 @@ export class AssignedChecklistService extends BaseServiceService {
    * @ return scheduledResults
    */
   getScheduledChecklists(loginId) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/myOnlineScheduledChecklists';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'myOnlineScheduledChecklists';
     const inputJson = {
       'employeeLoginId': loginId
     };
@@ -35,7 +34,7 @@ export class AssignedChecklistService extends BaseServiceService {
  * @ return inProgressResults
  */
   getInProgressChecklists(loginId) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/myOnlineInprogressChecklists';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'myOnlineInprogressChecklists';
     const inputJson = {
       'employeeLoginId': loginId
     };
@@ -48,7 +47,7 @@ export class AssignedChecklistService extends BaseServiceService {
  * @ return followUpResults
  */
   getFollowUpChecklists(loginId) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/myOnlineFollowupChecklists';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'myOnlineFollowupChecklists';
     const inputJson = {
       'employeeLoginId': loginId
     };
@@ -61,7 +60,7 @@ export class AssignedChecklistService extends BaseServiceService {
  * @ return awaitingResults
  */
   getAwaitingChecklists(loginId) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/myOnlineAwaitingManagerReviewChecklists';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'myOnlineAwaitingManagerReviewChecklists';
     const inputJson = {
       'employeeLoginId': loginId
     };
@@ -75,9 +74,9 @@ export class AssignedChecklistService extends BaseServiceService {
  * @ return managerResults
  */
   geManagerChecklists(loginId) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/myOnlineManagerReviewChecklists';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'myOnlineManagerReviewChecklists';
     const inputJson = {
-      'employeeLoginId': loginId
+      'managerLoginId': loginId
     };
     return this.httpClient.post(this.url, inputJson,
       appConstants.postHeaderOptions).map((managerResults) => {
@@ -88,7 +87,7 @@ export class AssignedChecklistService extends BaseServiceService {
    * @ return closedResults
   */
   getClosedChecklists(loginId) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/myOnlineCompletedOrClosedChecklists';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'myOnlineCompletedOrClosedChecklists';
     const inputJson = {
       'employeeLoginId': loginId
     };
@@ -113,7 +112,7 @@ export class AssignedChecklistService extends BaseServiceService {
 
   /** to post the data for the modifymanager Assignment */
   modifyManagerAssignment(data: any) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/modifyAssignment';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'modifyAssignment';
     return this.httpClient.post(this.url,
       data, appConstants.postHeaderOptions).map((res: Response) => res).catch(this.handleError);
 
@@ -124,7 +123,7 @@ export class AssignedChecklistService extends BaseServiceService {
    * assignment screen
    */
   checkManagerActive(employeeId) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/checkForActiveUser';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'checkForActiveUser';
       const data = {
       'employeeLoginId': employeeId
     };
@@ -135,7 +134,7 @@ export class AssignedChecklistService extends BaseServiceService {
 
   /** to post the data for the add manager Assignment */
   addManagerAssignment(data: any) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/addAssignment';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'addAssignment';
     return this.httpClient.post(this.url,
       data, appConstants.postHeaderOptions).map((res: Response) => res).catch(this.handleError);
 
@@ -159,7 +158,7 @@ export class AssignedChecklistService extends BaseServiceService {
   }
 
   deleteAssignments(dataJson) {
-    this.url = environment.serverUrl + 'DIVA-ChecklistService/deleteAssignment';
+    this.url = this.serverUrl + this.checklistServiceUrl + 'deleteAssignment';
     return this.httpClient.post(this.url, dataJson, appConstants.postHeaderOptions).map((res:
       Response) => res).catch(this.handleError);
 
@@ -170,7 +169,7 @@ export class AssignedChecklistService extends BaseServiceService {
    * @returns employeeList
    */
   getEmployee() {
-    this.url = environment.serverUrl + 'DIVA-CommonService/checklist/getAllActiveUsers';
+    this.url = this.serverUrl + this.commonServiceURL + 'checklist/getAllActiveUsers';
      return this.httpClient
       .get(this.url, appConstants.getHeaderOptions).map((employee: SelectItem[]) => {
         const employeeList: any = [];
@@ -185,7 +184,7 @@ export class AssignedChecklistService extends BaseServiceService {
    * @returns managerlist
   */
   getManager() {
-    this.url = environment.serverUrl + 'DIVA-CommonService/checklist/getAllManagers';
+    this.url = this.serverUrl + this.commonServiceURL + 'checklist/getAllManagers';
     return this.httpClient
       .get(this.url, appConstants.getHeaderOptions).map((manager: SelectItem[]) => {
         const managerList: any = [];
@@ -200,7 +199,7 @@ export class AssignedChecklistService extends BaseServiceService {
  * @returns activeEmployeeslist
 */
   getActiveEmployees() {
-    this.url = environment.serverUrl + 'DIVA-CommonService/checklist/getActiveUsersNotManagers';
+    this.url = this.serverUrl + this.commonServiceURL + 'checklist/getActiveUsersNotManagers';
     return this.httpClient
       .get(this.url, appConstants.getHeaderOptions).map((activeEmployees: SelectItem[]) => {
         const activeEmployeesList: any = [];
@@ -210,5 +209,20 @@ export class AssignedChecklistService extends BaseServiceService {
         return activeEmployeesList;
       }).catch(this.handleError);
   }
+  /**to get the active manager dropdown in add new
+   *  checklist manager screen
+ * @returns activeEmployeeslist
+*/
+getActiveEmployeeForChecklist() {
+  this.url = this.serverUrl + this.commonServiceURL + 'checklist/getActiveUsersNotManagers';
+  return this.httpClient
+    .get(this.url, appConstants.getHeaderOptions).map((activeEmployees: SelectItem[]) => {
+      const activeEmployeesList: any = [];
+      for (const item of activeEmployees) {
+        activeEmployeesList.push({ 'label': item['fullName'], 'value': { 'fullName': item['fullName'] , 'loginId': item['loginId'] }});
+      }
+      return activeEmployeesList;
+    }).catch(this.handleError);
+}
 
 }

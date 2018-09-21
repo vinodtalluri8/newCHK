@@ -35,6 +35,7 @@ export class ViewChecklistsControlsComponent implements OnInit {
   loading: boolean;
   routePath: string;
   records: number;
+  statusDisplay: boolean;
 
   constructor(private viewChecklistsControlsService: ViewChecklistsControlsService,
     private location: Location, private router: Router, private route: ActivatedRoute,
@@ -45,7 +46,6 @@ export class ViewChecklistsControlsComponent implements OnInit {
       this.checklistName = params['checklistName'];
     });
     this.home = { icon: 'fa fa-home' };
-    this.breadcrumbs();
     this.colHeaders = [
       { field: 'title', header: 'Title', width: '10%' },
       { field: 'description', header: 'Description', width: '20%' },
@@ -56,7 +56,7 @@ export class ViewChecklistsControlsComponent implements OnInit {
       { field: 'reviewLength', header: 'Review Length', width: '6%' },
       { field: 'risk', header: 'Risk', width: '6%' },
       { field: 'docTitle', header: 'Procedure', width: '6%' },
-      { field: 'procedureModDate', header: 'Procedure ModDate', width: '8%' },
+      { field: 'procedureModDate', header: 'Procedure Mod Date', width: '8%' },
       { field: 'evidenceRequired', header: 'Evidence', width: '6%' },
       { field: 'action', header: 'Action(s)', width: '10%' }
     ];
@@ -72,6 +72,7 @@ export class ViewChecklistsControlsComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
+    this.breadcrumbs();
     this.fetchValues();
   }
 
@@ -130,6 +131,13 @@ fetchValues() {
       { label: 'Checklist Controls' }
       ];
     }
+    if (this.routePath === 'Reports') {
+      this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+      { label: 'Reports', routerLink: ['/' + routerConstants.reports] },
+      { label: 'Report Results', routerLink: ['/' + routerConstants.displayreports] },
+      { label: 'Checklist Controls' }
+      ];
+    }
   }
   /*
   *Modify controls
@@ -137,6 +145,10 @@ fetchValues() {
   modify(checklistId, taskId, displayOrder) {
     this.router.navigate([routerConstants.modifycontrols, this.routePath, checklistId, taskId, this.checklistName,
       displayOrder , this.records]);
+  }
+
+  procedure(hlink) {
+    window.open(hlink);
   }
   /*
   *Delete checklists
@@ -151,7 +163,7 @@ fetchValues() {
   };
   this.confirmationService.confirm({
     message: 'Are you sure you want to delete?',
-    header: 'Delete Confirmation',
+    header: 'Delete',
     icon: 'fa fa-trash',
     accept: () => {
       this.viewChecklistsControlsService.deleteControl(inputJson).subscribe(data => {
@@ -163,9 +175,6 @@ fetchValues() {
       }, error => {
         this.msgs = [{ severity: 'error', detail: 'Cannot delete an assigned control' }];
       });
-    },
-    reject: () => {
-      this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
     }
   });
 }
@@ -173,6 +182,7 @@ fetchValues() {
   *Add new control
   */
   navigateAddNewControl() {
+    console.log( this.routePath, this.checklistId, this.checklistName);
     this.router.navigate([routerConstants.addControl, this.routePath, this.checklistId, this.checklistName,  this.records]);
   }
   /*
@@ -195,5 +205,14 @@ fetchValues() {
   refresh(event) {
     this.fetchValues();
     this.displayDialog = event;
+  }
+
+  isActive(status) {
+    if (status === 'Active') {
+    this.statusDisplay = false;
+    } else {
+      this.statusDisplay = true;
+    }
+    return this.statusDisplay;
   }
 }

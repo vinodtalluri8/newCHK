@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { environment } from '../../../../environments/environment';
 import { appConstants } from '../../../core/constants/appConstants';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { BaseServiceService } from './base-service.service';
@@ -17,7 +16,7 @@ export class AddchecklistService extends BaseServiceService {
   private serverURL;
   constructor(private httpClient: HttpClient) {
     super();
-   }
+  }
 
 
   changeAddControls(addControls: any[]) {
@@ -25,25 +24,25 @@ export class AddchecklistService extends BaseServiceService {
   }
   /** This method will POST the data of addkeycontrol screen to backend **/
   addChecklist(data: any) {
-    this.serverURL = environment.serverUrl + 'DIVA-ChecklistService//addChecklistDetails';
+    this.serverURL = this.serverUrl + this.checklistServiceUrl + 'addChecklistDetails';
     return this.httpClient.post(this.serverURL,
       data, appConstants.postHeaderOptions).map((res: Response) => res);
   }
 
   getDataByChecklistId(checklistID: number) {
-    this.serverURL =  environment.serverUrl + 'DIVA-ChecklistService/getChecklistData';
+    this.serverURL =  this.serverUrl + this.checklistServiceUrl + 'getChecklistData';
     const inputJson = {
-      'checklistId' : checklistID
+      'checklistId': checklistID
     };
     return this.httpClient
-    .post(this.serverURL, inputJson, appConstants.postHeaderOptions).map((data) => {
+      .post(this.serverURL, inputJson, appConstants.postHeaderOptions).map((data) => {
         return data;
-    });
+      });
     // return this.checklistbyId;
   }
 
   updateSystemValue(data) {
-    this.serverURL = environment.serverUrl + 'DIVA-ChecklistService/updateChecklistData';
+    this.serverURL = this.serverUrl + this.checklistServiceUrl + 'updateChecklistData';
     return this.httpClient.put(this.serverURL, data, appConstants.putHeaderOptions).catch(this.handleError);
   }
 }

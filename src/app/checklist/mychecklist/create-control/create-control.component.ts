@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MenuItem, SelectItem } from 'primeng/api';
 import { Router, ActivatedRoute, RouterLink, UrlSegment } from '@angular/router';
 import { DropdownModule } from 'primeng/dropdown';
@@ -18,6 +18,7 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class CreateControlComponent implements OnInit {
 
+  @ViewChild('controlUpdateBtn') controlUpdateBtn;
   dataJson: any;
   controlTitle: string;
   group: SelectItem[];
@@ -68,6 +69,9 @@ export class CreateControlComponent implements OnInit {
   matrixList: any = [];
   displayDisabled: boolean;
   checklistDisabled: boolean;
+  getControlJson: any;
+  procedureString: string;
+  submitInProgress: boolean;
 
   constructor(private router: Router, private checklistCommonService: ChecklistCommonService,
     private createControlService: CreateControlService, private location: Location,
@@ -90,6 +94,7 @@ export class CreateControlComponent implements OnInit {
     this.selectedDisplayOrder = 0;
     this.checklistDisabled = true;
     this.route.params.subscribe(params => {
+      this.procedureString = 'inactive';
       this.header = 'Add New Control';
       this.checklistId = params['checklistId'];
       this.displayOrderVal = params['displayOrder'];
@@ -100,10 +105,16 @@ export class CreateControlComponent implements OnInit {
       this.selectedChecklist = this.checklistId;
       if (this.taskId > 0) {
         this.isUpdate = true;
+        this.procedureString = 'modify';
         this.displayDisabled = true;
         this.checklistDisabled = false;
         this.header = 'Modify Control';
-        this.createControlService.getControlDetails(this.checklistId, this.taskId, this.displayOrderVal)
+        this.getControlJson = {
+          'checklistId': this.checklistId,
+          'taskId': this.taskId,
+          'displayOrder': this.displayOrderVal,
+        };
+        this.createControlService.getControlDetails(this.getControlJson)
           .subscribe(data => {
             this.updateRecord = data;
             this.populateData();
@@ -114,17 +125,21 @@ export class CreateControlComponent implements OnInit {
     });
   }
   populateDisplayOrderDropDown() {
-    this.displayOrder.push({ label: '0', value: 0 });
-    for (let i = 1; i <= this.records; i++) {
-      this.displayOrder.push({ label: i.toString(), value: i });
+    this.displayOrder.push({ label: '1', value: 0 });
+    for (let i = 2, j = 1; j <= this.records; i++ , j++) {
+      this.displayOrder.push({ label: i.toString(), value: j });
     }
   }
 
-
+  /*getSelectedProcedure () {
+    if (this.updateRecord && this.updateRecord['docTitle'] &&
+    this.updateRecord['docTitle'].split('INACTIVE').length > 1) {
+    }
+  }*/
   populateData() {
     this.controlTitle = this.updateRecord['title'] ? this.updateRecord['title'] : '';
     this.description = this.updateRecord['description'] ? this.updateRecord['description'] : '';
-    this.selectedProcedure = this.updateRecord['docId'] ? this.updateRecord['docId'] : '';
+    this.selectedProcedure = this.updateRecord['docId'] ? String(this.updateRecord['docId']) : '';
     this.selectedEvidenceRequired = this.updateRecord['evidenceRequired'] ? this.updateRecord['evidenceRequired'] : '';
     this.selectedStatus = this.updateRecord['status'] ? this.updateRecord['status'] : '';
     this.selectedRisk = this.updateRecord['risk'] ? this.updateRecord['risk'] : '';
@@ -135,7 +150,8 @@ export class CreateControlComponent implements OnInit {
     this.selectedReviewer = this.updateRecord['reviewer'] ? this.updateRecord['reviewer'] : '';
     this.review = this.updateRecord['reviewLength'] ? this.updateRecord['reviewLength'] : 0.0;
     this.control = this.updateRecord['controlLength'] ? this.updateRecord['controlLength'] : 0.0;
-    this.selectedDisplayOrder = this.updateRecord['displayOrder'] ? this.updateRecord['displayOrder'] : '';
+    this.selectedDisplayOrder = this.updateRecord['displayOrder'] ? this.updateRecord['displayOrder'] - 1 : '';
+    this.selectedGroup = this.updateRecord['checklistGroup'] ? this.updateRecord['checklistGroup'] : this.defaultgroup;
   }
   /** Populate all the required dropdown values during the screen load **/
   preloadData() {
@@ -188,7 +204,7 @@ export class CreateControlComponent implements OnInit {
       }
     );
 
-    this.createControlService.getProcedure().subscribe(
+    this.createControlService.getProcedure(this.procedureString).subscribe(
       (data) => {
         this.procedure = data;
       }
@@ -208,7 +224,9 @@ export class CreateControlComponent implements OnInit {
     if (!this.controlTitle || this.controlTitle.trim().length === 0 || !this.description ||
       this.description.trim().length === 0 || !this.selectedStatus ||
       !this.selectedRisk || !this.selectedEvaluation ||
-      !this.selectedPrimary || !this.selectedBackup || !this.selectedReviewer) {
+      !this.selectedPrimary || !this.selectedBackup || !this.selectedReviewer
+      || (!this.review && this.review !== 0) || (String(this.review) && String(this.review).length === 0)
+      || (!this.control && this.control !== 0) || (String(this.control) && String(this.control).length === 0)) {
       return true;
     } else if (this.isUpdate) {
       return !this.isModified();
@@ -226,12 +244,13 @@ export class CreateControlComponent implements OnInit {
       && this.selectedEvaluation === this.updateRecord['evaluation']
       && this.selectedPrimary === this.updateRecord['primary']
       && this.selectedBackup === this.updateRecord['backup']
+      && this.selectedReviewer === this.updateRecord['reviewer']
       && this.review === this.updateRecord['reviewLength']
       && this.control === this.updateRecord['controlLength']
       && (this.selectedProcedure === ''
-        || this.selectedProcedure === this.updateRecord['docId'])
+        || this.selectedProcedure === String(this.updateRecord['docId']))
       && this.selectedEvidenceRequired === this.updateRecord['evidenceRequired']
-      && this.selectedDisplayOrder === this.updateRecord['displayOrder']) {
+      && this.selectedDisplayOrder === this.updateRecord['displayOrder'] - 1) {
       return false;
     } else {
       return true;
@@ -267,14 +286,20 @@ export class CreateControlComponent implements OnInit {
         this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
         { label: 'Search Controls', routerLink: ['/' + routerConstants.searchControl] },
         { label: 'Search Control Results', routerLink: ['/' + routerConstants.searchControlResults] },
-        {label:  'Checklist Controls' , routerLink: ['/' + routerConstants.viewchecklistControl]},
+        {
+          label: 'Checklist Controls',
+          routerLink: ['/' + routerConstants.viewchecklistControl, this.routePath, this.checklistId, this.checklistName]
+        },
         { label: 'Add New Control' }
         ];
       } else {
         this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
         { label: 'Search Controls', routerLink: ['/' + routerConstants.searchControl] },
         { label: 'Search Control Results', routerLink: ['/' + routerConstants.searchControlResults] },
-        {label:  'Checklist Controls' , routerLink: ['/' + routerConstants.viewchecklistControl]},
+        {
+          label: 'Checklist Controls',
+          routerLink: ['/' + routerConstants.viewchecklistControl, this.routePath, this.checklistId, this.checklistName]
+        },
         { label: 'Modify Control' }
         ];
       }
@@ -284,18 +309,49 @@ export class CreateControlComponent implements OnInit {
         this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
         { label: 'Search Checklist', routerLink: ['/' + routerConstants.searchChecklist] },
         { label: 'Search Checklist Results', routerLink: ['/' + routerConstants.searchChecklistResults] },
-        {label:  'Checklist Controls' ,  routerLink: ['/' + routerConstants.viewchecklistControl]},
+        {
+          label: 'Checklist Controls',
+          routerLink: ['/' + routerConstants.viewchecklistControl, this.routePath, this.checklistId, this.checklistName]
+        },
         { label: 'Add New Control' }
         ];
       } else {
         this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
         { label: 'Search Checklist', routerLink: ['/' + routerConstants.searchChecklist] },
         { label: 'Search Checklist Results', routerLink: ['/' + routerConstants.searchChecklistResults] },
-        {label:  'Checklist Controls' ,  routerLink: ['/' + routerConstants.viewchecklistControl]},
+        {
+          label: 'Checklist Controls',
+          routerLink: ['/' + routerConstants.viewchecklistControl, this.routePath, this.checklistId, this.checklistName]
+        },
         { label: 'Modify Control' }
         ];
       }
     }
+    if (this.routePath === 'Reports') {
+      if (!this.isUpdate) {
+        this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+        { label: 'Reports', routerLink: ['/' + routerConstants.reports] },
+        { label: 'Report Results', routerLink: ['/' + routerConstants.displayreports] },
+        {
+          label: 'Checklist Controls',
+          routerLink: ['/' + routerConstants.viewchecklistControl, this.routePath, this.checklistId, this.checklistName]
+        },
+        { label: 'Add New Control' }
+        ];
+      } else {
+        this.itemsPath = [{ label: 'Checklists', routerLink: [routerConstants.defaultRoute] },
+        { label: 'Reports', routerLink: ['/' + routerConstants.reports] },
+        { label: 'Report Results', routerLink: ['/' + routerConstants.displayreports] },
+        {
+          label: 'Checklist Controls',
+          routerLink: ['/' + routerConstants.viewchecklistControl, this.routePath, this.checklistId, this.checklistName]
+        },
+        { label: 'Modify Control' }
+        ];
+      }
+    }
+
+
   }
   /** This method will save all the data in create control screen  **/
   saveCreateControl() {
@@ -310,7 +366,8 @@ export class CreateControlComponent implements OnInit {
         'controlLength': this.control,
         'evaluation': this.selectedEvaluation,
         'reviewLength': this.review,
-        'docId': this.selectedProcedure,
+        'docId': (this.selectedProcedure && this.selectedProcedure['id']) ? this.selectedProcedure['id'] :
+          this.selectedProcedure ? this.selectedProcedure : '',
         'primary': this.selectedPrimary,
         'backup': this.selectedBackup,
         'reviewer': this.selectedReviewer,
@@ -318,33 +375,43 @@ export class CreateControlComponent implements OnInit {
         'checklistId': this.selectedChecklist,
         'displayOrder': this.selectedDisplayOrder
       };
-      // Code required for script
-      // console.log('yes' + (this.selectedProcedure.value).substring(1, 2));
-      //  this.filtererdProcedureVal = this.procedure.filter(
-      //     (record) => {
-      //       return  record.value === this.selectedProcedure;
-      //     }
-      //   );
-      //   console.log('label' + (this.filtererdProcedureVal['label']));
-
-      this.createControlService.createControlList(this.dataJson)
-        .subscribe(data => {
-          this.savedRecord = data;
-          this.messageService.clearMessage();
-          this.messageService.sendMessage({
-            severity: 'success',
-            detail: 'Record Saved Successfully'
+      this.createControlService.getProcedure().subscribe(
+        (data) => {
+          this.inactiveProcedure = data.filter((record) => {
+            return record.value === this.selectedProcedure;
           });
-          this.resetAll();
-          this.back();
+          this.inactiveProcedure = (this.inactiveProcedure.length > 0 && this.inactiveProcedure[0]) ?
+            this.inactiveProcedure[0]['label'].substring(0, 8) : '';
+          if (this.inactiveProcedure === 'INACTIVE') {
+            this.confirmationService.confirm({
+              message: 'Are you sure you want to link this Control to an Inactive Procedure ?',
+              header: 'Alert',
+              accept: () => {
+                this.createControlData(this.dataJson);
+              },
+              reject: () => {
+                this.submitInProgress = false;
+              }
+            });
+          } else {
+            this.createControlData(this.dataJson);
+          }
         });
     }
   }
 
-  modifyControl() {
+  /** This method will modify all the data in modify control screen  **/
+  modifyControl(event) {
+    if (event) {
+      this.controlUpdateBtn.disabled = true;
+      this.modifyControls();
+    }
+  }
+  modifyControls() {
     this.msgs = [];
     this.matrixList = [];
-    if (!this.disable()) {
+    if (!this.disable() && !this.submitInProgress) {
+      this.submitInProgress = true;
       this.dataJson = {
         'title': this.controlTitle,
         'description': this.description,
@@ -357,7 +424,7 @@ export class CreateControlComponent implements OnInit {
         'newChecklistId': this.selectedChecklist,
         'primary': this.selectedPrimary,
         'backup': this.selectedBackup,
-        'reviewer': this.selectedBackup,
+        'reviewer': this.selectedReviewer,
         'reviewLength': this.review,
         'controlLength': this.control,
         'taskId': this.taskId,
@@ -371,26 +438,57 @@ export class CreateControlComponent implements OnInit {
           }
         });
       }
-      if (this.updateRecord['status'] === 'Active'
-        && this.selectedStatus === 'Inactive'
-        && this.updateRecord['flagIcmControl'] === 'Y') {
-        this.confirmationService.confirm({
-          message: 'This control is attached to the following Internal Control Matrices: ' + this.matrixList
-            + '. Are you sure you want to set it to Inactive ?',
-          header: 'Alert',
-          accept: () => {
-            this.updateControlData(this.dataJson);
-          },
-          reject: () => {
-            this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
+      this.createControlService.getProcedure().subscribe(
+        (data) => {
+          this.inactiveProcedure = data.filter((record) => {
+            return record.value === this.selectedProcedure;
+          });
+          this.inactiveProcedure = (this.inactiveProcedure.length > 0 && this.inactiveProcedure[0]) ?
+            this.inactiveProcedure[0]['label'].substring(0, 8) : '';
+          if (this.inactiveProcedure === 'INACTIVE') {
+            this.confirmationService.confirm({
+              message: 'Are you sure you want to link this Control to an Inactive Procedure ?',
+              header: 'Alert',
+              accept: () => {
+                this.flagIcmMatrixListValidation();
+              },
+              reject: () => {
+                this.submitInProgress = false;
+                this.controlUpdateBtn.disabled = false;
+              }
+            });
+          } else {
+            this.flagIcmMatrixListValidation();
           }
-        });
-      } else {
-        this.updateControlData(this.dataJson);
-      }
+        }
+      );
+
     }
   }
 
+  /** This method will do matxix validation check**/
+  flagIcmMatrixListValidation() {
+    if (this.updateRecord['status'] === 'Active'
+      && this.selectedStatus === 'Inactive'
+      && this.updateRecord['flagIcmControl'] === 'Y') {
+      this.confirmationService.confirm({
+        message: 'This control is attached to the following Internal Control Matrices: ' + '<br>' +
+          this.matrixList + '<br>' + 'Are you sure you want to set it to Inactive ?',
+        header: 'Alert',
+        accept: () => {
+          this.updateControlData(this.dataJson);
+        },
+        reject: () => {
+          this.submitInProgress = false;
+          this.controlUpdateBtn.disabled = false;
+        }
+      });
+    } else {
+      this.updateControlData(this.dataJson);
+    }
+  }
+
+  /** This method will do service call for modify control**/
   updateControlData(dataJson) {
     this.createControlService.updateControl(dataJson).subscribe(data => {
       this.savedRecord = data;
@@ -399,7 +497,22 @@ export class CreateControlComponent implements OnInit {
       this.resetAll();
       this.back();
     }, error => {
-      this.msgs = [{ severity: 'error', detail: 'Cannot modify an assigned control' }];
+      this.msgs = [{ severity: 'error', detail: error }];
     });
+  }
+
+  /** This method will do service call for add control**/
+  createControlData(dataJson) {
+    this.createControlService.createControlList(this.dataJson)
+      .subscribe(data => {
+        this.savedRecord = data;
+        this.messageService.clearMessage();
+        this.messageService.sendMessage({
+          severity: 'success',
+          detail: 'Record Saved Successfully'
+        });
+        this.resetAll();
+        this.back();
+      });
   }
 }

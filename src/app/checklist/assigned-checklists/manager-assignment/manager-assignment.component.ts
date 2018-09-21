@@ -161,13 +161,13 @@ export class ManagerAssignmentComponent implements OnInit {
     if (!this.disable()) {
       if ( this.selectedManager === this.selectedBackupManager && this.selectedEmployee === this.selectedBackupManager
       && this.selectedEmployee === this.selectedManager) {
-        this.msgs.push({ severity: 'error', detail: 'Employee , Manager and Backup Manager cannot be same'});
+        this.msgs.push({ severity: 'error', detail: 'Employee , Reviewer and Backup Reviewer cannot be same'});
       } else if (this.selectedEmployee === this.selectedManager  ) {
-        this.msgs.push({ severity: 'error', detail: 'Employee and  Manager cannot be same'});
+        this.msgs.push({ severity: 'error', detail: 'Employee and  Reviewer cannot be same'});
       } else if (this.selectedEmployee === this.selectedBackupManager) {
-        this.msgs.push({ severity: 'error', detail: 'Employee and Backup Manager cannot be same'});
+        this.msgs.push({ severity: 'error', detail: 'Employee and Backup Reviewer cannot be same'});
       } else if (this.selectedManager === this.selectedBackupManager) {
-        this.msgs.push({ severity: 'error', detail: 'Manager and Backup Manager cannot be same'});
+        this.msgs.push({ severity: 'error', detail: 'Reviewer and Backup Reviewer cannot be same'});
        } else {
         this.dataJson = {
           'managerLoginId': this.selectedManager,
